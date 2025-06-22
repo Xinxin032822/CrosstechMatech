@@ -1,0 +1,48 @@
+.NavbarMainLoggedOut{
+    background-color: #FFF;
+    border-bottom: #f8f8f8 solid 2px;
+    margin: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.NavbarItemsLoggedOutFirstChild{
+    color: black;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 500;
+    font-size: 1.3em;
+}
+
+.NavigationCrosstechMatech{
+    display: flex;
+}
+
+.NavigationCrosstechMatech > li{
+    padding: 0.3em 0.6em;
+    font-size: 1em;
+    list-style: none;
+}
+
+.NavbarItemsLoggedOutThirdChild > a{
+    text-decoration: none;
+    padding: 0.3em 0.6em;
+    font-size: 1.1em;
+    font-family: "Ubuntu", sans-serif;
+    letter-spacing: 1px;
+    padding: 0.5em 0.6em;
+    margin: 0 0.5em;
+}
+
+.NavigationCrosstechMatech > li > a{
+    text-decoration: none;
+    font-weight: 400;
+    font-family: "Ubuntu", sans-serif;
+    letter-spacing: 1px;
+}
+
+.signup-btn{
+    background-color: #E50914;
+    color: #FFF;
+    border-radius: 5px;
+}

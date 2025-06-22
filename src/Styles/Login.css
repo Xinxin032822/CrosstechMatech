@@ -1,0 +1,120 @@
+.MainClassLoginPage {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: sans-serif;
+  color: #222;
+}
+
+.MainLoginPageHeader {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.LoginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.FormGroup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.FormGroup label {
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.InputField {
+  padding: 0.75rem;
+  padding-right: 2.5rem; /* Add space for the icon */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.InputField:focus {
+  outline: none;
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+.ForgotLink {
+  text-align: right;
+  font-size: 0.875rem;
+  color: #e50914;
+  text-decoration: none;
+}
+
+.ForgotLink:hover {
+  text-decoration: underline;
+}
+
+.LoginButton {
+  background-color: #e50914;
+  color: white;
+  padding: 0.75rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.LoginButton:hover {
+  background-color: #530004;
+}
+
+.CreateAccountLink {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.CreateAccountLink a {
+  color: #e50914;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.CreateAccountLink a:hover {
+  text-decoration: underline;
+}
+
+.text-red-600 {
+  color: #e50914;
+}
+
+.text-sm {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+
+
+.PasswordWrapper {
+  position: relative;
+}
+
+
+.TogglePasswordIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.ImageHidePasswordCloseEye{
+    color: #888;
+}
