@@ -38,7 +38,7 @@ function Login() {
 
         <form className="LoginForm" onSubmit={handleSubmit(onSubmit)}>
           <div className="FormGroup">
-            <label>Email</label>
+            <label className='LoginPageLabel'>Email</label>
             <input
               type="email"
               {...register("email")}
@@ -49,7 +49,7 @@ function Login() {
           </div>
 
           <div className="FormGroup">
-            <label>Password</label>
+            <label className='LoginPageLabel'>Password</label>
             <div className="PasswordWrapper">
               <input
                 type={showPassword ? "text" : "password"}

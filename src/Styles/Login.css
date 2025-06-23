@@ -13,8 +13,7 @@
   color: #222;
   border-radius: 10px;
   background: #FFFFFF;
-  box-shadow:  11px 11px 22px #ededed,
-              -11px -11px 22px #ffffff;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .MainLoginPageHeader {
@@ -74,11 +73,11 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.4s ease;
 }
 
 .LoginButton:hover {
-  background-color: #530004;
+  background-color: #ff8389;
 }
 
 .CreateAccountLink {
@@ -166,4 +165,8 @@
 .errorMessageFormLogin{
   font-family: "Ubuntu", sans-serif;
   font-size: 0.9em;
+}
+
+.LoginPageLabel{
+  font-family:"Ubuntu", sans-serif;
 }
