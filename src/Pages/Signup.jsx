@@ -67,12 +67,13 @@ function Signup() {
             {errors.password && <p className="text-red-600 text-sm">{errors.password.message}</p>}
           </div>
 
-          <div className="FormGroup CheckboxGroup">
+          <label className="CustomCheckbox">
             <input type="checkbox" {...register("agree")} />
-            <label>I agree to the <a href="#">Terms & Services</a></label>
-          </div>
+            <span className="checkmark"></span>
+            I agree to the <a href="#">Terms & Services</a>
+          </label>
           {errors.agree && <p className="text-red-600 text-sm">{errors.agree.message}</p>}
-
+          
           <button type="submit" className="SignupButton">Create Account</button>
         </form>
 

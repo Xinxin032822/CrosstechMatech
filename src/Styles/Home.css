@@ -1,0 +1,216 @@
+.MainHeaderHeroSection{
+    height: 70vh;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(40%);
+}
+
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 2.9rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.hero-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.browse-btn, .quote-btn {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.browse-btn {
+    background-color: red;
+    color: white;
+    transition: .2s;
+}
+
+.quote-btn {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    transition: .2s;
+}
+
+.quote-btn:hover{
+    background-color: rgb(255, 255, 255);
+    color: #121212;
+}
+
+.browse-btn:hover{
+    background-color: rgb(255, 83, 83);
+}
+
+
+
+
+
+.why-choose {
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: #fff;
+}
+
+.why-choose h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.why-choose p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 3rem;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.feature-item {
+    width: 250px;
+    text-align: center;
+}
+
+.icon-circle {
+    background-color: #ffecec;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-circle img {
+    width: 30px;
+    height: 30px;
+}
+
+.feature-item h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+
+.small-icon {
+  width: 40px;
+  height: 40px;
+}
+
+
+.featured-equipment {
+  padding: 4rem 2rem;
+  background-color: #f8f8f8;
+}
+
+.featured-equipment-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.featured-title {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.featured-subtitle {
+  font-size: 1rem;
+  color: #666;
+}
+
+.Products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+
+.featured-equipment-header-Title{
+    font-size: 2rem;
+    font-family: "ubuntu", sans-serif;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.featured-equipment-header-Desc{
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 3rem;
+    font-family: "Ubuntu", sans-serif;
+}
+
+
+.HomepageLastSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5em 0;
+}
+.LastSectionTitle{
+    font-size: 2em;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: bold;
+}
+.LastSectionDesc{
+    font-size: 1.1em;
+    font-family: "Ubuntu", sans-serif;
+}
+.TalkToUsButton{
+    background-color: #e50914;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-family: "Ubuntu", sans-serif;
+    transition: 0.3s;
+}
+.TalkToUsButton:hover{
+    background-color: #fc3b45;
+}
