@@ -1,6 +1,29 @@
 import React from 'react'
 import "../Styles/About.css"
+import CardAbouts from '../Component/CardAbouts/CardAbouts'
+
+
 function About() {
+
+  const products = [
+    {
+      image: 'src/assets/img/award.svg',
+      title: 'Hydraulic Excavator',
+      description: 'High-performance excavator for construction and earthmoving projects',
+    },
+    {
+      image: 'src/assets/img/handshake.svg',
+      title: 'Tower Crane',
+      description: 'Heavy-duty tower crane for high-rise construction projects',
+    },
+    {
+      image: 'src/assets/img/shipping-fast.svg',
+      title: 'Bulldozer',
+      description: 'Powerful bulldozer for earthmoving and site preparation',
+    },
+    
+  ];
+
   return (
     <div className='MainElementClass'>
       
@@ -16,6 +39,28 @@ function About() {
         </div>
       </div>
 
+      <div className='OurCoreValuesSection'>
+        <div className='CardSectionAboutUsMain'>
+          {products.map((item, index) => (
+            <CardAbouts
+              key={index}
+              svg={item.image}
+              title={item.title}
+              desc={item.description}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className='OurTeamSectionAboutPage'>
+          <div className='FirstChildOurTeamSectionAboutPage'>
+            <p className='OurTeamHeaderTitle'>Our Team</p>
+            <p className='OurTeamHeaderDesc'>Behind Matech's success is a dedicated team of professionals who bring decades of combined experience in heavy equipment and industrial solutions. Our experts understand the unique challenges faced by Filipino businesses and work tirelessly to provide tailored solutions. From our sales consultants to our technical support staff, every team member is committed to delivering exceptional service and building long-term partnerships with our clients.</p>
+          </div>
+          <div className='SecondChildOurTeamSectionAboutPage'>
+            <img src="src\assets\ourTeam.png" alt="About our team" className='About-Our-Team-Image'/>
+          </div>
+      </div>
     </div>
   )
 }

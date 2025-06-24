@@ -90,7 +90,7 @@ function Home() {
               key={index}
               image={item.image}
               title={item.title}
-              description={item.description}
+              descripdestion={item.description}
             />
           ))}
         </div>
