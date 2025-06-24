@@ -61,6 +61,21 @@ function About() {
             <img src="src\assets\ourTeam.png" alt="About our team" className='About-Our-Team-Image'/>
           </div>
       </div>
+
+      <div className='OurFacilities'>
+          <div className="ChildOurFacilitiesSEctionAboutPage">
+            <img src="src\assets\ourFacilities.png" alt="" />
+          </div>
+          <div className="ChildOurFacilitiesSEctionAboutPage">
+            <p>Our Facilities</p>
+            <p>Our state-of-the-art facility in Davao serves as the hub for our operations across the Philippines. Equipped with modern storage, maintenance bays, and logistics capabilities, we ensure every piece of equipment is properly maintained and ready for deployment. Our strategic location allows us to efficiently serve clients from Luzon to Mindanao, with dedicated logistics partners ensuring safe and timely delivery of equipment to any location in the Philippines.</p>
+            <ul>
+              <li className="ListOurFacilities">Climate-controlled storage facility</li>
+              <li className="ListOurFacilities">On-site maintenance and inspection</li>
+              <li className="ListOurFacilities">Nationwide delivery network</li>
+            </ul>
+          </div>
+      </div>
     </div>
   )
 }

@@ -64,3 +64,7 @@
 .SecondChildOurTeamSectionAboutPage{
     width: 35vw;
 }
+
+.OurFacilities{
+    display: flex;
+}
