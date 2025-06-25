@@ -42,7 +42,7 @@
     object-fit: cover;
     border-radius: 10px;
 }
-.OurTeamHeaderTitle{
+.OurTeamHeaderTitle, .OurFacilitiesHeaderTitle{
     font-family: "Ubuntu", sans-serif;
     font-size: 2.1em;
     font-weight: bold;
@@ -54,6 +54,10 @@
     width: 70%;
 }
 
+.OurFacilitiesHeaderDesc{
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1.2em;
+}
 .FirstChildOurTeamSectionAboutPage{
     width: 50vw;
     display: flex;
@@ -67,4 +71,114 @@
 
 .OurFacilities{
     display: flex;
+    margin: 12em 0;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.OurFacilitiesIMG{
+    width: 80%;
+    height: 40vh;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.ChildOurFacilitiesSEctionAboutPageSecond{
+    width: 35vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.ChildOurFacilitiesSEctionAboutPageFirst{
+    width: 35vw;
+}
+
+.ListOurFacilitiesSection{
+    list-style: none;
+    padding-left: 0;
+}
+
+.ListOurFacilitiesSection li{
+    position: relative;
+    padding-left: 2em;
+    margin-bottom: 0.7em;
+    font-size: 1.1em;
+}
+
+.ListOurFacilitiesSection li::before{
+    content: "✔";
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    width: 1.3em;
+    height: 1.3em;
+    background: #e53935;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.FooterTitleAboutPage{
+    font-size: 2em;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: bold;
+    color: white;
+    margin: 1em 0;
+}
+.FooterDescAboutPage{
+    font-size: 1.1em;
+    font-family: "Ubuntu", sans-serif;
+    color: white;
+    margin: 1em 0;
+}
+
+.ViewOurProductAboutPage{
+    background-color: white;
+    color: #e50914;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-family: "Ubuntu", sans-serif;
+    transition: 0.3s;
+}
+.ContactUsTodayAboutPage{
+    background-color: transparent;
+    color: white;
+    padding: 1rem 2rem;
+    border: white 1px solid;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-family: "Ubuntu", sans-serif;
+    transition: 0.3s;
+}
+.ContactUsTodayAboutPage:hover{
+    background-color: white;
+    color: #e50914;
+
+}
+.AboutUsFooterSection{
+    background-color: #e50914;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3em;
+}
+.AboutUsFooterSectionSecondChild{
+    margin: 1em 0;
+}
+.AboutUsFooterSectionSecondChild button{
+    margin: 0 1em;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1em;
+    font-weight: 500;
 }

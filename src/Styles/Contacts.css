@@ -1,0 +1,42 @@
+.contacts-header-title{
+    font-family: "Ubuntu", sans-serif;
+    font-size: 3em;
+    font-weight: 600;
+}
+.contact-header-desc{
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1.2em;
+    font-weight: 400;
+    color: #666;
+}
+
+.contacts-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 3em 0;
+    text-align: center;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+}
+
+.contacts-container{
+    display: flex;
+    padding: 3em 5em;
+}
+
+.contacts-container div {
+    flex: 1;
+}
+
+.contact-info-section{
+    padding-left: 5em;
+}
+.SendUsMessageContactUsPage, .GetInTouchContactUsPage{
+    font-family: "Ubuntu", sans-serif;
+    font-size: 2em;
+}

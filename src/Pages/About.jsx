@@ -55,7 +55,7 @@ function About() {
       <div className='OurTeamSectionAboutPage'>
           <div className='FirstChildOurTeamSectionAboutPage'>
             <p className='OurTeamHeaderTitle'>Our Team</p>
-            <p className='OurTeamHeaderDesc'>Behind Matech's success is a dedicated team of professionals who bring decades of combined experience in heavy equipment and industrial solutions. Our experts understand the unique challenges faced by Filipino businesses and work tirelessly to provide tailored solutions. From our sales consultants to our technical support staff, every team member is committed to delivering exceptional service and building long-term partnerships with our clients.</p>
+            <p className='OurTeamHeaderDesc'>Behind Matech's success is a dedicated team of professionals who bring decades of combined experience in heavy equipment and industrial solutions. Our experts understand the unique challenges faced by Filipino businesses and work tirelessly to provide tailored solutions. <br /> <br /> From our sales consultants to our technical support staff, every team member is committed to delivering exceptional service and building long-term partnerships with our clients.</p>
           </div>
           <div className='SecondChildOurTeamSectionAboutPage'>
             <img src="src\assets\ourTeam.png" alt="About our team" className='About-Our-Team-Image'/>
@@ -63,17 +63,28 @@ function About() {
       </div>
 
       <div className='OurFacilities'>
-          <div className="ChildOurFacilitiesSEctionAboutPage">
-            <img src="src\assets\ourFacilities.png" alt="" />
+          <div className="ChildOurFacilitiesSEctionAboutPage ChildOurFacilitiesSEctionAboutPageFirst">
+            <img src="src\assets\ourFacilities.png" alt="Our Facilities" className='OurFacilitiesIMG' />
           </div>
-          <div className="ChildOurFacilitiesSEctionAboutPage">
-            <p>Our Facilities</p>
-            <p>Our state-of-the-art facility in Davao serves as the hub for our operations across the Philippines. Equipped with modern storage, maintenance bays, and logistics capabilities, we ensure every piece of equipment is properly maintained and ready for deployment. Our strategic location allows us to efficiently serve clients from Luzon to Mindanao, with dedicated logistics partners ensuring safe and timely delivery of equipment to any location in the Philippines.</p>
-            <ul>
+          <div className="ChildOurFacilitiesSEctionAboutPage ChildOurFacilitiesSEctionAboutPageSecond">
+            <p className='OurFacilitiesHeaderTitle'>Our Facilities</p>
+            <p className='OurFacilitiesHeaderDesc'>Our state-of-the-art facility in Davao serves as the hub for our operations across the Philippines. Equipped with modern storage, maintenance bays, and logistics capabilities, we ensure every piece of equipment is properly maintained and ready for deployment. <br /><br /> Our strategic location allows us to efficiently serve clients from Luzon to Mindanao, with dedicated logistics partners ensuring safe and timely delivery of equipment to any location in the Philippines.</p>
+            <ul className='ListOurFacilitiesSection'>
               <li className="ListOurFacilities">Climate-controlled storage facility</li>
               <li className="ListOurFacilities">On-site maintenance and inspection</li>
               <li className="ListOurFacilities">Nationwide delivery network</li>
             </ul>
+          </div>
+      </div>
+
+      <div className='AboutUsFooterSection'>
+          <div className='AboutUsFooterSectionFirstChild'>
+            <p className='FooterTitleAboutPage'>Ready to Work With Us?</p>
+            <p className='FooterDescAboutPage'>Join hundreds of satisfied clients who trust Matech for their heavy <br /> equipment needs. Let's build something great together.</p>
+          </div>
+          <div className='AboutUsFooterSectionSecondChild'>
+            <button className='ViewOurProductAboutPage'>View Our Products</button>
+            <button className='ContactUsTodayAboutPage'>Contact Us Today</button>
           </div>
       </div>
     </div>
