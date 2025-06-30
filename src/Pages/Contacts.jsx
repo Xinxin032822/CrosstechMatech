@@ -113,7 +113,8 @@ function Contacts() {
         </div>
       </div>
 
-      <div>
+      <div className='map-container'>
+        <p className='FindUsTextLowerSectionContactUs'>Find Us</p>
         <div style={{ width: "100%" }}>
           <iframe
             width="100%"
@@ -122,6 +123,7 @@ function Contacts() {
             scrolling="no"
             marginHeight="0"
             marginWidth="0"
+            className='map-iframe'
             src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Door%2059B,%20Mimric%20Bldg,%20Sta.%20Ana%20Ave,%20Brgy.%2027-C,%20Davao%20City,%208000%20Davao%20del%20Sur+(Matech)&amp;t=&amp;z=16&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
           ></iframe>
         </div>
