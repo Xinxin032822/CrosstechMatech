@@ -22,21 +22,114 @@
 .form-group{
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .contacts-container{
     display: flex;
     padding: 3em 5em;
+    width: 100vw;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2em;
 }
 
-.contacts-container div {
-    flex: 1;
+.contact-form-section,
+.contact-info-section {
+    width: 30%;
+}
+.SendUsMessageContactUsPage, 
+.GetInTouchContactUsPage{
+    font-family: "Ubuntu", sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.FormInput {
+    width: 100%;
+    margin: 0 0 2em 0;
+    border-radius: 10px;
+    padding: 1em 0em;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease-in-out;
+}
+.FormInput:hover,
+.FormInput:focus {
+    border-color: #e50914;
+    outline: none;
 }
 
 .contact-info-section{
     padding-left: 5em;
 }
-.SendUsMessageContactUsPage, .GetInTouchContactUsPage{
+
+.LabeLInputContactUsPage{
     font-family: "Ubuntu", sans-serif;
-    font-size: 2em;
+    font-size: 1em;
+    font-weight: 400;
+    margin-bottom: 1em;
+}
+
+.contact-submit-button {
+    width: 100%;
+    background: #e50914;
+    color: #fff;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 1em;
+    margin-top: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.contact-submit-button:hover {
+    background: #b00610;
+}
+.contact-form {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.svg-icon-Container-Contact-Us-Page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.9em 0.5em;   
+    background-color: #e50914;
+    border-radius: 6px;
+}
+
+.svg-icon-Container-Contact-Us-Page svg {
+    width: 1.2em;
+    height: 1.2em;
+}
+.contact-info-container{
+    display: flex;
+    margin: 3em 0;
+}
+.contact-info-text{
+    padding-left: 1em;
+}
+.contact-info-text p{
+    margin: 0;
+}
+
+.labelContactInfoSentionContactUsPage{
+    font-family: "ubuntu", sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    padding-bottom: 0.7em;
+}
+
+.descContactInfoSectionContactUsPage{
+    font-family: "Ubuntu", sans-serif;
+    font-size: 1em;
+    font-weight: 400;
+    color: #666;
 }
