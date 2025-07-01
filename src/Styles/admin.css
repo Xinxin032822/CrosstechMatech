@@ -124,12 +124,13 @@ button:hover {
 .AdminPageContentAddProductComponentTable{
   margin-top: 4em;
   background-color: #FFF;
-  box-shadow: #12121238 0px 0px 10px;
+  box-shadow: #1212121f 0px 0px 10px;
   border-radius: 10px;
 }
 .tableAdminPage{
   padding: 0em 2em 2em 2em;
   width: 100%;
+  border-collapse: collapse;
 }
 .CurrentProductsAdminPage{
   font-family: "Ubuntu", sans-serif;
@@ -137,12 +138,14 @@ button:hover {
   font-weight: 500;
   color: #121212;
   margin-bottom: 1em;
-  padding: 1.5em 1.5em 0em 2em;
+  padding: 1.5em 1.5em 0em 1em;
 }
 .theadAdminPage{
-  background-color: #cccccc4b;
+  background-color: #cccccc2d;
   width: 100%;
   text-align: left;
+  border: #12121217 1px solid;
+  border-width: 1px 0 1px 0;
 }
 .theadLabelAdminPage{
   font-family: "Ubuntu", sans-serif;
@@ -150,4 +153,46 @@ button:hover {
   color: #121212f6;
   padding: 0.5em 0;
   font-weight: 400;
+}
+.theadAdminPage th {
+  padding: 0.7em 1em;
+  border: none;
+}
+.tbodyAdminPage{
+  background-color: #fff;
+}
+
+.tbodyAdminPage td {
+  padding: 1.3em 1em;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.tbodyAdminPage tr {
+  border: #1212122a 1px solid;
+  border-width: 1px 0 1px 0;
+}
+
+.editBtn{
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: #006B46 ;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 300;
+  font-size: 1em;
+}
+.editBtn:hover{
+  background-color: #ffffff;
+}
+.deleteBtn{
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: #e50914;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 300;
+  font-size: 1em;
+}
+.deleteBtn:hover{
+  background-color: #ffffff;
 }

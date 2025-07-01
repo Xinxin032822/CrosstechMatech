@@ -87,7 +87,7 @@ function Admin() {
                                     <th className='theadLabelAdminPage'>Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='tbodyAdminPage'>
                             {products.map(product => (
                                 <tr key={product.id}>
                                 <td style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -95,7 +95,7 @@ function Admin() {
                                     <img 
                                         src={product.imageName} 
                                         alt={product.productName} 
-                                        style={{ width: '50px', height: 'auto', borderRadius: '4px' }}
+                                        style={{ width: '50px', height: '50px', borderRadius: '4px' , objectFit: 'cover' }}
                                     />
                                     )}
                                     <span>{product.productName}</span>
