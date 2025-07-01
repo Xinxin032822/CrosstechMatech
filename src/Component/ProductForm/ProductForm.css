@@ -1,0 +1,20 @@
+.FormAddProductAdminPageMain{
+    background-color: #dddddd4b;
+    padding: 2em;
+    border-radius: 15px;
+}
+.field{
+    font-family: "ubuntu", sans-serif;
+}
+.InputStyleAddproduct{
+    padding: 1em 0.3em;
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+}
+.InputStyleAddproduct:focus{
+    outline: none;
+    border: 1px solid #e50914;
+}
+.InputStyleAddproduct:hover{
+    border: 1px solid #e50914;
+}

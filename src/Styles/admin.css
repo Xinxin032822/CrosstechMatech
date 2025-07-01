@@ -15,6 +15,7 @@
 .ulAdminPage{
     display: flex;
     padding: 0;
+    margin: 2em 0  0 0;
 }
 
 
@@ -63,4 +64,90 @@ button:hover {
     height: 1.2em;
     width: 1.2em;
     margin-right: 0.5em;
+}
+
+.MainDivAdminPage{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1em auto;
+}
+
+.AdminPanelTextMainPage{
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1.9em;
+  font-weight: 500;
+  line-height: 0;
+}
+.ManageProductsTextMainPage{
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 0;
+  color: #121212a6;
+}
+.MainNavAdminPage{
+  border-bottom: #ccc 1px solid;
+}
+
+
+.ulChildDivAdminPage {
+  cursor: pointer;
+  color: inherit;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+  height: 100%;
+  padding: 0.8em 0;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.ulChildDivAdminPage.active {
+  color: #e50914;
+  border-bottom: 2px solid #e50914;
+}
+
+.AdminPageContentAddProductComponent{
+
+  padding: 2em;
+  border-radius: 10px;
+  margin-top: 2em;
+}
+.AdminPageContentAddProductComponentTitle{
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1.4em;
+  font-weight: 500;
+  color: #121212;
+  margin-bottom: 1em;
+}
+
+.AdminPageContentAddProductComponentTable{
+  margin-top: 4em;
+  background-color: #FFF;
+  box-shadow: #12121238 0px 0px 10px;
+  border-radius: 10px;
+}
+.tableAdminPage{
+  padding: 0em 2em 2em 2em;
+  width: 100%;
+}
+.CurrentProductsAdminPage{
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #121212;
+  margin-bottom: 1em;
+  padding: 1.5em 1.5em 0em 2em;
+}
+.theadAdminPage{
+  background-color: #cccccc4b;
+  width: 100%;
+  text-align: left;
+}
+.theadLabelAdminPage{
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1em;
+  color: #121212f6;
+  padding: 0.5em 0;
+  font-weight: 400;
 }
