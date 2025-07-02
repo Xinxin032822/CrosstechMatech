@@ -1,0 +1,23 @@
+.product-detail-container{
+    height: 100vh;
+    width: 100%;
+}
+.product-detail-content{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 4em;
+}
+.product-detail-image{
+    width: 40em;
+    height: 27em;
+    object-fit: cover;
+    border-radius: 10px;
+}
+.product-detail-image-container, .product-detail-info{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+.product-detail-info{
+    font-family: "Ubuntu", sans-serif;
+}

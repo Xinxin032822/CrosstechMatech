@@ -9,6 +9,7 @@ import About from "../src/Pages/About"
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Admin from './Pages/Admin';
+import ProductDetail from './Pages/ProductDetail';
 function App() {
 
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/admin" element={<Admin/>} />
+        <Route path="/products/:id" element={<ProductDetail/>} />
       </Routes>
     </Router>
   )

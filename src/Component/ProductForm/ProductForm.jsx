@@ -28,10 +28,10 @@ const schema = yup.object().shape({
   price: yup.number().required('Price is required').positive('Price must be positive'),
   image: yup.mixed().required('Image is required'),
   description: yup.string().required('Description is required'),
-  specification: yup.string().required('Specification is required'),
 });
 
 const ProductForm = () => {
+    const [specs, setSpecs] = useState([{ title: '', value: '' }]);
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
@@ -39,6 +39,19 @@ const ProductForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState(null);
     const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    const handleSpecChange = (index, field, value) => {
+        const updated = [...specs];
+        updated[index][field] = value;
+        setSpecs(updated);
+    };
+
+    const addSpec = () => setSpecs([...specs, { title: '', value: '' }]);
+
+    const removeSpec = (index) => {
+            const updated = specs.filter((_, i) => i !== index);
+            setSpecs(updated);
+    };
 
     const onSubmit = async (data) => {
         setIsSubmitting(true);
@@ -56,7 +69,7 @@ const ProductForm = () => {
             category: data.category,
             price: data.price,
             description: data.description,
-            specification: data.specification,
+            specification: specs.filter(s => s.title && s.value),
             imageName: downloadURL,
             createdAt: new Date(),
             updatedAt: new Date()
@@ -89,7 +102,7 @@ const ProductForm = () => {
                     />
                     {errors.productName && <p className="error">{errors.productName.message}</p>}
                     </div>
-                    <div className="field">
+                    <div className="field"> 
                     <label htmlFor="category">Category</label>
                     <Controller
                         name="category"
@@ -141,16 +154,29 @@ const ProductForm = () => {
 
                 <div className="row">
                     <div className="field full-width">
-                    <label htmlFor="specification">Specification</label>
-                    <Controller
-                        name="specification"
-                        control={control}
-                        render={({ field }) => <textarea className='InputStyleAddproduct' {...field} id="specification" />}
-                    />
-                    {errors.specification && <p className="error">{errors.specification.message}</p>}
+                        <label>Specifications</label>
+                        {specs.map((spec, index) => (
+                            <div key={index} className="spec-field-row">
+                                <input
+                                type="text"
+                                placeholder="Title (e.g. Engine)"
+                                value={spec.title}
+                                className="InputStyleAddproduct"
+                                onChange={(e) => handleSpecChange(index, 'title', e.target.value)}
+                                />
+                                <input
+                                type="text"
+                                placeholder="Value (e.g. Turbo V8)"
+                                value={spec.value}
+                                className="InputStyleAddproduct"
+                                onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
+                                />
+                                <button type="button" onClick={() => removeSpec(index)}>❌</button>
+                            </div>
+                        ))}
+                        <button type="button" onClick={addSpec}>➕ Add Specification</button>
                     </div>
                 </div>
-
                 <div className="row">
                     <button type="submit" className='btnSubmitSaveProduct'>
                         <svg className='svgSaveProductButton' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="floppy-disk" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="#fff" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V173.3c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32H64zm0 96c0-17.7 14.3-32 32-32H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path></svg>

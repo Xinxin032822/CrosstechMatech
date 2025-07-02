@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Data/firebase';
 import './ProductPageCards.css';
+import { useNavigate } from 'react-router-dom';
 
 function ProductPageCards({ activeCategory, sortOption }) {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +61,7 @@ function ProductPageCards({ activeCategory, sortOption }) {
                 <span className="product-category">{product.category}</span>
                 <button
                   className="view-details-button"
-                  onClick={() => alert(`Details of ${product.productName}`)}
+                  onClick={() => navigate(`/products/${product.id}`)}
                 >
                   View Details
                 </button>
