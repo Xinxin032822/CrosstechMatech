@@ -171,10 +171,10 @@ const ProductForm = () => {
                                 className="InputStyleAddproduct"
                                 onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
                                 />
-                                <button type="button" onClick={() => removeSpec(index)}>❌</button>
+                                <button type="button" onClick={() => removeSpec(index)}>x</button>
                             </div>
                         ))}
-                        <button type="button" onClick={addSpec}>➕ Add Specification</button>
+                        <button type="button" onClick={addSpec}>+</button>
                     </div>
                 </div>
                 <div className="row">
