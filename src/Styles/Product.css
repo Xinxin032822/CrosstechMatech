@@ -1,0 +1,43 @@
+.products-page-container-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 3em;
+    font-family: "Ubuntu", sans-serif;
+    background-color: #f8f9fa;
+}
+.products-page-header{
+    font-size: 2em;
+    font-weight: 500;
+    color: #121212;
+    line-height: 0;
+}
+.products-page-subheader{
+    font-size: 1.2em;
+    font-weight: 400;
+    color: #6c757d;
+    margin-top: 0.5em;
+}
+.products-page-body-item-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-family: "Ubuntu", sans-serif;
+    border-bottom: #f0f2f5 1px solid;
+    padding: 0 10em;
+}
+.filterSorter-select{
+    padding: 0.5em 1em;
+    border-radius: 8px;
+}
+.filterSorter-select option{
+    font-size: 1em;
+    color: #495057;
+    font-family: "Ubuntu", sans-serif;
+}
+
+.products-page-body-item{
+    display: flex;
+    width: 100%;
+}

@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import '../Styles/Admin.css';
 import { useState } from 'react';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { initializeApp } from 'firebase/app';
 import { getFirestore, getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
 import ProductForm from '../Component/ProductForm/ProductForm';
@@ -21,7 +21,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+const storage = getStorage(app);
 function Admin() {
     const [activeNav, setActiveNav] = useState("Product Management");
     const [products, setProducts] = useState([]);
@@ -40,6 +40,20 @@ function Admin() {
 
     const handleDelete = async (id) => {
     try {
+        const productToDelete = products.find(p => p.id === id);
+        if (!productToDelete) return;
+
+        const imageUrl = productToDelete.imageName;
+
+        // Extract path between "/o/" and "?"
+        const pathStart = imageUrl.indexOf("/o/") + 3;
+        const pathEnd = imageUrl.indexOf("?", pathStart);
+        const encodedPath = imageUrl.slice(pathStart, pathEnd);
+        const fullPath = decodeURIComponent(encodedPath);  // decode "%2F" to "/"
+
+        const imageRef = storageRef(storage, fullPath);
+        await deleteObject(imageRef);
+
         await deleteDoc(doc(db, "products", id));
         setProducts(products.filter(p => p.id !== id));
     } catch (error) {

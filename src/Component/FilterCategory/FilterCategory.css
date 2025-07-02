@@ -1,0 +1,74 @@
+.filterCategory{
+    display: flex;
+    gap: 2em;
+    align-items: center;
+}
+.filterCategory-items{
+    display: flex;
+    gap: 1em;
+    align-items: center;
+
+    padding-bottom: 0.5em;
+    scrollbar-width: none;
+    max-width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+}
+.filterCategory-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    color: #504354;
+    padding: 0.5em 1.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+    font-family: "Ubuntu", sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+
+    min-width: max-content;
+    scroll-snap-align: start;   
+    flex: 0 0 auto;
+    scroll-behavior: smooth;
+
+}
+.filterCategory-item:hover{
+    background-color: #e50914;
+    color: #fff;
+}
+.filterCategory-item.active {
+    background-color: #e50914;
+    color: #fff;
+}
+.filterCategory-items::-webkit-scrollbar {
+  display: none;
+}
+
+
+.filterCategory-header{
+    font-size: 1em;
+    font-weight: 300;
+    color: #504354;
+    font-family: "Ubuntu", sans-serif;
+}
+
+
+.filterCategory-wrapper {
+  max-width: 50%;
+  overflow-x: auto;
+}
+
+.filterCategory-items {
+  display: flex;
+  gap: 1em;
+  padding-bottom: 0.5em;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filterCategory-items::-webkit-scrollbar {
+  display: none;
+}
