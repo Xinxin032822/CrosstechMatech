@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../Data/firebase';
 import '../Styles/ProductDetail.css';
+import { li } from 'framer-motion/client';
 
 function ProductDetail() {
   const { id } = useParams();
@@ -28,24 +29,43 @@ function ProductDetail() {
                 <img src={product.imageName} alt={product.productName} className="product-detail-image" />
             </div>
             <div className='product-detail-info'>
-                <div>
-                    <h2>{product.productName}</h2>
+                <h2 className='productNameProductDetailPage'>{product.productName}</h2>
+                <p className="subtitle">Heavy-duty construction excavator for professional use</p>
+
+                <div className="specs-box">
+                    <h3>Specifications</h3>
+                    <div className="specs-grid">
+                    {product.specification.map((spec, index) => (
+                        <div className="spec-item" key={index}>
+                        <span className="spec-title">{spec.title}:</span>
+                        <span className="spec-value">{spec.value}</span>
+                        </div>
+                    ))}
+                    </div>
                 </div>
-                <div>
-                    <p>{product.specification}</p>
-                </div>
-                <div>
+
+                <div className="description-box">
+                    <h3>Description</h3>
                     <p>{product.description}</p>
                 </div>
-                <div>
-                    <p>Price: ₱{product.price}</p>
+
+                <div className="price-box">
+                    <div>
+                    <span className="starting-label">Starting from</span>
+                    <h2 className="price">₱{Number(product.price).toLocaleString()}</h2>
+                    </div>
+                    <div className="price-note">
+                    <p>Flexible payment options available</p>
+                    <p>Nationwide delivery included</p>
+                    </div>
                 </div>
-                <div>
+
+                <div className="action-buttons">
                     <button className="inquire-button" onClick={() => alert('Inquiring...')}>
-                        Inquire
+                        <i className="fas fa-envelope"></i> Inquire
                     </button>
                     <button className="buy-now-button" onClick={() => alert('Buying...')}>
-                        Buy Now
+                        <i className="fas fa-shopping-cart"></i> Buy Now
                     </button>
                 </div>
             </div>
