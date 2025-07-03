@@ -4,18 +4,21 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../Data/firebase';
 import '../Styles/ProductDetail.css';
 import { li } from 'framer-motion/client';
+import { useNavigate } from 'react-router-dom';
+
 
 function ProductDetail() {
-  const { id } = useParams();
-  const [product, setProduct] = useState(null);
+    const { id } = useParams();
+    const [product, setProduct] = useState(null);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      const docRef = doc(db, 'products', id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setProduct({ id: docSnap.id, ...docSnap.data() });
-      }
+    useEffect(() => {
+        const fetchProduct = async () => {
+        const docRef = doc(db, 'products', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            setProduct({ id: docSnap.id, ...docSnap.data() });
+        }
     };
     fetchProduct();
   }, [id]);
@@ -64,8 +67,11 @@ function ProductDetail() {
                     <button className="inquire-button" onClick={() => alert('Inquiring...')}>
                         <i className="fas fa-envelope"></i> Inquire
                     </button>
-                    <button className="buy-now-button" onClick={() => alert('Buying...')}>
-                        <i className="fas fa-shopping-cart"></i> Buy Now
+                    <button
+                    className="buy-now-button"
+                    onClick={() => navigate(`/shipping/${product.id}`)}
+                    >
+                    <i className="fas fa-shopping-cart"></i> Buy Now
                     </button>
                 </div>
             </div>
