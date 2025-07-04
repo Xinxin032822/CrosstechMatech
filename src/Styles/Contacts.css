@@ -27,7 +27,7 @@
 
 .contacts-container{
     display: flex;
-    padding: 3em 5em;
+    padding: 3em 0em;
     width: 100vw;
     justify-content: center;
     align-items: flex-start;
