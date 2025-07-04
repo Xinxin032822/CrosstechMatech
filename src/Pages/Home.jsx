@@ -1,42 +1,34 @@
 import React from 'react';
 import "../Styles/Home.css";
 import ProductCard from '../Component/ProductCard/ProductCard';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../Data/firebase.js";
+import { useEffect, useState } from "react";
+
 
 function Home() {
+  const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
 
-  const products = [
-    {
-      image: 'src/assets/hp1.jpg',
-      title: 'Hydraulic Excavator',
-      description: 'High-performance excavator for construction and earthmoving projects',
-    },
-    {
-      image: 'src/assets/hp1.jpg',
-      title: 'Tower Crane',
-      description: 'Heavy-duty tower crane for high-rise construction projects',
-    },
-    {
-      image: 'src/assets/hp1.jpg',
-      title: 'Bulldozer',
-      description: 'Powerful bulldozer for earthmoving and site preparation',
-    },
-    {
-      image: 'src/assets/hp1.jpg',
-      title: 'Bulldozer',
-      description: 'Powerful bulldozer for earthmoving and site preparation',
-    },
-    {
-      image: 'src/assets/hp1.jpg',
-      title: 'Bulldozer',
-      description: 'Powerful bulldozer for earthmoving and site preparation',
-    },
-    {
-      image: 'src/assets/hp1.jpg',
-      title: 'Bulldozer',
-      description: 'Powerful bulldozer for earthmoving and site preparation',
-    },
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "products"));
+      const productsArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProducts(productsArray);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
 
   return (
@@ -47,8 +39,12 @@ function Home() {
           <h1 className='HeroHeaderTitle'>Built for Progress.<br />Delivered Nationwide.</h1>
           <p>Premium heavy equipment solutions for construction professionals across the Philippines</p>
           <div className="hero-buttons">
-            <button className="browse-btn">View Products</button>
-            <button className="quote-btn">Inquire</button>
+            <button className="browse-btn" onClick={() => navigate('/products')}>
+              View Products
+            </button>
+            <button className="quote-btn" onClick={() => navigate('/contact')}>
+              Inquire
+            </button>
           </div>
         </div>
       </div>
@@ -85,10 +81,11 @@ function Home() {
           <p className='featured-equipment-header-Desc'>Discover our most popular heavy machinery</p>
         </div>
         <div className='Products'>
-          {products.map((item, index) => (
+          {products.slice(0, 6).map((item, index) => (
             <ProductCard
-              key={index}
-              image={item.image}
+              key={item.id}
+              id={item.id}
+              image={item.imageName}
               title={item.title}
               description={item.description}
             />

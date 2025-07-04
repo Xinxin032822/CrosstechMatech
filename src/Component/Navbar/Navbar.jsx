@@ -28,6 +28,14 @@ function Navbar() {
   }, []);
 
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <div className='NavbarMainLoggedOut'>
@@ -48,9 +56,9 @@ function Navbar() {
         {user ? (
           <>
             <span className="nav-logged-user">Hi, {user.name}</span>
-            <Link to="/settings" className="nav-btn settings-btn">
-              <i className="fas fa-cog"></i>
-            </Link>
+            <button onClick={handleLogout} className="nav-btn logout-btn">
+              Logout
+            </button>
           </>
         ) : (
           <>

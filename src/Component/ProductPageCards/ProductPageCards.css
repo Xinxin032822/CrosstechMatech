@@ -88,13 +88,14 @@
 
 .product-cards-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2em;
   justify-items: center;
-  padding: 3em 5em;
+  padding: 3em 2em;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Pagination */
 .pagination {
   display: flex;
   justify-content: center;

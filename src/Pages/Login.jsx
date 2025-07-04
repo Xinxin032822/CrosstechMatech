@@ -6,12 +6,18 @@ import * as yup from 'yup';
 import "../Styles/Login.css";
 import eyeClosed from "../assets/eye-close-svgrepo-com.svg";
 
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Data/firebase.js";
+import { useNavigate } from "react-router-dom";
+
 const schema = yup.object({
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string().required("Password is required"),
 });
 
+
 function Login() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -24,9 +30,16 @@ function Login() {
 
   const togglePassword = () => setShowPassword(prev => !prev);
 
-  const onSubmit = (data) => {
-    console.log("Login data:", data);
-  };
+const onSubmit = async (data) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+    console.log("User logged in:", userCredential.user);
+    navigate("/");
+  } catch (error) {
+    console.error("Login error:", error.message);
+    alert("Login failed. Please check your email and password.");
+  }
+};
 
   return (
     <div className='MainBodyLoginPage'>

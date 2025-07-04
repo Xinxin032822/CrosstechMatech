@@ -161,11 +161,17 @@
 }
 
 .Products {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+    display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   max-width: 1000px;
   margin: 0 auto;
+  justify-content: center;
+  align-items: center   ;
+  width: 100%;
+
+  justify-content: center;     /* ✅ Center the whole grid when fewer columns */
+  justify-items: center;
 }
 
 
@@ -213,4 +219,17 @@
 }
 .TalkToUsButton:hover{
     background-color: #fc3b45;
+}
+
+
+@media (max-width: 1068px) {
+  .Products {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 780px) {
+  .Products {
+    grid-template-columns: 1fr;
+  }
 }

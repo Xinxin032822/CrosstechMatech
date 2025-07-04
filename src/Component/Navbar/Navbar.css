@@ -58,24 +58,24 @@
 }
 
 .nav-logged-user {
-  font-size: 1rem;
-  color: #121212;
+  margin-right: 12px;
   font-weight: 400;
-  white-space: nowrap;
-  font-family: "Ubuntu", sans-serif;
-}
-
-.settings-btn {
-  background: none;
-  border: none;
   color: #121212;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.2s ease;
-  padding: 6px;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1rem;
 }
 
-.settings-btn:hover {
-  color: #e50914;
-  transform: rotate(45deg);
+.logout-btn {
+  background-color: #e50914; /* Red logout button */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #f03740;
 }
