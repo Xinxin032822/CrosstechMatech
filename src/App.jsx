@@ -11,6 +11,7 @@ import Signup from './Pages/Signup';
 import Admin from './Pages/Admin';
 import ProductDetail from './Pages/ProductDetail';
 import ShippingDetail from './Pages/ShippingDetail';
+import ProtectedAdminRoute from './Component/ProtectedAdminRoute/ProtectedAdminRoute';
 function App() {
 
   return (
@@ -23,10 +24,14 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element={<Signup/>} />
-        <Route path="/admin" element={<Admin/>} />
+        <Route path="/admin" element={
+          <ProtectedAdminRoute>
+            <Admin />
+          </ProtectedAdminRoute>
+        } />
         <Route path="/products/:id" element={<ProductDetail/>} />
         <Route path="/shipping/:id" element={<ShippingDetail/>} />
-
+        <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
     </Router>
   )

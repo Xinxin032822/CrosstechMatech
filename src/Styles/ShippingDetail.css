@@ -1,87 +1,227 @@
-.shipping-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  padding: 2rem;
+.order-summary p,
+.order-summary h1,
+.order-summary h2,
+.order-summary h3,
+.order-summary h4,
+.order-summary h5,
+.order-summary h6 {
+  margin: 0;
+  padding: 0;
 }
-
-.shipping-form {
-  flex: 1;
-  min-width: 300px;
+.shipping-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 4em;
+  }
+.summary-product-details{
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  justify-content: center;
 }
 
-.shipping-form input,
-.shipping-form textarea {
-  padding: 0.8rem;
+
+.order-summary{
+  width: 20%;
+  background-color: #FFF;
+  box-shadow: #66666641 0px 0px 10px 0px;
+  border-radius: 10px;
+  padding: 2em 1.5em;
+  font-family: "Ubuntu", sans-serif;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.summary-product{
+  display:flex;
+  justify-content: start;
+  align-items: start;
+  padding: 1.2em 0;
+}
+.quantityShippingDetails{
+  display: flex;
+  align-items: center;
+}
+.productImageShippingDetails{
+  width: 6em;
+  height: 6em;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.summary-product-details{
+  display: flex;
+  flex-direction: column;
+  margin-left: 1.2em;
+  width: 100%;
+  gap: 0.8em;
+}
+.product-name-shipping-detail-page-header{
+  font-size: 1.2em;
+  font-weight: 500;
+  color: #333;
+}
+.quantityNumberShippingDetails{
+  font-size: 0.8em;
+  color: #666;
+}
+.quantityButtonsShippingDetails{
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-left: auto;
+}
+.quantityButtonFunctionalShippingDetailsPage{
+  background-color: #cccccc36;
+  border: none;
+  outline: none;
+  padding: 0.5em 0.8em;
   border-radius: 6px;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+.quantityButtonFunctionalShippingDetailsPage:hover{
+  background-color: #cccccc8c;
+}
+.quantityButtonFunctionalShippingDetailsPage:focus{
+  background-color: #e50914;
+  color: white;
+}
+.ItemPriceShippingDetailsPage{
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.summary-details{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  margin: 1.5em 0;
+  font-family: "Ubuntu", sans-serif;
+}
+.summary-details p,
+.summary-details h4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.summary-details hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  width: 100%;
+  margin: 0.5em 0;
+}
+.prices-summary-details{
+  color: #666;
+}
+.dynamic-prices-summary-details{
+  color: #333;
+  font-weight: 500;
+}
+
+
+.place-order-button{
+  width: 100%;
+  padding: 0.5em;
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: auto;
+}
+
+
+.secure-checkout{
+  color: #666;
+  font-family: "Ubuntu", sans-serif;
+  margin: 0 0 2em 0 !important;
+}
+
+
+.payment-option{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.2em 1rem;
   border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  flex: 1 1 45%;
+  transition: background-color 0.3s ease;
+  color: #666;
+}
+.payment-option.active {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.payment-option.active .paymentIcon {
+  filter: brightness(0) invert(1);
+}
+.paymentIcon{
+  height: 1.2em;
+  filter: saturate(0);
+  transition: 0.3s ease filter;
+}
+.payment-methods {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1em;
+  width: 100%;
+  margin-top: 2em;
+}
+
+
+
+.shipping-form{
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 65%;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.Input-shipping-details-form{
+  margin: 0;
+  padding: 0;
+}
+
+.form-section-shipping-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.form-group-shipping-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5em;
+}
+.Input-shipping-details-form {
+  padding: 0.8em 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
   width: 100%;
   box-sizing: border-box;
 }
 
-.payment-methods {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+textarea.Input-shipping-details-form {
+  resize: vertical;
+  min-height: 80px;
+  height: 10em;
 }
 
-.payment-methods label {
-  border: 1px solid #ccc;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  flex: 1 1 45%;
-}
 
-.order-summary {
-  flex: 1;
-  min-width: 280px;
-  background: #f8f8f8;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-
-.summary-product {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.summary-product img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.summary-details p {
-  display: flex;
-  justify-content: space-between;
-}
-
-.secure-checkout {
-  text-align: center;
-  font-size: 0.85rem;
-  color: #666;
-  margin-top: 1rem;
-}
-
-.place-order-button {
-  width: 100%;
-  padding: 1rem;
-  background: #d32f2f;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1rem;
-}
-
-.place-order-button:hover {
-  background: #b71c1c;
+@media (max-width: 600px) {
+  .payment-methods {
+    grid-template-columns: 1fr;
+  }
 }

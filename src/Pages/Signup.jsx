@@ -5,6 +5,14 @@ import { Link } from 'react-router-dom';
 import * as yup from 'yup';
 import "../Styles/Signup.css";
 
+import { useNavigate } from 'react-router-dom';
+
+
+import { db } from '../Data/firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth } from '../Data/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+
 const schema = yup.object({
   name: yup.string().required("Full name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -13,6 +21,34 @@ const schema = yup.object({
 });
 
 function Signup() {
+  const navigate = useNavigate();
+
+
+  const onSubmit = async (data) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        name: data.name,
+        email: data.email,
+        createdAt: new Date(),
+        isAdmin: false
+      });
+
+      navigate('/');
+    } catch (error) {
+      console.error("Signup error:", error.message);
+      alert(error.message);
+    }
+  };
+
+
   const {
     register,
     handleSubmit,
@@ -21,9 +57,6 @@ function Signup() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    console.log("Signup data:", data);
-  };
 
   return (
     <div style={{ minHeight: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }}>

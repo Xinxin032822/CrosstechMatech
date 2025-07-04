@@ -47,3 +47,35 @@
     color: #FFF;
     border-radius: 5px;
 }
+
+
+
+
+.NavbarItemsLoggedOutThirdChild {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logged-user {
+  font-size: 1rem;
+  color: #121212;
+  font-weight: 400;
+  white-space: nowrap;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.settings-btn {
+  background: none;
+  border: none;
+  color: #121212;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+  padding: 6px;
+}
+
+.settings-btn:hover {
+  color: #e50914;
+  transform: rotate(45deg);
+}
