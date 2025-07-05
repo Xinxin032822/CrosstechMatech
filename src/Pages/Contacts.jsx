@@ -4,6 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import "../Styles/Contacts.css";
 
+
+import { collection, addDoc, doc } from 'firebase/firestore';
+import { db, auth } from '../Data/firebase';
+
+
 const schema = yup.object({
   fullname: yup.string().required("Full name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -19,9 +24,31 @@ function Contacts() {
     resolver: yupResolver(schema),
   });
 
-    const onSubmit = (data) => {
-    console.log("Contact Form Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("You must be logged in to send a message.");
+        return;
+      }
+
+      const userDocRef = doc(db, "users", user.uid);
+      const inquiriesRef = collection(userDocRef, "inquiries");
+
+      await addDoc(inquiriesRef, {
+        fullname: data.fullname,
+        email: data.email,
+        message: data.message,
+        createdAt: new Date(),
+      });
+
+      alert("Thank you for your message! We'll get back to you shortly.");
+    } catch (error) {
+      console.error("Error sending inquiry:", error);
+      alert("Something went wrong. Please try again later.");
+    }
   };
+
 
   
   return (

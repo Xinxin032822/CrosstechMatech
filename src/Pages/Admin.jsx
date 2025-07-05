@@ -9,6 +9,8 @@ import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { initializeApp } from 'firebase/app';
 import { getFirestore, getDocs, collection, deleteDoc, doc } from 'firebase/firestore';
 import ProductForm from '../Component/ProductForm/ProductForm';
+import InquiryManagement from '../Component/InquiryManagement,jsx/InquiryManagement';
+import DeliveryManagement from '../Component/DeliveryManagement/DeliveryManagement';
 const firebaseConfig = {
   apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
   authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
@@ -137,6 +139,17 @@ function Admin() {
                     </div>
                 </div>
             )}
+            {activeNav === 'Inquiry Management' && (
+                <div>
+                    <InquiryManagement/>
+                </div>
+            )}
+            {activeNav === 'Delivery Management' && (
+                <div>
+                    <DeliveryManagement/>
+                </div>
+            )
+            }
         </div>
 
     </div>
