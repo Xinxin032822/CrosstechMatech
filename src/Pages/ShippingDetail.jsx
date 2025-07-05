@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../Data/firebase';
+import { doc, getDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db,auth } from '../Data/firebase';
 import '../Styles/ShippingDetail.css';
 
 // Images
@@ -41,29 +41,53 @@ function ShippingDetail() {
   const increaseQty = () => setQuantity(prev => prev + 1);
   const decreaseQty = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  if (!selectedMethod) {
-    alert('Please select a payment method');
-    return;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const allFieldsFilled = Object.values(form).every(value => value.trim() !== "");
+    if (!allFieldsFilled) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+    if (!selectedMethod) {
+      alert('Please select a payment method');
+      return;
+    }
 
-  const orderData = {
-    ...form,
-    payment: selectedMethod,
-    quantity,
-    productId: product.id,
-    productName: product.productName,
-    productPrice: product.price,
-    subtotal,
-    shipping,
-    total,
+    const subtotal = product.price * quantity;
+    const shipping = 500;
+    const total = subtotal + shipping;
+
+    const orderData = {
+      ...form,
+      payment: selectedMethod,
+      quantity,
+      productId: product.id,
+      productName: product.productName,
+      productPrice: product.price,
+      subtotal,
+      shipping,
+      total,
+    };
+
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("You must be logged in to place an order.");
+        return;
+      }
+
+      await addDoc(collection(db, "users", user.uid, "orders"), {
+        ...orderData,
+        createdAt: serverTimestamp(),
+      });
+
+      alert('Order placed successfully!');
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Something went wrong while placing the order.");
+    }
   };
 
-  console.log('Final Order:', orderData);
-  alert('Order placed successfully!');
-};
-  
 
   if (!product) return <div>Loading...</div>;
 
