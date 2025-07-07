@@ -3,11 +3,22 @@
   import "../Styles/Product.css"
   import FilterCategory from '../Component/FilterCategory/FilterCategory'
   import ProductPageCards from '../Component/ProductPageCards/ProductPageCards'
+
+  import { motion } from "framer-motion";
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
+
+import Footer from '../Component/Footer/Footer'
   function Products() {
     const [activeCategory, setActiveCategory] = useState(null);
     const [sortOption, setSortOption] = useState('sortByPrice');
     return (
-      <div>
+      <motion.div
+      initial="initial"
+      animate="animate"
+      exit="exit" 
+      variants={pageVariants}
+      transition={pageTransition}
+      >
 
         <div className='products-page-container-header'>
           <p className='products-page-header'>Our Equipment Catalog</p>
@@ -41,8 +52,8 @@
             </div>
             <div></div>
         </div>
-
-      </div>
+        <Footer/>
+      </motion.div>
     )
   }
 

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import './App.css'
 import Home from './Pages/Home'
 import Navbar from "../src/Component/Navbar/Navbar"
@@ -13,27 +15,32 @@ import ProductDetail from './Pages/ProductDetail';
 import ShippingDetail from './Pages/ShippingDetail';
 import ProtectedAdminRoute from './Component/ProtectedAdminRoute/ProtectedAdminRoute';
 function App() {
-
+const location = useLocation();
   return (
-    <Router>
+    <>
       <Navbar />
-      <Routes>
-        <Route index path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/contact" element={<Contacts />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/admin" element={
-          <ProtectedAdminRoute>
-            <Admin />
-          </ProtectedAdminRoute>
-        } />
-        <Route path="/products/:id" element={<ProductDetail/>} />
-        <Route path="/shipping/:id" element={<ShippingDetail/>} />
-        <Route path="*" element={<h1>404 Not Found</h1>} />
-      </Routes>
-    </Router>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route index path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/contact" element={<Contacts />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedAdminRoute>
+                <Admin />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/shipping/:id" element={<ShippingDetail />} />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
+        </Routes>
+      </AnimatePresence>
+    </>
   )
 }
 

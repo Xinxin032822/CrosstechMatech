@@ -1,6 +1,10 @@
 import React from 'react'
 import "../Styles/About.css"
 import CardAbouts from '../Component/CardAbouts/CardAbouts'
+import Footer from '../Component/Footer/Footer';
+
+import { motion } from "framer-motion";
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 
 
 function About() {
@@ -25,7 +29,13 @@ function About() {
   ];
 
   return (
-    <div className='MainElementClass'>
+    <motion.div 
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    variants={pageVariants}
+    transition={pageTransition}
+    className='MainElementClass'>
       
       <div className='MainClassUpperSection'>
         <div className='HeaderSectionMainClassUpperSection'>
@@ -88,7 +98,8 @@ function About() {
             <button className='ContactUsTodayAboutPage'>Contact Us Today</button>
           </div>
       </div>
-    </div>
+      <Footer/>
+    </motion.div>
   )
 }
 

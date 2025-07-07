@@ -15,7 +15,7 @@ function ShippingDetail() {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedMethod, setSelectedMethod] = useState('');
-  const [form, setForm] = useState({
+  const [form, setForm] = useState({    
     fullName: '',
     phone: '',
     email: '',
@@ -67,6 +67,8 @@ function ShippingDetail() {
       subtotal,
       shipping,
       total,
+      status: "Pending",
+      createdAt: serverTimestamp(),
     };
 
     try {

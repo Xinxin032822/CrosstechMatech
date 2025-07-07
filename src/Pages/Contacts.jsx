@@ -3,7 +3,10 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import "../Styles/Contacts.css";
+import Footer from '../Component/Footer/Footer.jsx';
 
+import { motion } from "framer-motion";
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 
 import { collection, addDoc, doc } from 'firebase/firestore';
 import { db, auth } from '../Data/firebase';
@@ -52,7 +55,13 @@ function Contacts() {
 
   
   return (
-    <div>
+    <motion.div
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    variants={pageVariants}
+    transition={pageTransition}
+    >
       <div className='contacts-header'>
         <p className='contacts-header-title'>Contact Us</p>
         <p className='contact-header-desc'>Get in touch with our team for inquiries about heavy equipment, <br /> support, or partnership opportunities.</p>
@@ -155,7 +164,8 @@ function Contacts() {
           ></iframe>
         </div>
       </div>
-    </div>
+      <Footer/>
+    </motion.div>
   )
 }
 

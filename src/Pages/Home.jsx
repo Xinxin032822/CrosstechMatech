@@ -3,10 +3,14 @@ import "../Styles/Home.css";
 import ProductCard from '../Component/ProductCard/ProductCard';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { motion } from "framer-motion";
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
+
 
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Data/firebase.js";
 import { useEffect, useState } from "react";
+import Footer from '../Component/Footer/Footer.jsx';
 
 
 function Home() {
@@ -32,7 +36,13 @@ function Home() {
 
 
   return (
-    <div className="hero-container">
+    <motion.div
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    variants={pageVariants}
+    transition={pageTransition}
+    className="hero-container">
       <div className='MainHeaderHeroSection'>
         <img src="src/assets/hp1.jpg" alt="Homepage" className="hero-image" />
         <div className="hero-content">
@@ -101,7 +111,8 @@ function Home() {
             <Link to="/contact"><button className='TalkToUsButton'>Talk to Us</button></Link>
           </div>
       </div>
-    </div>
+      <Footer />
+    </motion.div>
   );
 }
 

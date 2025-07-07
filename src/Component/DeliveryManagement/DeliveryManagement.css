@@ -172,6 +172,151 @@ background-color: #F9FAFB;
   cursor: pointer;
 }
 
+.inquiry-table td {
+  max-width: 250px; /* adjust as needed */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+/* modal */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-in-out;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+.modal img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
+
+.modal h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  color: #111827;
+}
+
+.modal p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;         /* Preserves line breaks */
+  max-width: 100%;
+  width: 100%;
+}
+
+
+
+.modal strong {
+  display: inline-block;
+  color: #111827;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.15);
+  color: #111827;
+}
+
+.status-label{
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.status-select {
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  background-color: #f9fafb;
+  width: auto;
+  transition: border-color 0.2s ease;
+}
+
+.status-select:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+.delete-btn {
+  background-color: #e50914;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #c40811; /* slightly darker red */
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+
 
 
 
