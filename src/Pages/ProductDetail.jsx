@@ -6,6 +6,7 @@ import '../Styles/ProductDetail.css';
 import { li } from 'framer-motion/client';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Component/Footer/Footer';
+import Loader from '../Component/Loader/Loader';
 
 
 function ProductDetail() {
@@ -24,7 +25,7 @@ function ProductDetail() {
     fetchProduct();
   }, [id]);
 
-  if (!product) return <div>Loading...</div>;
+  if (!product) return <Loader/>;
 
   return (
     <div>

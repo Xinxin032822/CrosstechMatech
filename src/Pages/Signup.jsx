@@ -7,6 +7,8 @@ import "../Styles/Signup.css";
 
 import { useNavigate } from 'react-router-dom';
 
+import { motion } from "framer-motion";
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 
 import { db } from '../Data/firebase';
 import { doc, setDoc } from 'firebase/firestore';
@@ -59,7 +61,14 @@ function Signup() {
 
 
   return (
-    <div style={{ minHeight: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <motion.div 
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+      transition={pageTransition}
+    
+    style={{ minHeight: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
       <div className="MainClassSignupPage">
         <div className="mainClassChilds">
           <p className="CrosstechMatechSignupPageHeader">Crosstech Matech</p>
@@ -120,7 +129,7 @@ function Signup() {
         </div>
 
       </div>
-    </div>
+    </motion.div>
   );
 }
 

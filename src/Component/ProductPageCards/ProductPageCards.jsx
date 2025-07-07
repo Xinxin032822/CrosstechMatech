@@ -3,25 +3,37 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../Data/firebase';
 import './ProductPageCards.css';
 import { useNavigate } from 'react-router-dom';
-
+import Loader from '../Loader/Loader.jsx';
 function ProductPageCards({ activeCategory, sortOption }) {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
+  const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = async () => {
+    setLoading(true);
+    try {
       const querySnapshot = await getDocs(collection(db, 'products'));
       const productList = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
       }));
       setProducts(productList);
-    };
-    fetchData();
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchData();
   }, []);
 
+  if(loading) {
+    return <Loader/>;
+  }
   const filteredProducts = activeCategory
   ? products.filter(p => p.category === activeCategory)
   : products;

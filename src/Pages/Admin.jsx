@@ -11,6 +11,9 @@ import { getFirestore, getDocs, collection, deleteDoc, doc } from 'firebase/fire
 import ProductForm from '../Component/ProductForm/ProductForm';
 import InquiryManagement from '../Component/InquiryManagement,jsx/InquiryManagement';
 import DeliveryManagement from '../Component/DeliveryManagement/DeliveryManagement';
+import { AnimatePresence, motion } from 'framer-motion';
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
+import Loader from '../Component/Loader/Loader.jsx';
 const firebaseConfig = {
   apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
   authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
@@ -27,14 +30,24 @@ const storage = getStorage(app);
 function Admin() {
     const [activeNav, setActiveNav] = useState("Product Management");
     const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const fetchProducts = async () => {
+    setLoading(true);
+    try {
         const querySnapshot = await getDocs(collection(db, "products"));
         const productsData = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
+        id: doc.id,
+        ...doc.data()
         }));
         setProducts(productsData);
+    } catch (error) {
+        console.error("Error fetching products:", error);
+    } finally {
+        setLoading(false);
+    }
     };
+
 
     useEffect(() => {
         fetchProducts();
@@ -47,7 +60,6 @@ function Admin() {
 
         const imageUrl = productToDelete.imageName;
 
-        // Extract path between "/o/" and "?"
         const pathStart = imageUrl.indexOf("/o/") + 3;
         const pathEnd = imageUrl.indexOf("?", pathStart);
         const encodedPath = imageUrl.slice(pathStart, pathEnd);
@@ -89,67 +101,88 @@ function Admin() {
             </ul>
         </div>
         <div>
-            { activeNav === 'Product Management' && (
-                <div className='AdminPageContentAddProductComponent'>
-                    <ProductForm />
-                    <div className='AdminPageContentAddProductComponentTable'>
-                        <p className='CurrentProductsAdminPage'>Current Products</p>
+            <AnimatePresence mode='wait'>
+
+                { activeNav === 'Product Management' && (
+                    <motion.div 
+                    key="product"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                    className='AdminPageContentAddProductComponent'>
+                        <ProductForm />
+                        <div className='AdminPageContentAddProductComponentTable'>
+                    <p className='CurrentProductsAdminPage'>Current Products</p>
+
+                    {loading ? (
+                        <Loader/>
+                    ) : (
                         <table className='tableAdminPage'>
-                            <thead className='theadAdminPage'>
-                                <tr>
-                                    <th className='theadLabelAdminPage'>Product</th>
-                                    <th className='theadLabelAdminPage'>Category</th>
-                                    <th className='theadLabelAdminPage'>Price</th>
-                                    <th className='theadLabelAdminPage'>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className='tbodyAdminPage'>
+                        <thead className='theadAdminPage'>
+                            <tr>
+                            <th className='theadLabelAdminPage'>Product</th>
+                            <th className='theadLabelAdminPage'>Category</th>
+                            <th className='theadLabelAdminPage'>Price</th>
+                            <th className='theadLabelAdminPage'>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className='tbodyAdminPage'>
                             {products.map(product => (
-                                <tr key={product.id}>
+                            <tr key={product.id}>
                                 <td style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    {product.imageName && (
+                                {product.imageName && (
                                     <img 
-                                        src={product.imageName} 
-                                        alt={product.productName} 
-                                        style={{ width: '50px', height: '50px', borderRadius: '4px' , objectFit: 'cover' }}
+                                    src={product.imageName} 
+                                    alt={product.productName} 
+                                    style={{ width: '50px', height: '50px', borderRadius: '4px', objectFit: 'cover' }}
                                     />
-                                    )}
-                                    <span>{product.productName}</span>
+                                )}
+                                <span>{product.productName}</span>
                                 </td>
                                 <td>{product.category}</td>
                                 <td>₱{product.price}</td>
                                 <td>
-                                    <button 
-                                    className="editBtn" 
-                                    onClick={() => handleEdit(product)}
-                                    >
-                                    Edit
-                                    </button>
-                                    <button 
-                                    className="deleteBtn" 
-                                    onClick={() => handleDelete(product.id)}
-                                    >
-                                    Delete
-                                    </button>
+                                <button className="editBtn" onClick={() => handleEdit(product)}>Edit</button>
+                                <button className="deleteBtn" onClick={() => handleDelete(product.id)}>Delete</button>
                                 </td>
-                                </tr>
+                            </tr>
                             ))}
-                            </tbody>
+                        </tbody>
                         </table>
+                    )}
                     </div>
-                </div>
-            )}
-            {activeNav === 'Inquiry Management' && (
-                <div>
-                    <InquiryManagement/>
-                </div>
-            )}
-            {activeNav === 'Delivery Management' && (
-                <div>
-                    <DeliveryManagement/>
-                </div>
-            )
-            }
+
+                    </motion.div>
+                )}
+                {activeNav === 'Inquiry Management' && (
+                    <motion.div
+                    key="inquiry"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                    >
+                        <InquiryManagement/>
+                    </motion.div>
+                )}
+                {activeNav === 'Delivery Management' && (
+                    <motion.div
+                    key="delivery"  
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                    >
+                        <DeliveryManagement/>
+                    </motion.div>
+                )
+                }
+
+            </AnimatePresence>
         </div>
 
     </div>

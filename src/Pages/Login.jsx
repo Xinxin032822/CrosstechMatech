@@ -6,6 +6,9 @@ import * as yup from 'yup';
 import "../Styles/Login.css";
 import eyeClosed from "../assets/eye-close-svgrepo-com.svg";
 
+import { motion } from "framer-motion";
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
+
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../Data/firebase.js";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +45,13 @@ const onSubmit = async (data) => {
 };
 
   return (
-    <div className='MainBodyLoginPage'>
+    <motion.div
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    variants={pageVariants}
+    transition={pageTransition}
+    className='MainBodyLoginPage'>
       <div className="MainClassLoginPage">
         <div className="MainLoginPageHeader">
           <p className="WelcomeBackTextMainLogin">Welcome Back</p>
@@ -101,7 +110,7 @@ const onSubmit = async (data) => {
           <Link to="/signup" className="text-red-600 font-semibold">Create a new Account</Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

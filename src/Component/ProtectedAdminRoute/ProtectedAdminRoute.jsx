@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../../Data/firebase';
+import Loader from '../Loader/Loader';
 
 function ProtectedAdminRoute({ children }) {
   const [loading, setLoading] = useState(true);
@@ -28,7 +29,7 @@ function ProtectedAdminRoute({ children }) {
     return () => unsubscribe();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader/>;
 
   return isAllowed ? children : <Navigate to="/" />;
 }

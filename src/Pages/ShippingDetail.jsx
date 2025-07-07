@@ -9,6 +9,7 @@ import paypalIcon from '../assets/ShippingDetailAssets/paypal.png';
 import bankIcon from '../assets/ShippingDetailAssets/bank.png';
 import codIcon from '../assets/ShippingDetailAssets/COD.png';
 import gcashIcon from '../assets/ShippingDetailAssets/gcash.png';
+import Loader from '../Component/Loader/Loader';
 
 function ShippingDetail() {
   const { id } = useParams();
@@ -91,7 +92,7 @@ function ShippingDetail() {
   };
 
 
-  if (!product) return <div>Loading...</div>;
+  if (!product) return <Loader/>;
 
   const subtotal = product.price * quantity;
   const shipping = 500;
