@@ -69,6 +69,7 @@ function ShippingDetail() {
       shipping,
       total,
       status: "Pending",
+      paymentStatus: "Pending",
       createdAt: serverTimestamp(),
     };
 
