@@ -4,7 +4,7 @@ import Loader from '../Loader/Loader';
 
 import { db } from '../../Data/firebase';
 import "./DeliveryManagement.css"
-import NotFixedLoader from '../Loader/notFixedLoader';
+import NotFixedLoader from '../Loader/NotFixedLoader';
 
 
 function DeliveryManagement() {
