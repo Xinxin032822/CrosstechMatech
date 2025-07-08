@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import './App.css'
 import Home from './Pages/Home'
-import Navbar from "../src/Component/Navbar/Navbar"
 import Products from "../src/Pages/Products"
 import Contacts from "../src/Pages/Contacts"
 import About from "../src/Pages/About"
@@ -14,11 +13,12 @@ import Admin from './Pages/Admin';
 import ProductDetail from './Pages/ProductDetail';
 import ShippingDetail from './Pages/ShippingDetail';
 import ProtectedAdminRoute from './Component/ProtectedAdminRoute/ProtectedAdminRoute';
+import ShowNav from './Component/Navbar/showNav';
 function App() {
 const location = useLocation();
   return (
     <>
-      <Navbar />
+      <ShowNav />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route index path="/" element={<Home />} />

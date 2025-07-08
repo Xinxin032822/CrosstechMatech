@@ -50,7 +50,7 @@ function About() {
       </div>
 
       <div className='OurCoreValuesSection'>
-        {/* <p className='OurCoreValues'>Our Core Values</p> */}
+        <p className='OurCoreValues'>Our Core Values</p>
         <div className='CardSectionAboutUsMain'>
           {products.map((item, index) => (
             <CardAbouts

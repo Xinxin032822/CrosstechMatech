@@ -62,7 +62,7 @@ function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/login" className="nav-btn login-btn">Login</Link>
+            <Link to="/login" className="nav-btn login-btn loginbtnNouser">Login</Link>
             <Link to="/signup" className="nav-btn signup-btn">Sign Up</Link>
           </>
         )}

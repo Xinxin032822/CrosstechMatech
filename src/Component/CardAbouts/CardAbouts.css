@@ -3,19 +3,22 @@
     filter: invert(1);
 }
 .mainCardAboutSection{
-    width: 18vw ;
-    margin: 0 2em;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.116);
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 4em 1.5em;
+    max-width: 300px;
+    width: 100%;
     transition: 0.3s ease;
-    padding: 4em 1em;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    justify-content: center;
+    text-align: center;
 }
 .mainCardAboutSection:hover{
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.199);
+    transform: translateY(-5px);
 }
 .TitleCardAboutUsSection{
     font-family: "Ubuntu", sans-serif;
