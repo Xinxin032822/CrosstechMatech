@@ -13,7 +13,7 @@ import Admin from './Pages/Admin';
 import ProductDetail from './Pages/ProductDetail';
 import ShippingDetail from './Pages/ShippingDetail';
 import ProtectedAdminRoute from './Component/ProtectedAdminRoute/ProtectedAdminRoute';
-import ShowNav from './Component/Navbar/showNav';
+import ShowNav from './Component/Navbar/ShowNav';
 function App() {
 const location = useLocation();
   return (
