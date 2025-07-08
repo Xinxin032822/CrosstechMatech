@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import '../Styles/Admin.css';
+import '../Styles/admin.css';
 import { useState } from 'react';
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { initializeApp } from 'firebase/app';
