@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
@@ -14,8 +14,24 @@ import ProductDetail from './Pages/ProductDetail';
 import ShippingDetail from './Pages/ShippingDetail';
 import ProtectedAdminRoute from './Component/ProtectedAdminRoute/ProtectedAdminRoute';
 import ShowNav from './Component/Navbar/ShowNav';
+import ProductDetailMobile from './Pages/ProductDetailMobile';
 function App() {
 const location = useLocation();
+const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       <ShowNav />
@@ -35,7 +51,7 @@ const location = useLocation();
               </ProtectedAdminRoute>
             }
           />
-          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/products/:id" element={isMobile ? <ProductDetailMobile /> : <ProductDetail />} />
           <Route path="/shipping/:id" element={<ShippingDetail />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>

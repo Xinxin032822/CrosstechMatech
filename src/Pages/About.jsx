@@ -4,10 +4,12 @@ import CardAbouts from '../Component/CardAbouts/CardAbouts'
 import Footer from '../Component/Footer/Footer';
 
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router-dom';
 import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 
 
 function About() {
+  const navigate = useNavigate();
 
   const products = [
     {
@@ -94,8 +96,8 @@ function About() {
             <p className='FooterDescAboutPage'>Join hundreds of satisfied clients who trust Matech for their heavy <br /> equipment needs. Let's build something great together.</p>
           </div>
           <div className='AboutUsFooterSectionSecondChild'>
-            <button className='ViewOurProductAboutPage'>View Our Products</button>
-            <button className='ContactUsTodayAboutPage'>Contact Us Today</button>
+            <button className='ViewOurProductAboutPage' onClick={() => navigate(`/products`)}>View Our Products</button>
+            <button className='ContactUsTodayAboutPage' onClick={() => navigate(`/contact`)}>Contact Us Today</button>
           </div>
       </div>
       <Footer/>
