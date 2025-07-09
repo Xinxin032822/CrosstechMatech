@@ -44,7 +44,7 @@ function Home() {
     transition={pageTransition}
     className="hero-container">
       <div className='MainHeaderHeroSection'>
-        <img src="../../public/assets/hp1.jpg" alt="Homepage" className="hero-image" />
+        <img src="/assets/hp1.jpg" alt="Homepage" className="hero-image" />
         <div className="hero-content">
           <h1 className='HeroHeaderTitle'>Built for Progress.<br />Delivered Nationwide.</h1>
           <p>Premium heavy equipment solutions for construction professionals across the Philippines</p>

@@ -11,17 +11,17 @@ function About() {
 
   const products = [
     {
-      image: '../../public/assets/img/award.svg',
+      image: '/assets/img/award.svg',
       title: 'Hydraulic Excavator',
       description: 'High-performance excavator for construction and earthmoving projects',
     },
     {
-      image: '../../public/assets/img/handshake.svg',
+      image: '/assets/img/handshake.svg',
       title: 'Tower Crane',
       description: 'Heavy-duty tower crane for high-rise construction projects',
     },
     {
-      image: '../../public/assets/img/shipping-fast.svg',
+      image: '/assets/img/shipping-fast.svg',
       title: 'Bulldozer',
       description: 'Powerful bulldozer for earthmoving and site preparation',
     },
