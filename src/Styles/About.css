@@ -194,6 +194,9 @@
     align-items: center;
     margin: 1em 0 5em 0;
 }
+.ViewOurProductAboutPage:hover{
+    background-color: #FFF;
+}
 
 
 @media (max-width: 868px) {
@@ -276,5 +279,31 @@
 
     .HeaderSectionMainClassUpperSection {
     margin-bottom: 2em;
+    }
+
+    .AboutUsFooterSection {
+        padding: 2em 1em;
+    }
+
+    .FooterTitleAboutPage {
+        font-size: 1.6em;
+    }
+
+    .FooterDescAboutPage {
+        font-size: 1em;
+    }
+
+    .AboutUsFooterSectionSecondChild {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin: 1.5em 0;
+        width: 100%;
+        align-items: center;
+    }
+
+    .AboutUsFooterSectionSecondChild button {
+        width: 90%;
+        max-width: 300px;
     }
 }

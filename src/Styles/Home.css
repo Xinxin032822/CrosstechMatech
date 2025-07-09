@@ -233,3 +233,54 @@
     grid-template-columns: 1fr;
   }
 }
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .browse-btn, .quote-btn {
+    font-size: 1rem;
+    padding: 0.9rem 1.2rem;
+  }
+
+  .MainHeaderHeroSection {
+    height: auto;
+  }
+
+  .hero-image {
+    height: 100vh;
+  }
+
+  .hero-content {
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    padding: 1rem;
+  }
+}
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-content p {
+    font-size: 0.95rem;
+  }
+
+  .browse-btn, .quote-btn {
+    width: 100%;
+  }
+}
+
+

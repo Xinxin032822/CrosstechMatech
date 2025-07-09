@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import "../Styles/Login.css";
-import eyeClosed from "../assets/eye-close-svgrepo-com.svg";
+import eyeClosed from "../../public/assets/eye-close-svgrepo-com.svg";
 
 import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";

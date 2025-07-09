@@ -4,11 +4,7 @@ import { doc, getDoc, addDoc, collection, serverTimestamp } from 'firebase/fires
 import { db,auth } from '../Data/firebase';
 import '../Styles/ShippingDetail.css';
 
-// Images
-import paypalIcon from '../assets/ShippingDetailAssets/paypal.png';
-import bankIcon from '../assets/ShippingDetailAssets/bank.png';
-import codIcon from '../assets/ShippingDetailAssets/COD.png';
-import gcashIcon from '../assets/ShippingDetailAssets/gcash.png';
+
 import Loader from '../Component/Loader/Loader';
 
 function ShippingDetail() {
@@ -139,17 +135,21 @@ function ShippingDetail() {
             <h3>Payment Method</h3>
             <div className="payment-methods">
               {[
-                { label: "PayPal", icon: paypalIcon },
-                { label: "GCash", icon: gcashIcon },
-                { label: "Cash on Delivery", icon: codIcon },
-                { label: "Bank Transfer", icon: bankIcon },
+                { label: "PayPal", icon: "paypal.png" },
+                { label: "GCash", icon: "gcash.png" },
+                { label: "Cash on Delivery", icon: "COD.png" },
+                { label: "Bank Transfer", icon: "bank.png" },
               ].map((method) => (
                 <div
                   key={method.label}
                   className={`payment-option ${selectedMethod === method.label ? 'active' : ''}`}
                   onClick={() => setSelectedMethod(method.label)}
                 >
-                  <img className='paymentIcon' src={method.icon} alt={method.label} />
+                  <img
+                    className="paymentIcon"
+                    src={`/assets/ShippingDetailAssets/${method.icon}`} 
+                    alt={method.label}
+                  />
                   <span>{method.label}</span>
                 </div>
               ))}

@@ -11,17 +11,17 @@ function About() {
 
   const products = [
     {
-      image: 'src/assets/img/award.svg',
+      image: '../../public/assets/img/award.svg',
       title: 'Hydraulic Excavator',
       description: 'High-performance excavator for construction and earthmoving projects',
     },
     {
-      image: 'src/assets/img/handshake.svg',
+      image: '../../public/assets/img/handshake.svg',
       title: 'Tower Crane',
       description: 'Heavy-duty tower crane for high-rise construction projects',
     },
     {
-      image: 'src/assets/img/shipping-fast.svg',
+      image: '../../public/assets/img/shipping-fast.svg',
       title: 'Bulldozer',
       description: 'Powerful bulldozer for earthmoving and site preparation',
     },
@@ -69,13 +69,13 @@ function About() {
             <p className='OurTeamHeaderDesc'>Behind Matech's success is a dedicated team of professionals who bring decades of combined experience in heavy equipment and industrial solutions. Our experts understand the unique challenges faced by Filipino businesses and work tirelessly to provide tailored solutions. <br /> <br /> From our sales consultants to our technical support staff, every team member is committed to delivering exceptional service and building long-term partnerships with our clients.</p>
           </div>
           <div className='SecondChildOurTeamSectionAboutPage'>
-            <img src="src\assets\ourTeam.png" alt="About our team" className='About-Our-Team-Image'/>
+            <img src="../../public/assets/ourTeam.png" alt="About our team" className='About-Our-Team-Image'/>
           </div>
       </div>
 
       <div className='OurFacilities'>
           <div className="ChildOurFacilitiesSEctionAboutPage ChildOurFacilitiesSEctionAboutPageFirst">
-            <img src="src\assets\ourFacilities.png" alt="Our Facilities" className='OurFacilitiesIMG' />
+            <img src="../../public/assets/ourFacilities.png" alt="Our Facilities" className='OurFacilitiesIMG' />
           </div>
           <div className="ChildOurFacilitiesSEctionAboutPage ChildOurFacilitiesSEctionAboutPageSecond">
             <p className='OurFacilitiesHeaderTitle'>Our Facilities</p>

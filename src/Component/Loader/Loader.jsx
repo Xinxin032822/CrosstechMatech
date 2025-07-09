@@ -8,8 +8,8 @@ const Loader = () => {
         size={90} 
         thickness={100} 
         speed={100} 
-        color="#4fa94d" 
-        secondaryColor="#2c2c2c" 
+        color="#e50914" 
+        secondaryColor="#fdd" 
       />
       <p style={styles.text}>Loading...</p>
     </div>
@@ -27,7 +27,7 @@ const styles = {
   },
   text: {
     marginTop: 15,
-    color: "#121212",
+    color: "#e50914",
     fontSize: "1.1rem",
     letterSpacing: "0.5px",
   },
