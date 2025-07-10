@@ -63,7 +63,7 @@ function Admin() {
         const pathStart = imageUrl.indexOf("/o/") + 3;
         const pathEnd = imageUrl.indexOf("?", pathStart);
         const encodedPath = imageUrl.slice(pathStart, pathEnd);
-        const fullPath = decodeURIComponent(encodedPath);  // decode "%2F" to "/"
+        const fullPath = decodeURIComponent(encodedPath);
 
         const imageRef = storageRef(storage, fullPath);
         await deleteObject(imageRef);

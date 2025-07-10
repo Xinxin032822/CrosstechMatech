@@ -1,0 +1,97 @@
+/* AdminMobile.css */
+
+.admin-mobile-container {
+  padding: 15px;
+  font-size: 16px;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.admin-mobile-title {
+  text-align: center;
+}
+
+.admin-mobile-nav {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.admin-mobile-nav button {
+  padding: 10px;
+  flex: 1;
+  margin: 0 5px;
+  background-color: #eee;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-mobile-nav button.active {
+  background-color: #e50914;
+  color: white;
+}
+
+.admin-mobile-container p{
+    text-align: center;
+}
+
+.admin-mobile-products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-mobile-product-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-mobile-product-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.admin-mobile-product-info {
+  flex: 1;
+}
+
+.admin-mobile-product-info h3 {
+  margin: 0;
+}
+
+.admin-mobile-product-info p {
+  margin: 5px 0;
+}
+
+.admin-mobile-product-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.admin-mobile-button {
+  border: none;
+  padding: 5px 8px;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 60px;
+  font-size: 14px;
+}
+
+.admin-mobile-button.edit {
+  background-color: #28a745;
+}
+
+.admin-mobile-button.delete {
+  background-color: #dc3545;
+}

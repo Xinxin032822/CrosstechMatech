@@ -15,6 +15,7 @@ import ShippingDetail from './Pages/ShippingDetail';
 import ProtectedAdminRoute from './Component/ProtectedAdminRoute/ProtectedAdminRoute';
 import ShowNav from './Component/Navbar/ShowNav';
 import ProductDetailMobile from './Pages/ProductDetailMobile';
+import AdminMobile from './Pages/AdminMobile';
 function App() {
 const location = useLocation();
 const [isMobile, setIsMobile] = useState(false);
@@ -47,7 +48,9 @@ const [isMobile, setIsMobile] = useState(false);
             path="/admin"
             element={
               <ProtectedAdminRoute>
-                <Admin />
+                {
+                  isMobile? <AdminMobile/> :<Admin/>
+                }
               </ProtectedAdminRoute>
             }
           />

@@ -1,0 +1,74 @@
+.mobile-inquiry-container {
+  padding: 1rem;
+}
+
+.mobile-inquiry-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.mobile-inquiry-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mobile-inquiry-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.mobile-inquiry-email {
+  color: gray;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-inquiry-message {
+  margin: 0.5rem 0;
+}
+
+.mobile-inquiry-date {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.mobile-inquiry-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.inquiry-respond-btn,
+.inquiry-delete-btn {
+  flex: 1;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 1em 0 1em;
+  transition: 0.3s;
+}
+
+.inquiry-respond-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.inquiry-delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .inquiry-respond-btn,
+  .inquiry-delete-btn {
+    font-size: 13px;
+    padding: 6px;
+  }
+}
+
