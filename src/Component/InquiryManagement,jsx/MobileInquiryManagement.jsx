@@ -88,5 +88,6 @@ function MobileInquiryManagement() {
     </div>
   );
 }
+//added contri
 
 export default MobileInquiryManagement;
