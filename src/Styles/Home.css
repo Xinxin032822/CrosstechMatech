@@ -170,7 +170,7 @@
   align-items: center   ;
   width: 100%;
 
-  justify-content: center;     /* ✅ Center the whole grid when fewer columns */
+  justify-content: center;
   justify-items: center;
 }
 
@@ -234,14 +234,19 @@
   }
 }
 @media (max-width: 768px) {
+  .hero-content{
+    width: 65%;
+  }
   .hero-content h1 {
-    font-size: 1.8rem;
+    font-size: 2.4rem;
     line-height: 1.4;
+    width: 100%;
   }
 
   .hero-content p {
-    font-size: 1rem;
+    font-size: 1.2rem;
     padding: 0 1rem;
+    color: #f8f8f8cb;
   }
 
   .hero-buttons {
@@ -271,7 +276,7 @@
 }
 @media (max-width: 480px) {
   .hero-content h1 {
-    font-size: 1.5rem;
+    font-size: 1.9rem;
   }
 
   .hero-content p {

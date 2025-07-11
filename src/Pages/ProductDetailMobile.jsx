@@ -33,15 +33,14 @@ function ProductDetailMobile() {
             </div>
             <div className="product-detail-mobile-info">
                 <h2 className="productNameProductDetailMobilePage">{product.productName}</h2>
-                <p className="subtitle">Heavy-duty construction excavator for professional use</p>
 
                 <div className="specs-box">
                     <h3>Specifications</h3>
-                    <div className="specs-grid">
+                    <div className="specs-grid-mobile">
                     {product.specification.map((spec, index) => (
-                        <div className="spec-item" key={index}>
-                        <span className="spec-title">{spec.title}:</span>
-                        <span className="spec-value">{spec.value}</span>
+                        <div className="spec-item-mobile" key={index}>
+                        <span className="spec-title-mobile">{spec.title}:</span>
+                        <span className="spec-value-mobile">{spec.value}</span>
                         </div>
                     ))}
                     </div>

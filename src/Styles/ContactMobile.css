@@ -1,0 +1,148 @@
+/* Wrapper for content only (not Footer) */
+.contact-mobile-wrapper {
+  font-family: "Ubuntu", sans-serif;
+  padding: 2em 1em 0em; /* Removed bottom padding so Footer isn't affected */
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fafafa;
+}
+
+.contact-mobile-header {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.contact-mobile-header h1 {
+  font-size: 2em;
+  margin-bottom: 0.4em;
+  font-weight: 600;
+  color: #111;
+}
+
+.contact-mobile-header p {
+  color: #555;
+  font-size: 1em;
+  line-height: 1.5em;
+}
+
+.contact-mobile-form {
+  background: #fff;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 2em;
+}
+
+.contact-mobile-form input,
+.contact-mobile-form textarea {
+  padding: 1em;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fdfdfd;
+  transition: border-color 0.2s;
+}
+
+.contact-mobile-form input:focus,
+.contact-mobile-form textarea:focus {
+  outline: none;
+  border-color: #e50914;
+  background-color: #fff;
+}
+
+.contact-mobile-form label {
+  font-weight: 600;
+  font-size: 0.95em;
+  color: #333;
+}
+
+.contact-mobile-form button {
+  background-color: #e50914;
+  color: white;
+  padding: 1em;
+  font-size: 1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin-top: 1em;
+}
+
+.contact-mobile-form button:hover {
+  background-color: #c40810;
+}
+
+.error {
+  color: #d40000;
+  font-size: 0.85em;
+  margin-top: -0.5em;
+  margin-bottom: 0.5em;
+}
+
+.contact-mobile-info {
+  background: #fff;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-size: 0.95em;
+  color: #333;
+}
+
+.contact-mobile-info h2 {
+  margin-bottom: 1em;
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #111;
+}
+
+.contact-mobile-info p {
+  margin-bottom: 1em;
+  line-height: 1.6em;
+}
+
+.contact-mobile-map {
+  margin-top: 2em;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.contact-mobile-map iframe {
+  width: 100%;
+  height: 300px;
+  border: none;
+  border-radius: 10px;
+}
+
+.footer-wrapper {
+  padding-top: 2em;
+  background-color: #fff;
+}
+
+
+.contact-info-row {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.2em;
+}
+
+.contact-info-icon {
+  flex-shrink: 0;
+  margin-top: 0.2em;
+  background-color: #e50914;
+  padding: 0.8em 0.6em;
+  border-radius: 7px;
+}
+
+.contact-info-text {
+  font-size: 0.95em;
+  line-height: 1.5em;
+  color: #333;
+}
+

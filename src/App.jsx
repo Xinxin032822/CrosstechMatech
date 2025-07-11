@@ -16,6 +16,7 @@ import ProtectedAdminRoute from './Component/ProtectedAdminRoute/ProtectedAdminR
 import ShowNav from './Component/Navbar/ShowNav';
 import ProductDetailMobile from './Pages/ProductDetailMobile';
 import AdminMobile from './Pages/AdminMobile';
+import ContactMobile from './Pages/ContactMobile';
 function App() {
 const location = useLocation();
 const [isMobile, setIsMobile] = useState(false);
@@ -40,7 +41,9 @@ const [isMobile, setIsMobile] = useState(false);
         <Routes location={location} key={location.pathname}>
           <Route index path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/contact" element={<Contacts />} />
+          <Route path="/contact" element={
+            isMobile? <ContactMobile/> :<Contacts />
+          } />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
