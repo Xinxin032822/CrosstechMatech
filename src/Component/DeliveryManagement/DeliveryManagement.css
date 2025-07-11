@@ -7,16 +7,18 @@ display: flex;
 }
 
 .Status-Delivery-Management-div-class {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5em;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
   width: 100%;
   margin-bottom: 20px;
   box-sizing: border-box;
+  justify-content: space-between;
 }
 
 .StatusIconsDiv {
-background-color: #F9FAFB;
+  flex: 1 1 calc(20% - 1.5rem);
+  background-color: #F9FAFB;
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -24,7 +26,7 @@ background-color: #F9FAFB;
   align-items: center;
   box-shadow: 0 0px 4px rgba(0, 0, 0, 0.158);
   transition: 0.3s;
-  width: 100%;
+  min-width: 220px;
 }
 
 .StatusIconsDiv:hover {

@@ -10,6 +10,7 @@ import Loader from "../Component/Loader/Loader.jsx";
 import { db, storage } from "../Data/firebase.js";
 
 import "../Styles/AdminMobile.css";
+import MobileDeliveryManagement from "../Component/DeliveryManagement/MobileDeliveryManagement.jsx";
 
 function AdminMobile() {
 
@@ -140,7 +141,11 @@ function AdminMobile() {
           isMobile ? <MobileInquiryManagement /> : <InquiryManagement />
         )}
 
-        {activeNav === "Delivery Management" && <DeliveryManagement />}
+        {activeNav === "Delivery Management" && (
+
+          isMobile ? <MobileDeliveryManagement/> : <DeliveryManagement/>
+
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import './MobileInquiryManagement.css';
 
 function MobileInquiryManagement() {
   const [inquiries, setInquiries] = useState([]);
+  const [showFull, setShowFull] = useState({});
+
 
   useEffect(() => {
     const fetchInquiries = async () => {
@@ -65,7 +67,26 @@ function MobileInquiryManagement() {
             <div className="mobile-inquiry-info">
               <h3>{inquiry.name}</h3>
               <p className="mobile-inquiry-email">{inquiry.email}</p>
-              <p className="mobile-inquiry-message">{inquiry.message}</p>
+              {inquiry.message.length > 100 ? (
+                <p className="mobile-inquiry-message">
+                  {showFull[inquiry.id]
+                    ? inquiry.message
+                    : `${inquiry.message.slice(0, 100)}...`}
+                  <span
+                    onClick={() =>
+                      setShowFull((prev) => ({
+                        ...prev,
+                        [inquiry.id]: !prev[inquiry.id],
+                      }))
+                    }
+                    className="toggle-read-more"
+                  >
+                    {showFull[inquiry.id] ? ' Show less' : ' Read more'}
+                  </span>
+                </p>
+              ) : (
+                <p className="mobile-inquiry-message">{inquiry.message}</p>
+              )}
               <p className="mobile-inquiry-date">{inquiry.date}</p>
             </div>
             <div className="mobile-inquiry-actions">

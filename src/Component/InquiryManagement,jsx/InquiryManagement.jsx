@@ -73,7 +73,7 @@ function InquiryManagement() {
             inquiries.map((inquiry) => (
               <tr key={inquiry.id}>
                 <td>{inquiry.name}<br /><span style={{ color: 'gray' }}>{inquiry.email}</span></td>
-                <td>{inquiry.message}</td>
+                <td className='inquirymessageDesktop'>{inquiry.message}</td>
                 <td>{inquiry.date}</td>
                 <td>
                     <button className="RespondButton" onClick={() => handleRespond(inquiry.email, inquiry.name)}>

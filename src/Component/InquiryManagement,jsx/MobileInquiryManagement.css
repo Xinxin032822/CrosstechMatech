@@ -1,4 +1,4 @@
-.mobile-inquiry-container {
+  .mobile-inquiry-container {
   padding: 1rem;
 }
 
@@ -28,6 +28,8 @@
 
 .mobile-inquiry-message {
   margin: 0.5rem 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .mobile-inquiry-date {
@@ -62,6 +64,12 @@
   background-color: #e74c3c;
   color: white;
 }
+.toggle-read-more {
+  color: #007bff;
+  cursor: pointer;
+  font-weight: 500;
+}
+
 
 /* Responsive tweaks */
 @media (max-width: 480px) {
