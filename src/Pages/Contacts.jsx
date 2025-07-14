@@ -52,7 +52,32 @@ function Contacts() {
     }
   };
 
+  const titleVariant = {
+    hidden: { x: 100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: 'tween',
+        duration: 0.8,
+        ease: 'easeOut',
+      },
+    },
+  };
 
+  const subheaderVariant = {
+    hidden: { x: -100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: 'tween',
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'easeOut',
+      },
+    },
+  };
   
   return (
     <motion.div
@@ -63,12 +88,26 @@ function Contacts() {
     transition={pageTransition}
     >
       <div className='contacts-header'>
-        <p className='contacts-header-title'>Contact Us</p>
-        <p className='contact-header-desc'>Get in touch with our team for inquiries about heavy equipment, <br /> support, or partnership opportunities.</p>
+        <motion.p 
+          className='contacts-header-title'
+          variants={titleVariant}
+          initial="hidden"
+          animate="visible"
+          >Contact Us</motion.p>
+        <motion.p 
+          className='contact-header-desc'
+          variants={subheaderVariant}
+          initial="hidden"
+          animate="visible"
+          >Get in touch with our team for inquiries about heavy equipment, <br /> support, or partnership opportunities.</motion.p>
       </div>
 
       <div className="contacts-container">
-        <div className="contact-form-section">
+        <motion.div 
+          className="contact-form-section"
+          initial={{ x: -100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}>
           <p className='SendUsMessageContactUsPage'>Send us a Message</p>
           <form onSubmit={handleSubmit(onSubmit)} className="contact-form">
             <div className="form-group">
@@ -103,10 +142,14 @@ function Contacts() {
             
             <button type="submit" className="contact-submit-button">Send Message</button>
           </form>
-        </div>
+        </motion.div>
 
 
-        <div className='contact-info-section'>
+        <motion.div 
+          className='contact-info-section'
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}>
           <p className='GetInTouchContactUsPage'>Get in Touch</p>
           <div className='contact-info-container'>
             <div className='svg-icon-Container-Contact-Us-Page'>
@@ -146,7 +189,7 @@ function Contacts() {
               <p className='descContactInfoSectionContactUsPage'>dcantuba_08@yahoo.com</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <div className='map-container'>

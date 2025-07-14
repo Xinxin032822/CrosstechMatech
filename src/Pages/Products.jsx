@@ -11,6 +11,34 @@ import Footer from '../Component/Footer/Footer'
   function Products() {
     const [activeCategory, setActiveCategory] = useState(null);
     const [sortOption, setSortOption] = useState('sortByPrice');
+    
+    const titleVariant = {
+      hidden: { x: 100, opacity: 0 },
+      visible: {
+        x: 0,
+        opacity: 1,
+        transition: {
+          type: 'tween',
+          duration: 0.8,
+          ease: 'easeOut',
+        },
+      },
+    };
+
+    const subheaderVariant = {
+      hidden: { x: -100, opacity: 0 },
+      visible: {
+        x: 0,
+        opacity: 1,
+        transition: {
+          type: 'tween',
+          duration: 0.8,
+          delay: 0.2,
+          ease: 'easeOut',
+        },
+      },
+    };
+    
     return (
       <motion.div
       initial="initial"
@@ -21,10 +49,22 @@ import Footer from '../Component/Footer/Footer'
       >
 
         <div className='products-page-container-header'>
-          <p className='products-page-header'>Our Equipment Catalog</p>
-          <p className='products-page-subheader'>Browse our comprehensive collection of heavy equipment and machinery. From <br />excavators to bulldozers, find the perfect equipment for your construction needs.</p>
+          <motion.p 
+            className='products-page-header'
+            variants={titleVariant}
+            initial="hidden"
+            animate="visible"
+            >Our Equipment Catalog</motion.p>
+          <motion.p 
+            className='products-page-subheader'
+            variants={subheaderVariant}
+            initial="hidden"
+            animate="visible"
+            >
+            Browse our comprehensive range of hydraulic parts and industrial components.<br />
+            From custom-fabricated seals to high-performance pistons, find the perfect solution for your machinery needs.
+          </motion.p>        
         </div>
-
         <div className='products-page-container-body'>
             <div className='products-page-body-item-header'>
               <div className='filterCategory'>
