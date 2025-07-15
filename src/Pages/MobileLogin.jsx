@@ -46,10 +46,14 @@ function MobileLogin() {
         <img src={loginIllustration} alt="Login illustration" className='gifLoginMobile' />
       </div>
 
-      <h2 className="mobile-login-title">Login</h2>
 
       <form className="mobile-login-form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group">
+        
+        <div className='LoginMobileHeader'>
+            <h2 className="mobile-login-title">Login</h2>
+        </div>
+        <div>
+            <div className="form-group-mobile-login">
           <input
             type="email"
             {...register("email")}
@@ -59,7 +63,7 @@ function MobileLogin() {
           {errors.email && <p className="error-text">{errors.email.message}</p>}
         </div>
 
-        <div className="form-group">
+        <div className="form-group-mobile-login">
           <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
@@ -82,7 +86,8 @@ function MobileLogin() {
           {errors.password && <p className="error-text">{errors.password.message}</p>}
         </div>
 
-        <button type="submit" className="login-button">Sign In</button>
+        <button type="submit" className="login-button-mobile">Sign In</button>
+        </div>
       </form>
     </div>
   );

@@ -1,30 +1,104 @@
-.mobile-login-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-family: "Ubuntu",sans-serif;
-
+.mobile-login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fff;
 }
 
-.mobile-login-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.mobile-login-illustration {
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
-.mobile-login-illustration{
-    background-color: #fff;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.gifLoginMobile {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
 }
-.gifLoginMobile{
-    height: 20em;
-    width: 20em;
-    padding: 3em 0;
+
+.mobile-login-form {
+  width: 100%;
+  padding: 24px 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
 }
-.input-field-mobile-login{
-    padding: 0;
+
+.LoginMobileHeader {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 20px;
+}
+
+.mobile-login-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #4a4efc;
+  margin: 0;
+  text-align: left;
+}
+
+.form-group-mobile-login {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+
+.input-field-mobile-login {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1.5px solid #ccc;
+  border-radius: 25px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-field-mobile-login:focus {
+  border-color: #4a4efc;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.login-button-mobile {
+  width: 100%;
+  max-width: 320px;
+  padding: 12px;
+  background-color: #4a4efc;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button-mobile:hover {
+  background-color: #3a3edf;
+}
+
+.error-text {
+  font-size: 13px;
+  color: #e74c3c;
+  margin-top: 6px;
+  padding-left: 8px;
 }
