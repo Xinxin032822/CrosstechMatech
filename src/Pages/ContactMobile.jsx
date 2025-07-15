@@ -6,6 +6,9 @@ import Footer from '../Component/Footer/Footer.jsx';
 import '../Styles/ContactMobile.css';
 import { auth, db } from '../Data/firebase';
 import { collection, addDoc, doc } from 'firebase/firestore';
+import { motion } from 'framer-motion';
+import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
+
 
 const schema = yup.object({
   fullname: yup.string().required("Full name is required"),
@@ -45,15 +48,61 @@ function ContactMobile() {
     }
   };
 
+
+  const titleVariant = {
+    hidden: { x: 100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: 'tween',
+        duration: 0.8,
+        ease: 'easeOut',
+      },
+    },
+  };
+
+  const subheaderVariant = {
+    hidden: { x: -100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: 'tween',
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'easeOut',
+      },
+    },
+  };
+
   return (
-    <div>
+    <motion.div
+    initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+        transition={pageTransition}>
         <div className="contact-mobile-wrapper">
             <div className="contact-mobile-header">
-                <h1>Contact Us</h1>
-                <p>Reach out to us about equipment, support, or business inquiries.</p>
+                <motion.h1 
+                  variants={titleVariant}
+                  initial="hidden"
+                  animate="visible">Contact Us</motion.h1>
+                <motion.p 
+                  variants={subheaderVariant}
+                  initial="hidden"
+                  animate="visible">Reach out to us about equipment, support, or business inquiries.</motion.p>
             </div>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="contact-mobile-form">
+            <motion.form 
+              onSubmit={handleSubmit(onSubmit)} 
+              className="contact-mobile-form"
+              initial={{ opacity: 0, y:-50 }}
+              whileInView={{ opacity: 1, y:0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              viewport={{ amount: 0.5 }}>
                 <label>Full Name</label>
                 <input {...register("fullname")} />
                 {errors.fullname && <p className="error">{errors.fullname.message}</p>}
@@ -67,9 +116,16 @@ function ContactMobile() {
                 {errors.message && <p className="error">{errors.message.message}</p>}
 
                 <button type="submit">Send Message</button>
-            </form>
+            </motion.form>
 
-            <div className="contact-mobile-info">
+            <motion.div 
+              className="contact-mobile-info"
+              initial={{ opacity: 0, y:50 }}
+              whileInView={{ opacity: 1, y:0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              viewport={{ amount: 0.5 }}
+              >
                 <h2>Contact Details</h2>
 
                 <div className="contact-info-row">
@@ -111,23 +167,30 @@ function ContactMobile() {
                     <p>Fri–Sat: 8:00am–5:00pm</p>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
 
-            <div className="contact-mobile-map">
+            <motion.div 
+              className="contact-mobile-map"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1 }}
+              viewport={{ amount: 0.5 }}
+              >
                 <iframe
                 title="Location Map"
                 src="https://maps.google.com/maps?q=Door%2059B,%20Mimric%20Bldg,%20Sta.%20Ana%20Ave,%20Davao%20City&t=&z=16&ie=UTF8&iwloc=&output=embed"
                 frameBorder="0"
                 allowFullScreen
                 ></iframe>
-            </div>
+            </motion.div>
 
         </div>
         <div className="footer-wrapper">
             <Footer />
         </div>
-    </div>
+    </motion.div>
   );
 }
 

@@ -38,7 +38,13 @@ function About() {
     transition={pageTransition}
     className='MainElementClass'>
       
-      <div className='MainClassUpperSection'>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration:2, ease: "easeInOut" }}
+        viewport={{ amount: 0.5 }}
+        className='MainClassUpperSection'>
         <div className='HeaderSectionMainClassUpperSection'>
           <p className='FirstHeaderTitleMainClass'>About Matech</p>
           <p className='HeaderDescMainClass'>Discover our story, values, and commitment to precision-engineered hydraulic solutions <br />for industries across the Philippines.</p>
@@ -64,11 +70,17 @@ function About() {
             we are committed to function, quality, and long-term service.
           </p>
         </div>
-      </div>
+      </motion.div>
 
       <div className='OurCoreValuesSection'>
         <p className='OurCoreValues'>Our Core Values</p>
-        <div className='CardSectionAboutUsMain'>
+        <motion.div 
+          className='CardSectionAboutUsMain'
+          initial={{ opacity: 0, y:50 }}
+          whileInView={{ opacity: 1, y:0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ amount: 0.5 }}>
           {products.map((item, index) => (
             <CardAbouts
               key={index}
@@ -77,7 +89,7 @@ function About() {
               desc={item.description}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
 
       <div className='OurTeamSectionAboutPage'>
@@ -132,7 +144,13 @@ function About() {
           </motion.div>
       </div>
 
-      <div className='AboutUsFooterSection'>
+      <motion.div 
+        className='AboutUsFooterSection'
+        initial={{ opacity: 0, x:150 }}
+        whileInView={{ opacity: 1, x:0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        viewport={{ amount: 0.5 }}>
           <div className='AboutUsFooterSectionFirstChild'>
             <p className='FooterTitleAboutPage'>Ready to Work With Us?</p>
             <p className='FooterDescAboutPage'>Join hundreds of satisfied clients who trust Matech for their heavy <br /> equipment needs. Let's build something great together.</p>
@@ -141,7 +159,7 @@ function About() {
             <button className='ViewOurProductAboutPage' onClick={() => navigate(`/products`)}>View Our Products</button>
             <button className='ContactUsTodayAboutPage' onClick={() => navigate(`/contact`)}>Contact Us Today</button>
           </div>
-      </div>
+      </motion.div>
       <Footer/>
     </motion.div>
   )

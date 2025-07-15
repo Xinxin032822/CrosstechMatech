@@ -1,0 +1,30 @@
+.mobile-login-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Ubuntu",sans-serif;
+
+}
+
+.mobile-login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.mobile-login-illustration{
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gifLoginMobile{
+    height: 20em;
+    width: 20em;
+    padding: 3em 0;
+}
+.input-field-mobile-login{
+    padding: 0;
+}

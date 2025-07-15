@@ -3,7 +3,7 @@ import "../Styles/Home.css";
 import ProductCard from '../Component/ProductCard/ProductCard';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 
 
@@ -50,7 +50,7 @@ function Home() {
 
   const buttonVariants = {
     initial: { opacity: 0, scale: 0.9 },
-    animate: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: 'easeOut' } },
+    animate: { opacity: 1, scale: 1, transition: { duration:1, easeInOut } },
   };
 
   const featureItemVariants = {
@@ -189,7 +189,13 @@ function Home() {
           ))}
         </div>
       </motion.div>
-      <div className='HomepageLastSection'>
+      <motion.div 
+        className='HomepageLastSection'
+          initial={{ opacity: 0, y:50 }}
+          whileInView={{ opacity: 1, y:0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1 }}
+          viewport={{ amount: 0.5 }}>
           <div>
             <p className='LastSectionTitle'>Not sure what you need? <br /> Let our team help.</p>
             <p className='LastSectionDesc'>Our equipment specialists are ready to recommend the perfect solution for your project</p>
@@ -197,7 +203,7 @@ function Home() {
           <div>
             <Link to="/contact"><button className='TalkToUsButton'>Talk to Us</button></Link>
           </div>
-      </div>
+      </motion.div>
       <Footer />
     </motion.div>
   );
