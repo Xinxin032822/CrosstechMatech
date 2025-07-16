@@ -1,22 +1,24 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-.mobile-login-container {
+/* Global styles for the container */
+.mobile-signup-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   padding: 0;
 }
 
-.mobile-login-illustration {
+.mobile-signup-illustration {
   display: flex;
   justify-content: center;
   align-items: center;
   flex: 1;
 }
 
-.mobile-login-form {
+.gifSignupMobile {
+  max-width: 20em;
+  height: auto;
+}
+
+.mobile-signup-form {
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -28,7 +30,7 @@
   width: 100%;
 }
 
-.input-field-mobile-login {
+.input-field-mobile-signup {
   width: 100%;
   max-width: 400px;
   margin: 10px 0;
@@ -40,7 +42,7 @@
   transition: all 0.3s ease;
 }
 
-.input-field-mobile-login:focus {
+.input-field-mobile-signup:focus {
   border-color: #c0392b;
   outline: none;
   box-shadow: 0 0 5px rgba(192, 57, 43, 0.5);
@@ -60,7 +62,7 @@
   z-index: 10;
 }
 
-.login-button-mobile {
+.signup-button-mobile {
   width: 100%;
   max-width: 400px;
   background-color: #e74c3c;
@@ -76,25 +78,20 @@
   text-align: center;
 }
 
-.login-button-mobile:hover {
+.signup-button-mobile:hover {
   background-color: #c0392b;
 }
 
-.LoginMobileHeader {
+.SignupMobileHeader {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.mobile-login-title {
+.mobile-signup-title {
   color: #e74c3c;
   font-size: 24px;
   font-weight: 700;
   font-family: 'Ubuntu', sans-serif;
-}
-
-.gifLoginMobile {
-  max-width: 20em;
-  height: auto;
 }
 
 .password-wrapper {

@@ -18,6 +18,7 @@ import ProductDetailMobile from './Pages/ProductDetailMobile';
 import AdminMobile from './Pages/AdminMobile';
 import ContactMobile from './Pages/ContactMobile';
 import MobileLogin from './Pages/MobileLogin';
+import MobileSignup from './Pages/MobileSignup';
 function App() {
 const location = useLocation();
 const [isMobile, setIsMobile] = useState(false);
@@ -46,8 +47,8 @@ const [isMobile, setIsMobile] = useState(false);
             isMobile? <ContactMobile/> :<Contacts />
           } />
           <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login/>} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={isMobile? <MobileLogin />: <Login/>} />
+          <Route path="/signup" element={isMobile? <MobileSignup/> : <Signup/>} />
           <Route
             path="/admin"
             element={
