@@ -19,7 +19,6 @@ const schema = yup.object({
   name: yup.string().required("Full name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
-  agree: yup.bool().oneOf([true], "You must agree to the Terms and Services"),
 });
 
 function Signup() {
@@ -68,10 +67,10 @@ function Signup() {
       variants={pageVariants}
       transition={pageTransition}
     
-    style={{ minHeight: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+    className="SignupPageContainer">
       <div className="MainClassSignupPage">
         <div className="mainClassChilds">
-          <p className="CrosstechMatechSignupPageHeader">Crosstech Matech</p>
+          <h1 className="CrosstechMatechSignupPageHeader">Crosstech Matech</h1>
           <p className="CreateYourAccountSignupPage">Create your Account</p>
         </div>
 
@@ -109,13 +108,6 @@ function Signup() {
             {errors.password && <p className="text-red-600 text-sm">{errors.password.message}</p>}
           </div>
 
-          <label className="CustomCheckbox">
-            <input type="checkbox" {...register("agree")} />
-            <span className="checkmark"></span>
-            I agree to the <a href="#">Terms & Services</a>
-          </label>
-          {errors.agree && <p className="text-red-600 text-sm">{errors.agree.message}</p>}
-          
           <button type="submit" className="SignupButton">Create Account</button>
         </form>
 
@@ -125,7 +117,7 @@ function Signup() {
             <p className="horizontalText">Already have an Account?</p>
             <hr className="horizontalLine" />
           </div>
-          <Link to="/login" className="SignInLink">Sign in to your Account</Link>
+          <Link to="/login" className="SignInLink">Sign in</Link>
         </div>
 
       </div>

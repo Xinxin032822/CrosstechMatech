@@ -38,7 +38,7 @@ function MobileSignup() {
 
   return (
     <div className="mobile-signup-container">
-      <div className="mobile-signup-illustration">
+      <div className="mobile-signup-illustration" style={{backgroundColor: '#fff'}}>
         <img src={signupIllustration} alt="Signup illustration" className="gifSignupMobile" />
       </div>
 
@@ -52,6 +52,7 @@ function MobileSignup() {
         <div>
             <div className="SignupMobileHeader">
           <h2 className="mobile-signup-title">Create Account</h2>
+          <p className="mobile-signup-subtitle">Join us today!</p>
         </div>
         
         <div className="form-group-mobile-signup">

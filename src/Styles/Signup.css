@@ -1,6 +1,14 @@
+.SignupPageContainer {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
 .mainClassChilds {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 .SignupForm {
   width: 100%;
@@ -53,17 +61,17 @@
 
 
 .MainClassSignupPage {
-  min-width: 20vw;
-  max-width: 400px;
-  margin: 0 auto;
+  width: 90%;
+  max-width: 450px;
+  margin: 2rem auto;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background: #FFFFFF;
-  box-shadow: 1px 4px 20px rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
 }
 
 .CrosstechMatechSignupPageHeader{
@@ -117,6 +125,7 @@
 }
 .CreateAccountLink{
   width: 100%;
+  text-align: center;
 }
 
 

@@ -4,30 +4,60 @@
   flex-direction: column;
   height: 100vh;
   padding: 0;
+  background: #f8f9fa;
+  overflow: hidden;
+  position: relative;
+}
+
+.mobile-signup-container::before,
+.mobile-signup-container::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: #e50914;
+  filter: blur(50px);
+  opacity: 0.15;
+}
+
+.mobile-signup-container::before {
+  width: 300px;
+  height: 300px;
+  top: -100px;
+  left: -100px;
+}
+
+.mobile-signup-container::after {
+  width: 400px;
+  height: 400px;
+  bottom: -150px;
+  right: -150px;
 }
 
 .mobile-signup-illustration {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  flex: 0.8;
+  z-index: 1;
 }
 
 .gifSignupMobile {
-  max-width: 20em;
+  max-width: 18em;
   height: auto;
 }
 
 .mobile-signup-form {
-  padding: 20px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  background-color: #fce4e4;
-  border-radius: 20px 20px 0 0;
-  flex: 1;
+  background: #fff;
+  border-radius: 30px 30px 0 0;
+  flex: 1.2;
   width: 100%;
+  z-index: 1;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
 }
 
 .input-field-mobile-signup {
@@ -36,21 +66,26 @@
   margin: 10px 0;
   padding: 12px 20px;
   border-radius: 30px;
-  border: 2px solid #e74c3c;
+  border: 1px solid rgba(0,0,0,0.1);
+  background: #f8f9fa;
+  color: #555;
   font-size: 16px;
   font-family: 'Ubuntu', sans-serif;
   transition: all 0.3s ease;
 }
 
 .input-field-mobile-signup:focus {
-  border-color: #c0392b;
+  border-color: #e50914;
   outline: none;
-  box-shadow: 0 0 5px rgba(192, 57, 43, 0.5);
+  box-shadow: 0 0 5px rgba(229, 9, 20, 0.2);
+  background: #fff;
 }
 
 .error-text {
-  color: #c0392b;
-  font-size: 14px;
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 5px;
+  padding-left: 10px;
 }
 
 .toggle-password {
@@ -62,10 +97,17 @@
   z-index: 10;
 }
 
+.mobile-signup-subtitle {
+  color: #888;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
 .signup-button-mobile {
   width: 100%;
   max-width: 400px;
-  background-color: #e74c3c;
+  background: #e50914;
   color: white;
   padding: 14px 0;
   margin-top: 20px;
@@ -76,10 +118,12 @@
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .signup-button-mobile:hover {
-  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .SignupMobileHeader {
@@ -88,8 +132,8 @@
 }
 
 .mobile-signup-title {
-  color: #e74c3c;
-  font-size: 24px;
+  color: #333;
+  font-size: 28px;
   font-weight: 700;
   font-family: 'Ubuntu', sans-serif;
 }
