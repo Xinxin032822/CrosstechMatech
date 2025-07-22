@@ -39,22 +39,78 @@ function ShippingDetail() {
   const decreaseQty = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const allFieldsFilled = Object.values(form).every(value => value.trim() !== "");
-    if (!allFieldsFilled) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-    if (!selectedMethod) {
-      alert('Please select a payment method');
-      return;
+  e.preventDefault();
+
+  const allFieldsFilled = Object.values(form).every(value => value.trim() !== "");
+  if (!allFieldsFilled) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+  if (!selectedMethod) {
+    alert('Please select a payment method');
+    return;
+  }
+
+  const subtotal = product.price * quantity;
+  const shipping = 500;
+  const total = subtotal + shipping;
+
+  const user = auth.currentUser;
+  if (!user) {
+    alert("You must be logged in to place an order.");
+    return;
+  }
+
+  try {
+    // 🟦 If GCash is selected, call the backend
+    if (selectedMethod === "GCash") {
+      const response = await fetch('http://localhost:5000/create-gcash-invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: total,
+          name: form.fullName,
+          email: form.email,
+          userId: user.uid,
+          formData: form,
+          productInfo: {
+            productId: product.id,
+            productName: product.productName,
+          }
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.invoice_url) {
+        await addDoc(collection(db, "users", user.uid, "orders"), {
+          ...form,
+          payment: selectedMethod,
+          quantity,
+          productId: product.id,
+          productName: product.productName,
+          productPrice: product.price,
+          subtotal,
+          shipping,
+          total,
+          status: "Pending",
+          paymentStatus: "Pending",
+          createdAt: serverTimestamp(),
+          xenditInvoiceId: data.id,
+        });
+
+        // 🔁 Redirect user to the invoice checkout page
+        window.location.href = data.invoice_url;
+      } else {
+        alert("Failed to create GCash invoice.");
+        console.error(data);
+      }
+
+      return; // ✅ Prevent other payment logic from running
     }
 
-    const subtotal = product.price * quantity;
-    const shipping = 500;
-    const total = subtotal + shipping;
-
-    const orderData = {
+    // 🟨 If NOT GCash (e.g., COD), just store the order
+    await addDoc(collection(db, "users", user.uid, "orders"), {
       ...form,
       payment: selectedMethod,
       quantity,
@@ -67,26 +123,15 @@ function ShippingDetail() {
       status: "Pending",
       paymentStatus: "Pending",
       createdAt: serverTimestamp(),
-    };
+    });
 
-    try {
-      const user = auth.currentUser;
-      if (!user) {
-        alert("You must be logged in to place an order.");
-        return;
-      }
+    alert('Order placed successfully!');
+  } catch (error) {
+    console.error("Error placing order:", error);
+    alert("Something went wrong while placing the order.");
+  }
+};
 
-      await addDoc(collection(db, "users", user.uid, "orders"), {
-        ...orderData,
-        createdAt: serverTimestamp(),
-      });
-
-      alert('Order placed successfully!');
-    } catch (error) {
-      console.error("Error placing order:", error);
-      alert("Something went wrong while placing the order.");
-    }
-  };
 
 
   if (!product) return <Loader/>;
