@@ -20,7 +20,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 app.post('/create-gcash-invoice', async (req, res) => {
-  const { amount, name, email, userId, formData, productInfo } = req.body;
+  const { amount, name, email } = req.body;
 
   try {
     const response = await axios.post('https://api.xendit.co/v2/invoices', {
@@ -38,18 +38,7 @@ app.post('/create-gcash-invoice', async (req, res) => {
     });
 
     const invoice = response.data;
-
-
-    await db.collection('users').doc(userId).collection('orders').add({
-      ...formData,
-      ...productInfo,
-      xenditInvoiceId: invoice.id,
-      paymentStatus: 'Pending',
-      status: 'Pending',
-      createdAt: new Date(),
-    });
-
-    res.json(invoice); // Send invoice back to frontend
+    res.json(invoice);
   } catch (error) {
     console.error(error.response?.data || error.message);
     res.status(500).json({ error: 'Failed to create GCash invoice' });

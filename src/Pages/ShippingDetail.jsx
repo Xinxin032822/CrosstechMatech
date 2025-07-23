@@ -64,7 +64,7 @@ function ShippingDetail() {
   try {
     // 🟦 If GCash is selected, call the backend
     if (selectedMethod === "GCash") {
-      const response = await fetch('http://localhost:5000/create-gcash-invoice', {
+      const response = await fetch('https://7a70bbe3e460.ngrok-free.app/create-gcash-invoice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -106,10 +106,10 @@ function ShippingDetail() {
         console.error(data);
       }
 
-      return; // ✅ Prevent other payment logic from running
+      return;
     }
 
-    // 🟨 If NOT GCash (e.g., COD), just store the order
+
     await addDoc(collection(db, "users", user.uid, "orders"), {
       ...form,
       payment: selectedMethod,

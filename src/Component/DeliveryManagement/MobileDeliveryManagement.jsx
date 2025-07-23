@@ -110,6 +110,7 @@ function MobileDeliveryManagement() {
             <p><strong>Notes:</strong> {order.notes || "No message"}</p>
             <p><strong>Date:</strong> {order.createdAt?.toDate?.().toLocaleDateString() || "N/A"}</p>
             <p><strong>Address:</strong> {order.address}</p>
+            <p><strong>Payment Status:</strong> {order.paymentStatus.charAt(0).toUpperCase() + order.paymentStatus.slice(1).toLowerCase()}</p>
           </div>
           <div className="order-actions">
             <select
