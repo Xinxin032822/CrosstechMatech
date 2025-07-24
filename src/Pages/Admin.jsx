@@ -144,7 +144,6 @@ function Admin() {
                                 <td>{product.category}</td>
                                 <td>₱{product.price}</td>
                                 <td>
-                                <button className="editBtn" onClick={() => handleEdit(product)}>Edit</button>
                                 <button className="deleteBtn" onClick={() => handleDelete(product.id)}>Delete</button>
                                 </td>
                             </tr>

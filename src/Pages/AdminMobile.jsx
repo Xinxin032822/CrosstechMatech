@@ -118,12 +118,6 @@ function AdminMobile() {
                     </div>
                     <div className="admin-mobile-product-actions">
                       <button
-                        className="admin-mobile-button edit"
-                        onClick={() => alert("Edit feature coming soon!")}
-                      >
-                        Edit
-                      </button>
-                      <button
                         className="admin-mobile-button delete"
                         onClick={() => handleDelete(product.id)}
                       >

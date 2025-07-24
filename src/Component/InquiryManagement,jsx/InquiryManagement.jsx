@@ -48,11 +48,27 @@ function InquiryManagement() {
     };
 
   const handleRespond = (email, name) => {
-    const subject = encodeURIComponent(`Response to your inquiry`);
-    const body = encodeURIComponent(`Hi ${name},\n\nThank you for your message. Here's our response:\n\n`);
+    const subject = encodeURIComponent(`Response to Your Inquiry`);
+
+    const body = encodeURIComponent(`Hi ${name},
+
+      Thank you for reaching out to us. We appreciate your interest and the opportunity to assist you.
+
+      [Insert your response here.]
+
+      If you have any further questions or need additional information, feel free to reply to this email or contact us directly.
+
+      Best regards,  
+      [Your Name]  
+      [Your Position / CrosstechMatech]  
+      dcantuba_08@yahoo.com
+      +63 925 777 4587`
+    );
+
     const mailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
     window.open(mailUrl, '_blank');
   };
+
 
   return (
     <div className="MainInquiryMessage">

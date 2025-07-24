@@ -190,6 +190,8 @@ function DeliveryManagement() {
                             <p><strong>Price:</strong> ₱{selectedOrder.productPrice?.toLocaleString()}</p>
                             <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
                             <p><strong>Notes:</strong> {selectedOrder.notes || "No message"}</p>
+                            <p><strong>Payment Status:</strong> {selectedOrder.paymentStatus.charAt(0).toUpperCase() + selectedOrder.paymentStatus.slice(1).toLowerCase()}</p>
+                            <p><strong>Payment Method:</strong> {selectedOrder.payment}</p>
                             <label className='status-label'>
                                 <strong>Status:</strong>
                                 <select

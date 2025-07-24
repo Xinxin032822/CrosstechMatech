@@ -41,11 +41,12 @@ function ShippingDetail() {
   const handleSubmit = async (e) => {
   e.preventDefault();
 
-  const allFieldsFilled = Object.values(form).every(value => value.trim() !== "");
-  if (!allFieldsFilled) {
+  const { fullName, phone, email, address } = form;
+  if (![fullName, phone, email, address].every(val => val.trim() !== "")) {
     alert("Please fill in all required fields.");
     return;
   }
+
   if (!selectedMethod) {
     alert('Please select a payment method');
     return;
@@ -64,7 +65,7 @@ function ShippingDetail() {
   try {
     // 🟦 If GCash is selected, call the backend
     if (selectedMethod === "GCash") {
-      const response = await fetch('https://7a70bbe3e460.ngrok-free.app/create-gcash-invoice', {
+      const response = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -108,6 +109,52 @@ function ShippingDetail() {
 
       return;
     }
+
+    if (selectedMethod === "Other Methods") {
+      const response = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-card-invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: total,
+          name: form.fullName,
+          email: form.email,
+          userId: user.uid,
+          formData: form,
+          productInfo: {
+            productId: product.id,
+            productName: product.productName,
+          }
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.invoice_url) {
+        await addDoc(collection(db, "users", user.uid, "orders"), {
+          ...form,
+          payment: selectedMethod,
+          quantity,
+          productId: product.id,
+          productName: product.productName,
+          productPrice: product.price,
+          subtotal,
+          shipping,
+          total,
+          status: "Pending",
+          paymentStatus: "Pending",
+          createdAt: serverTimestamp(),
+          xenditInvoiceId: data.id,
+        });
+
+        window.location.href = data.invoice_url;
+      } else {
+        alert("Failed to create Credit Card invoice.");
+        console.error(data);
+      }
+
+      return;
+    }
+
 
 
     await addDoc(collection(db, "users", user.uid, "orders"), {
@@ -183,7 +230,7 @@ function ShippingDetail() {
                 { label: "PayPal", icon: "paypal.png" },
                 { label: "GCash", icon: "gcash.png" },
                 { label: "Cash on Delivery", icon: "COD.png" },
-                { label: "Bank Transfer", icon: "bank.png" },
+                { label: "Other Methods", icon: "bank.png" },
               ].map((method) => (
                 <div
                   key={method.label}
