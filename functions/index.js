@@ -5,8 +5,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const { client } = require('./paypalClient');
 require('dotenv').config();
-
 
 const app = express();
 const PORT = 5000;
@@ -110,6 +110,63 @@ app.post('/create-card-invoice', async (req, res) => {
     res.status(500).json({ error: 'Failed to create CARD invoice' });
   }
 });
+
+// ───────────────────────────────────────────────────────────────
+// Paypal Payment Endpoint
+
+app.post('/create-paypal-order', async (req, res) => {
+  const { amount, currency = 'PHP' } = req.body;
+
+  const request = new (require('@paypal/checkout-server-sdk')).orders.OrdersCreateRequest();
+  request.prefer("return=representation");
+  request.requestBody({
+    intent: 'CAPTURE',
+    purchase_units: [{
+      amount: {
+        currency_code: currency,
+        value: amount.toFixed(2),
+      },
+    }],
+  });
+
+  try {
+    const order = await client().execute(request);
+    res.status(200).json(order.result);
+  } catch (err) {
+    console.error("❌ PayPal order creation failed:", err);
+    res.status(500).json({ error: 'Failed to create PayPal order' });
+  }
+});
+
+// ───────────────────────────────────────────────────────────────
+// Paypal Capture Payment Endpoint
+
+app.post('/capture-paypal-order', async (req, res) => {
+  const { orderId } = req.body;
+
+  const request = new (require('@paypal/checkout-server-sdk')).orders.OrdersCaptureRequest(orderId);
+  request.requestBody({});
+
+  try {
+    const capture = await client().execute(request);
+    res.status(200).json(capture.result);
+  } catch (err) {
+    console.error("❌ PayPal order capture failed:", err);
+    res.status(500).json({ error: 'Failed to capture PayPal order' });
+  }
+});
+
+// ───────────────────────────────────────────────────────────────
+// Paypal Webhook for Invoice Status
+
+app.post('/webhook/paypal', async (req, res) => {
+  const event = req.body;
+  console.log("📩 PayPal Webhook Received:", event);
+
+  // Process event types like PAYMENT.CAPTURE.COMPLETED
+  res.status(200).send("Webhook received.");
+});
+
 
 // ───────────────────────────────────────────────────────────────
 // Webhook for Invoice Status

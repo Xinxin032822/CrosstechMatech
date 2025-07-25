@@ -234,6 +234,9 @@
   }
 }
 @media (max-width: 768px) {
+  .HomepageLastSection{
+    padding: 3em;
+  }
   .hero-content{
     width: 65%;
   }
