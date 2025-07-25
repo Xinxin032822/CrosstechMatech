@@ -202,6 +202,8 @@ app.post('/webhook/xendit', express.json({ type: '*/*' }), async (req, res) => {
   }
 });
 
-
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+})
 
 exports.api = functions.https.onRequest(app);
