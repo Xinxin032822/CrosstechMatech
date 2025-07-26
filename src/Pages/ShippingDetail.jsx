@@ -155,6 +155,52 @@ function ShippingDetail() {
       return;
     }
 
+    if (selectedMethod === "PayPal") {
+      const response = await fetch('https://380414eee0d9.ngrok-free.app/create-paypal-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: total,
+          currency: "PHP"
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.id) {
+        const approvalLink = data.links.find(link => link.rel === "approve");
+        if (approvalLink) {
+          // 🔁 Store temporary order before redirecting to PayPal
+          await addDoc(collection(db, "users", user.uid, "orders"), {
+            ...form,
+            payment: "PayPal",
+            quantity,
+            productId: product.id,
+            productName: product.productName,
+            productPrice: product.price,
+            subtotal,
+            shipping,
+            total,
+            status: "Pending",
+            paymentStatus: "Pending",
+            createdAt: serverTimestamp(),
+            paypalOrderId: data.id,
+          });
+
+          // Redirect to PayPal approval page
+          window.location.href = approvalLink.href;
+        } else {
+          alert("PayPal approval link not found.");
+        }
+      } else {
+        alert("Failed to create PayPal order.");
+          console.error("❌ PayPal order creation failed:", err.statusCode, err.message, err);
+          res.status(500).json({ error: 'Failed to create PayPal order', details: err.message });
+        console.error(data);
+      }
+
+      return;
+    }
 
 
     await addDoc(collection(db, "users", user.uid, "orders"), {

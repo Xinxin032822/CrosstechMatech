@@ -149,24 +149,33 @@ app.post('/capture-paypal-order', async (req, res) => {
 
   try {
     const capture = await client().execute(request);
-    res.status(200).json(capture.result);
+
+    const captureData = capture.result;
+    const paypalEmail = captureData?.payer?.email_address || 'unknown';
+    const paypalId = captureData?.id;
+
+    const usersSnapshot = await db.collection('users').get();
+    for (const userDoc of usersSnapshot.docs) {
+      const ordersRef = db.collection('users').doc(userDoc.id).collection('orders');
+      const matchingOrderQuery = await ordersRef.where('paypalOrderId', '==', paypalId).get();
+
+      for (const orderDoc of matchingOrderQuery.docs) {
+        await orderDoc.ref.update({
+          paymentStatus: 'Paid',
+          status: 'Confirmed',
+          paypalEmail,
+        });
+
+        console.log(`✅ Updated PayPal order ${orderDoc.id} for user ${userDoc.id}`);
+      }
+    }
+
+    res.status(200).json(captureData);
   } catch (err) {
     console.error("❌ PayPal order capture failed:", err);
     res.status(500).json({ error: 'Failed to capture PayPal order' });
   }
 });
-
-// ───────────────────────────────────────────────────────────────
-// Paypal Webhook for Invoice Status
-
-app.post('/webhook/paypal', async (req, res) => {
-  const event = req.body;
-  console.log("📩 PayPal Webhook Received:", event);
-
-  // Process event types like PAYMENT.CAPTURE.COMPLETED
-  res.status(200).send("Webhook received.");
-});
-
 
 // ───────────────────────────────────────────────────────────────
 // Webhook for Invoice Status

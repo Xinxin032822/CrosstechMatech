@@ -5,7 +5,7 @@ function environment() {
   const clientSecret = process.env.PAYPAL_SECRET;
 
   if (process.env.PAYPAL_ENV === 'live') {
-    return new checkoutNodeJssdk.core.LiveEnvironment(clientId, clientSecret); // ✅ live environment
+    return new checkoutNodeJssdk.core.LiveEnvironment(clientId, clientSecret);
   } else {
     return new checkoutNodeJssdk.core.SandboxEnvironment(clientId, clientSecret);
   }
