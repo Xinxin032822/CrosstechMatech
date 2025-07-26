@@ -14,6 +14,7 @@ import DeliveryManagement from '../Component/DeliveryManagement/DeliveryManageme
 import { AnimatePresence, motion } from 'framer-motion';
 import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 import Loader from '../Component/Loader/Loader.jsx';
+import ArchiveOrder from '../Component/ArchiveOrder/ArchiveOrder.jsx';
 const firebaseConfig = {
   apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
   authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
@@ -98,6 +99,12 @@ function Admin() {
                     <svg className='SVGAdminPage' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="truck" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg=""><path fill="currentColor" d="M48 0C21.5 0 0 21.5 0 48V368c0 26.5 21.5 48 48 48H64c0 53 43 96 96 96s96-43 96-96H384c0 53 43 96 96 96s96-43 96-96h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V288 256 237.3c0-17-6.7-33.3-18.7-45.3L512 114.7c-12-12-28.3-18.7-45.3-18.7H416V48c0-26.5-21.5-48-48-48H48zM416 160h50.7L544 237.3V256H416V160zM112 416a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm368-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
                     <li className='LiUlDivAdminPageMainNav'>Delivery Management</li>
                 </div>
+                <div    className={`ulChildDivAdminPage ulChildDivAdminPageStyle ${activeNav === 'Order History' ? 'active' : ''}`}
+                        onClick={() => setActiveNav('Order History')}>
+                    <svg className='SVGAdminPage' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock-rotate-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248c108.4 0 201.3-69.8 234.5-167.3c3-8.7-.5-18.2-8.6-22.7c-9.8-5.4-22.3-1-27.6 9C419.8 395 342.6 448 256 448c-106 0-192-86-192-192S150 64 256 64s192 86 192 192c0 13.3 10.7 24 24 24s24-10.7 24-24C496 119 393 8 256 8zM232 128v96c0 8.8 7.2 16 16 16h112c8.8 0 16-7.2 16-16s-7.2-16-16-16H264v-80c0-8.8-7.2-16-16-16s-16 7.2-16 16z"></path></svg>
+                    <li className='LiUlDivAdminPageMainNav'>Order History</li>
+                    </div>
+
             </ul>
         </div>
         <div>
@@ -178,8 +185,19 @@ function Admin() {
                     >
                         <DeliveryManagement/>
                     </motion.div>
-                )
-                }
+                )}
+                {activeNav === 'Order History' && (
+                    <motion.div
+                        key="order-history"
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        variants={pageVariants}
+                        transition={pageTransition}
+                    >
+                        <ArchiveOrder />
+                    </motion.div>
+                )}
 
             </AnimatePresence>
         </div>

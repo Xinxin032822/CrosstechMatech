@@ -12,6 +12,7 @@ function ShippingDetail() {
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedMethod, setSelectedMethod] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [form, setForm] = useState({    
     fullName: '',
     phone: '',
@@ -40,7 +41,10 @@ function ShippingDetail() {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+  if (isButtonDisabled) return;
 
+  setIsButtonDisabled(true);
+  setTimeout(() => setIsButtonDisabled(false), 5000);
   const { fullName, phone, email, address } = form;
   if (![fullName, phone, email, address].every(val => val.trim() !== "")) {
     alert("Please fill in all required fields.");
@@ -194,9 +198,8 @@ function ShippingDetail() {
         }
       } else {
         alert("Failed to create PayPal order.");
-          console.error("❌ PayPal order creation failed:", err.statusCode, err.message, err);
-          res.status(500).json({ error: 'Failed to create PayPal order', details: err.message });
-        console.error(data);
+          alert("Failed to create PayPal order.");
+          console.error("❌ PayPal order creation failed:", data);
       }
 
       return;
@@ -236,7 +239,7 @@ function ShippingDetail() {
   return (
     <div>
       <div className="shipping-container">
-        <form className="shipping-form" onSubmit={handleSubmit}>
+        <form className="shipping-form">
           <div className='form-section-shipping-details'>
             <h2>Shipping Details</h2>
             {["fullName", "phone", "email"].map((field, idx) => (
@@ -323,7 +326,7 @@ function ShippingDetail() {
             <h4>Total: <span className=''>₱{total.toLocaleString()}</span></h4>
           </div>
           <p className="secure-checkout"><i className="fas fa-shield-halved"></i> Secure Checkout</p>
-          <button type="submit" className="place-order-button" onClick={handleSubmit}>Place Order</button>
+          <button type="submit" className="place-order-button" onClick={handleSubmit} disabled={isButtonDisabled}>{isButtonDisabled ? "Please wait..." : "Place Order"}</button>
         </div>
       </div>
     </div>

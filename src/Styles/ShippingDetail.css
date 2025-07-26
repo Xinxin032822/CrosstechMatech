@@ -126,6 +126,10 @@
   font-weight: 500;
 }
 
+.place-order-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 .place-order-button {
   width: 100%;
   padding: 0.5em;
@@ -228,8 +232,8 @@ textarea.Input-shipping-details-form {
   .shipping-container {
     flex-direction: column;
     padding: 2em;
-    justify-content: center;  /* Centering the contents of the container */
-    align-items: center;      /* Aligning items in the center */
+    justify-content: center;
+    align-items: center;
   }
 
   .shipping-form {
@@ -237,12 +241,12 @@ textarea.Input-shipping-details-form {
   }
 
   .order-summary {
-    width: 95%;               /* Keep the 95% width */
+    width: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 2em;
-    max-width: 1200px;        /* Optional: you can set a max-width */
+    max-width: 1200px;
   }
 
   .summary-product {
@@ -274,9 +278,9 @@ textarea.Input-shipping-details-form {
     margin-top: 1em;
   }
 
-  /* Keep 2-column layout */
+
   .payment-methods {
-    grid-template-columns: repeat(2, 1fr);  /* This keeps 2 columns */
+    grid-template-columns: repeat(2, 1fr);
     margin-top: 1em;
   }
 

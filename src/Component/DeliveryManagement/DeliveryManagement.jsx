@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collectionGroup, getDocs, doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collectionGroup, getDocs, doc, getDoc, updateDoc, deleteDoc, addDoc, collection } from 'firebase/firestore';
 import Loader from '../Loader/Loader';
 
 import { db } from '../../Data/firebase';
@@ -237,21 +237,24 @@ function DeliveryManagement() {
                             <button
                                 className="delete-btn"
                                 onClick={async () => {
-                                    if (window.confirm("Are you sure you want to delete this order?")) {
-                                        try {
+                                    if (window.confirm("Archive this order to history?")) {
+                                    try {
                                         const orderRef = doc(db, `users/${selectedOrder.userId}/orders/${selectedOrder.id}`);
-                                        await deleteDoc(orderRef, { deleted: true });
-
+                                        await addDoc(collection(db, 'orderHistory'), {
+                                        ...selectedOrder,
+                                        archivedAt: new Date(),
+                                        });
+                                        await deleteDoc(orderRef);
                                         setInquiries(prev => prev.filter(order => order.id !== selectedOrder.id));
                                         setSelectedOrder(null);
-                                        } catch (err) {
-                                        console.error("Failed to delete order:", err);
-                                        }
+                                    } catch (err) {
+                                        console.error("Failed to archive order:", err);
                                     }
-                                }}
-                                >
-                                Delete Order
+                                    }
+                                }}>
+                                Archive Order
                             </button>
+
                             </div>
                         </div>
                     )}

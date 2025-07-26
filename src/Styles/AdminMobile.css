@@ -1,9 +1,20 @@
-/* AdminMobile.css */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-mobile-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
 
 .admin-mobile-container {
-  padding: 15px;
-  font-size: 16px;
-  font-family: "Ubuntu", sans-serif;
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 4rem; /* prevent content from hiding behind nav */
 }
 
 .admin-mobile-title {
@@ -13,28 +24,10 @@
 .admin-mobile-nav {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 20px;
 }
 
-.admin-mobile-nav button {
-  padding: 10px;
-  flex: 1;
-  margin: 0 5px;
-  background-color: #eee;
-  color: black;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.admin-mobile-nav button.active {
-  background-color: #e50914;
-  color: white;
-}
-
-.admin-mobile-container p{
-    text-align: center;
+.admin-mobile-container p {
+  text-align: center;
 }
 
 .admin-mobile-products-list {
@@ -95,4 +88,38 @@
 
 .admin-mobile-button.delete {
   background-color: #dc3545;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #ddd;
+  z-index: 1000;
+  padding: 0.5rem 0;
+}
+
+.bottom-nav-item {
+  flex: 1;
+  text-align: center;
+  color: #666;
+  font-size: 0.75rem;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.bottom-nav-item .icon {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.bottom-nav-item.active {
+  color: #007bff;
+  font-weight: bold;
 }

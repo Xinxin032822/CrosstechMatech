@@ -1,0 +1,26 @@
+.archive-orders-mobile {
+  padding: 1rem;
+}
+
+.archive-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.order-card {
+  background: #ffffff;
+  color: #121212;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(51, 51, 51, 0.4);
+}
+
+.order-card p {
+  margin: 0.3rem 0;
+}
+
+.empty-message {
+  text-align: center;
+  color: #888;
+}
