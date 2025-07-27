@@ -8,6 +8,7 @@ import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import './ProductForm.css';
+import Loader from '../Loader/Loader';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
@@ -27,13 +28,15 @@ const schema = yup.object().shape({
   category: yup.string().required('Category is required'),
   price: yup.number().required('Price is required').positive('Price must be positive'),
   image: yup.mixed().required('Image is required'),
+  shippingFee: yup.number().required('Shipping Fee is required').min(0, 'Shipping fee must be zero or more'),
   description: yup.string().required('Description is required'),
 });
 
-const ProductForm = () => {
+const ProductForm = ({ onProductAdded }) => {
     const [specs, setSpecs] = useState([{ title: '', value: '' }]);
-    const { control, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
+    const [imagePreview, setImagePreview] = useState(null);
+    const { control, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,25 +74,53 @@ const ProductForm = () => {
             description: data.description,
             specification: specs.filter(s => s.title && s.value),
             imageName: downloadURL,
+            shippingFee: data.shippingFee,
             createdAt: new Date(),
             updatedAt: new Date()
         };
 
         const docRef = await addDoc(collection(db, "products"), productData);
-        
+        if (onProductAdded) {
+            onProductAdded({ id: docRef.id, ...productData });
+        }
         console.log("Document written with ID: ", docRef.id);
-        setSubmitSuccess(true);
-        reset();
+            setSubmitSuccess(true);
+            setImagePreview(null);
+            reset();
         } catch (error) {
         console.error("Error adding document: ", error);
-        setSubmitError(error.message);
+            setSubmitError(error.message);
         } finally {
-        setIsSubmitting(false);
+            setIsSubmitting(false);
         }
     };
 
     return (
         <div className='FormAddProductAdminPageMain'>
+            {isSubmitting && (
+                <div className="overlay">
+                    <div className='overlay-conten'>
+                        <Loader />
+                    </div>
+                </div>
+                )}
+
+                {submitSuccess && !isSubmitting && (
+                <div className="overlay" onClick={() => setSubmitSuccess(false)}>
+                    <div className='overlay-conten'>
+                        <p className="overlay-message">✅ Product uploaded successfully!</p>
+                    </div>
+                </div>
+                )}
+
+                {submitError && !isSubmitting && (
+                <div className="overlay" onClick={() => setSubmitError(null)}>
+                    <div className='overlay-conten'>
+                        <p className="overlay-message">❌ Upload failed: {submitError}</p>
+                    </div>
+                </div>
+            )}
+
             <p className='AdminPageContentAddProductComponentTitle'>Add New Product</p>
             <form onSubmit={handleSubmit(onSubmit)} className=''>
                 <div className="row">
@@ -115,30 +146,64 @@ const ProductForm = () => {
 
                 <div className="row">
                     <div className="field">
-                    <label htmlFor="price">Price</label>
-                    <Controller
+                        <label htmlFor="price">Price</label>
+                        <Controller
                         name="price"
                         control={control}
-                        render={({ field }) => <input className='InputStyleAddproduct' {...field} type="number" id="price" placeholder='₱'/>}
-                    />
-                    {errors.price && <p className="error">{errors.price.message}</p>}
+                        render={({ field }) => <input className='InputStyleAddproduct' {...field} type="number" id="price" placeholder='₱' />}
+                        />
+                        {errors.price && <p className="error">{errors.price.message}</p>}
                     </div>
+
                     <div className="field">
-                    <label htmlFor="image">Image Upload</label>
-                    <Controller
-                        name="image"
+                        <label htmlFor="shippingFee">Shipping Fee</label>
+                        <Controller
+                        name="shippingFee"
                         control={control}
                         render={({ field }) => (
-                        <input className='InputStyleAddproduct'
-                        type="file"
-                        id="image"
-                        onChange={(e) => field.onChange(e.target.files)}
-                        />
+                            <input className="InputStyleAddproduct" {...field} type="number" id="shippingFee" placeholder="₱" />
                         )}
-                    />
-                    {errors.image && <p className="error">{errors.image.message}</p>}
+                        />
+                        {errors.shippingFee && <p className="error">{errors.shippingFee.message}</p>}
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="field full-width inputChoseFileType">
+                        <label htmlFor="image">Image Upload</label>
+                        <Controller
+                            name="image"
+                            control={control}
+                            render={({ field }) => (
+                                <>
+                                <input
+                                    className='InputStyleAddproduct InputStyleAddproductImage'
+                                    type="file"
+                                    id="image"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                        setImagePreview(URL.createObjectURL(file));
+                                        field.onChange(e.target.files);
+                                    }
+                                    }}
+                                />
+                                {imagePreview && (
+                                    <img
+                                    src={imagePreview}
+                                    alt="Preview"
+                                    style={{ marginTop: '10px', maxHeight: '200px', borderRadius: '8px', width: "auto", objectFit: "cover" }}
+                                    />
+                                )}
+                                </>
+                            )}
+                        />
+
+                        {errors.image && <p className="error">{errors.image.message}</p>}
+                    </div>
+                </div>
+
 
                 <div className="row">
                     <div className="field full-width">

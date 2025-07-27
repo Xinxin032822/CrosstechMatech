@@ -42,8 +42,8 @@ function About() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration:2, ease: "easeInOut" }}
-        viewport={{ amount: 0.5 }}
+        transition={{ duration:1.6, ease: "easeInOut" }}
+        viewport={{ amount: 0.5, once: true }}
         className='MainClassUpperSection'>
         <div className='HeaderSectionMainClassUpperSection'>
           <p className='FirstHeaderTitleMainClass'>About Matech</p>
@@ -75,12 +75,7 @@ function About() {
       <div className='OurCoreValuesSection'>
         <p className='OurCoreValues'>Our Core Values</p>
         <motion.div 
-          className='CardSectionAboutUsMain'
-          initial={{ opacity: 0, y:50 }}
-          whileInView={{ opacity: 1, y:0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-          viewport={{ amount: 0.5 }}>
+          className='CardSectionAboutUsMain'>
           {products.map((item, index) => (
             <CardAbouts
               key={index}

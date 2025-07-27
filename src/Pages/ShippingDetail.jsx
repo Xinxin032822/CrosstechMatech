@@ -57,7 +57,7 @@ function ShippingDetail() {
   }
 
   const subtotal = product.price * quantity;
-  const shipping = 500;
+  const shipping = product.shippingFee;
   const total = subtotal + shipping;
 
   const user = auth.currentUser;
@@ -160,7 +160,7 @@ function ShippingDetail() {
     }
 
     if (selectedMethod === "PayPal") {
-      const response = await fetch('https://380414eee0d9.ngrok-free.app/create-paypal-order', {
+      const response = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-paypal-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -233,7 +233,7 @@ function ShippingDetail() {
   if (!product) return <Loader/>;
 
   const subtotal = product.price * quantity;
-  const shipping = 500;
+  const shipping = product.shippingFee;
   const total = subtotal + shipping;
 
   return (

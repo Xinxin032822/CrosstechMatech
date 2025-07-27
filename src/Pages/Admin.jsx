@@ -75,6 +75,9 @@ function Admin() {
         console.error("Error deleting product:", error);
     }
     };
+    const handleProductAdded = (newProduct) => {
+        setProducts((prevProducts) => [...prevProducts, newProduct]);
+    };
 
   return (
     <div className='MainDivAdminPage'>
@@ -119,7 +122,7 @@ function Admin() {
                     variants={pageVariants}
                     transition={pageTransition}
                     className='AdminPageContentAddProductComponent'>
-                        <ProductForm />
+                        <ProductForm onProductAdded={handleProductAdded} />
                         <div className='AdminPageContentAddProductComponentTable'>
                     <p className='CurrentProductsAdminPage'>Current Products</p>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { collectionGroup, getDocs, doc, getDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collectionGroup, getDocs, doc, getDoc, deleteDoc, updateDoc, addDoc, collection } from 'firebase/firestore';
 import { db } from '../../Data/firebase';
 import './MobileDeliveryManagement.css';
 
@@ -48,14 +48,22 @@ function MobileDeliveryManagement() {
     fetchOrders();
   }, []);
 
-  const handleDelete = async (order) => {
-    if (!window.confirm("Delete this order?")) return;
+  const handleArchive = async (order) => {
+    if (!window.confirm("Archive this order to history?")) return;
+
     try {
-      const ref = doc(db, `users/${order.userId}/orders/${order.id}`);
-      await deleteDoc(ref);
+      const orderRef = doc(db, `users/${order.userId}/orders/${order.id}`);
+
+      await addDoc(collection(db, 'orderHistory'), {
+        ...order,
+        archivedAt: new Date(),
+      });
+
+      await deleteDoc(orderRef);
+
       setOrders(prev => prev.filter(o => o.id !== order.id));
     } catch (err) {
-      console.error("Delete failed:", err);
+      console.error("Archiving failed:", err);
     }
   };
 
@@ -71,7 +79,6 @@ function MobileDeliveryManagement() {
     }
   };
 
-  // 📊 Count statuses
   const total = orders.length;
   const pending = orders.filter(o => o.status?.toLowerCase() === 'pending').length;
   const inProcess = orders.filter(o => o.status?.toLowerCase() === 'in process').length;
@@ -122,7 +129,7 @@ function MobileDeliveryManagement() {
               <option value="In Process">In Process</option>
               <option value="Delivered">Delivered</option>
             </select>
-            <button onClick={() => handleDelete(order)}>Delete</button>
+            <button onClick={() => handleArchive(order)}>Archive Order</button>
           </div>
         </div>
       ))}
