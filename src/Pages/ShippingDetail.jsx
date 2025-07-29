@@ -67,7 +67,6 @@ function ShippingDetail() {
   }
 
   try {
-    // 🟦 If GCash is selected, call the backend
     if (selectedMethod === "GCash") {
       const response = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice', {
         method: 'POST',
@@ -104,7 +103,6 @@ function ShippingDetail() {
           xenditInvoiceId: data.id,
         });
 
-        // 🔁 Redirect user to the invoice checkout page
         window.location.href = data.invoice_url;
       } else {
         alert("Failed to create GCash invoice.");
@@ -174,7 +172,6 @@ function ShippingDetail() {
       if (response.ok && data.id) {
         const approvalLink = data.links.find(link => link.rel === "approve");
         if (approvalLink) {
-          // 🔁 Store temporary order before redirecting to PayPal
           await addDoc(collection(db, "users", user.uid, "orders"), {
             ...form,
             payment: "PayPal",
@@ -190,8 +187,6 @@ function ShippingDetail() {
             createdAt: serverTimestamp(),
             paypalOrderId: data.id,
           });
-
-          // Redirect to PayPal approval page
           window.location.href = approvalLink.href;
         } else {
           alert("PayPal approval link not found.");
@@ -276,7 +271,7 @@ function ShippingDetail() {
             <h3>Payment Method</h3>
             <div className="payment-methods">
               {[
-                { label: "PayPal", icon: "paypal.png" },
+                { label: "Credit Card", icon: "CreditCard.png" },
                 { label: "GCash", icon: "gcash.png" },
                 { label: "Cash on Delivery", icon: "COD.png" },
                 { label: "Other Methods", icon: "bank.png" },

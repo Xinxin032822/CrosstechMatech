@@ -71,13 +71,15 @@ const ProductForm = ({ onProductAdded }) => {
             productName: data.productName,
             category: data.category,
             price: data.price,
+            shippingFee: data.shippingFee,
+            imageName: downloadURL,
+            stock: data.stock,
             description: data.description,
             specification: specs.filter(s => s.title && s.value),
-            imageName: downloadURL,
-            shippingFee: data.shippingFee,
             createdAt: new Date(),
             updatedAt: new Date()
         };
+
 
         const docRef = await addDoc(collection(db, "products"), productData);
         if (onProductAdded) {
@@ -201,6 +203,25 @@ const ProductForm = ({ onProductAdded }) => {
                         />
 
                         {errors.image && <p className="error">{errors.image.message}</p>}
+                    </div>
+                    <div className="field full-width">
+                        <label htmlFor="stock">Stock / Quantity</label>
+                        <Controller
+                        name="stock"
+                        control={control}
+                        rules={{ required: 'Stock is required', min: { value: 0, message: 'Must be at least 0' } }}
+                        render={({ field }) => (
+                            <input
+                            type="number"
+                            id="stock"
+                            className="InputStyleAddproduct"
+                            placeholder="Enter stock quantity"
+                            min="0"
+                            {...field}
+                            />
+                        )}
+                        />
+                        {errors.stock && <p className="error">{errors.stock.message}</p>}
                     </div>
                 </div>
 

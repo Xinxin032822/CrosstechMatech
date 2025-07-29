@@ -20,12 +20,14 @@ import ContactMobile from './Pages/ContactMobile';
 import MobileLogin from './Pages/MobileLogin';
 import MobileSignup from './Pages/MobileSignup';
 function App() {
-const location = useLocation();
-const [isMobile, setIsMobile] = useState(false);
+  const location = useLocation();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTabletOrSmaller, setIsTabletOrSmaller] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
+      setIsTabletOrSmaller(window.innerWidth <= 1100);
     };
 
     handleResize();
@@ -54,7 +56,7 @@ const [isMobile, setIsMobile] = useState(false);
             element={
               <ProtectedAdminRoute>
                 {
-                  isMobile? <AdminMobile/> :<Admin/>
+                  isTabletOrSmaller? <AdminMobile/> :<Admin/>
                 }
               </ProtectedAdminRoute>
             }

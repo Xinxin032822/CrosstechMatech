@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 import Loader from '../Component/Loader/Loader.jsx';
 import ArchiveOrder from '../Component/ArchiveOrder/ArchiveOrder.jsx';
+import Inventory from '../Component/Inventory/Inventory.jsx';
 const firebaseConfig = {
   apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
   authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
@@ -106,7 +107,13 @@ function Admin() {
                         onClick={() => setActiveNav('Order History')}>
                     <svg className='SVGAdminPage' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock-rotate-left" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248c108.4 0 201.3-69.8 234.5-167.3c3-8.7-.5-18.2-8.6-22.7c-9.8-5.4-22.3-1-27.6 9C419.8 395 342.6 448 256 448c-106 0-192-86-192-192S150 64 256 64s192 86 192 192c0 13.3 10.7 24 24 24s24-10.7 24-24C496 119 393 8 256 8zM232 128v96c0 8.8 7.2 16 16 16h112c8.8 0 16-7.2 16-16s-7.2-16-16-16H264v-80c0-8.8-7.2-16-16-16s-16 7.2-16 16z"></path></svg>
                     <li className='LiUlDivAdminPageMainNav'>Order History</li>
-                    </div>
+                </div>
+                <div className={`ulChildDivAdminPage ${activeNav === 'Inventory Tracker' ? 'active' : ''}`} onClick={() => setActiveNav('Inventory Tracker')}>
+                <svg className='SVGAdminPage' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="boxes" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path fill="currentColor" d="M560 288h-80v160h80c8.8 0 16-7.2 16-16V304c0-8.8-7.2-16-16-16zM368 448V288H208v160c0 8.8 7.2 16 16 16h128c8.8 0 16-7.2 16-16zM240 32h-80c-8.8 0-16 7.2-16 16v160h112V48c0-8.8-7.2-16-16-16zm272 0h-80c-8.8 0-16 7.2-16 16v160h112V48c0-8.8-7.2-16-16-16zM368 208h112c8.8 0 16-7.2 16-16V48c0-26.5-21.5-48-48-48h-80c-26.5 0-48 21.5-48 48v144c0 8.8 7.2 16 16 16zm-288 80H16c-8.8 0-16 7.2-16 16v128c0 26.5 21.5 48 48 48h80V288c0-8.8-7.2-16-16-16zM208 208h112c8.8 0 16-7.2 16-16V48c0-26.5-21.5-48-48-48h-80c-26.5 0-48 21.5-48 48v144c0 8.8 7.2 16 16 16z"/>
+                </svg>
+                <li className='LiUlDivAdminPageMainNav'>Inventory Tracker</li>
+                </div>
 
             </ul>
         </div>
@@ -201,7 +208,18 @@ function Admin() {
                         <ArchiveOrder />
                     </motion.div>
                 )}
-
+                {activeNav === 'Inventory Tracker' && (
+                    <motion.div
+                        key="inventory tracker"
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        variants={pageVariants}
+                        transition={pageTransition}
+                    >
+                        <Inventory/>
+                    </motion.div>
+                )}
             </AnimatePresence>
         </div>
 
