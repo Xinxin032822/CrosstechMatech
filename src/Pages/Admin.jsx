@@ -109,9 +109,7 @@ function Admin() {
                     <li className='LiUlDivAdminPageMainNav'>Order History</li>
                 </div>
                 <div className={`ulChildDivAdminPage ${activeNav === 'Inventory Tracker' ? 'active' : ''}`} onClick={() => setActiveNav('Inventory Tracker')}>
-                <svg className='SVGAdminPage' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="boxes" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                    <path fill="currentColor" d="M560 288h-80v160h80c8.8 0 16-7.2 16-16V304c0-8.8-7.2-16-16-16zM368 448V288H208v160c0 8.8 7.2 16 16 16h128c8.8 0 16-7.2 16-16zM240 32h-80c-8.8 0-16 7.2-16 16v160h112V48c0-8.8-7.2-16-16-16zm272 0h-80c-8.8 0-16 7.2-16 16v160h112V48c0-8.8-7.2-16-16-16zM368 208h112c8.8 0 16-7.2 16-16V48c0-26.5-21.5-48-48-48h-80c-26.5 0-48 21.5-48 48v144c0 8.8 7.2 16 16 16zm-288 80H16c-8.8 0-16 7.2-16 16v128c0 26.5 21.5 48 48 48h80V288c0-8.8-7.2-16-16-16zM208 208h112c8.8 0 16-7.2 16-16V48c0-26.5-21.5-48-48-48h-80c-26.5 0-48 21.5-48 48v144c0 8.8 7.2 16 16 16z"/>
-                </svg>
+                    <svg className='SVGAdminPage' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="warehouse" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M320 32L0 192V480c0 17.7 14.3 32 32 32H608c17.7 0 32-14.3 32-32V192L320 32zM64 224l256-128l256 128V480H64V224zm96 64h64v64H160V288zm96 0h64v64H256V288zm96 0h64v64H352V288z"></path></svg>
                 <li className='LiUlDivAdminPageMainNav'>Inventory Tracker</li>
                 </div>
 

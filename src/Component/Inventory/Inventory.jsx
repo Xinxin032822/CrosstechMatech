@@ -36,20 +36,23 @@ function Inventory() {
     setEditingId(id);
     setAddAmount(0);
   };
-
   const handleConfirmAdd = (id) => {
     setProducts((prev) =>
-      prev.map((product) =>
-        product.id === id
-          ? {
-              ...product,
-              stock: product.stock + Number(addAmount),
-            }
-          : product
-      )
+      prev.map((product) => {
+        if (product.id === id) {
+          const newStock = product.stock + Number(addAmount);
+          return {
+            ...product,
+            stock: newStock,
+            maxStock: newStock,
+          };
+        }
+        return product;
+      })
     );
     setEditingId(null);
   };
+
 
   return (
     <div className="inventory-container">

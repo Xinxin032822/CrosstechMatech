@@ -19,6 +19,8 @@ import AdminMobile from './Pages/AdminMobile';
 import ContactMobile from './Pages/ContactMobile';
 import MobileLogin from './Pages/MobileLogin';
 import MobileSignup from './Pages/MobileSignup';
+import ForgotPassword from './Component/ForgotPassword/ForgotPassword';
+import MobileForgotPassword from './Component/ForgotPassword/MobileForgotPassword';
 function App() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -63,6 +65,7 @@ function App() {
           />
           <Route path="/products/:id" element={isMobile ? <ProductDetailMobile /> : <ProductDetail />} />
           <Route path="/shipping/:id" element={<ShippingDetail />} />
+          <Route path="/forgot-password" element={isMobile? <MobileForgotPassword/> :<ForgotPassword />} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </AnimatePresence>
