@@ -75,6 +75,7 @@ function ProductDetail() {
               >
                 <i className="fas fa-shopping-cart"></i> Buy Now
               </button>
+              <p className='AvailableProducts'>{product.quantity} available products</p>
             </div>
           </div>
         </div>

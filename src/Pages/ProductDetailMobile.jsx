@@ -72,6 +72,7 @@ function ProductDetailMobile() {
                     >
                     <i className="fas fa-shopping-cart"></i> Buy Now
                     </button>
+                    <p className='mobileAvailableProducts'>{product.quantity} available products</p>
                 </div>
             </div>
         </div>

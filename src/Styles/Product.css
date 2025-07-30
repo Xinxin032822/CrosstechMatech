@@ -24,14 +24,12 @@
   line-height: 1.6em;
 }
 
-/* Main layout */
 .products-page-container-body {
   width: 100%;
   padding: 2em 10em;
   box-sizing: border-box;
 }
 
-/* Filter and Sorter section */
 .products-page-body-item-header {
   display: flex;
   align-items: center;
@@ -60,7 +58,6 @@
   border: 1px solid #ced4da;
 }
 
-/* Product card area */
 .products-page-body-item {
   display: flex;
   flex-wrap: wrap;
@@ -69,8 +66,12 @@
   width: 100%;
 }
 
+.AvailableProducts{
+  text-align: center;
+  color: #6c757d;
+  font-family: "Ubuntu", sans-serif;
+}
 
-/* ✅ RESPONSIVE STYLES */
 @media (max-width: 868px) {
   .products-page-container-header {
     padding: 2em 1em;

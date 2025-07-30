@@ -26,6 +26,8 @@ import "../Styles/AdminMobile.css";
 import MobileDeliveryManagement from "../Component/DeliveryManagement/MobileDeliveryManagement.jsx";
 import ArchiveOrder from "../Component/ArchiveOrder/ArchiveOrder.jsx";
 import ArchiveOrderMobile from "../Component/ArchiveOrder/ArchiveOrderMobile.jsx";
+import MobileInventory from "../Component/Inventory/MobileInventory.jsx";
+import Inventory from "../Component/Inventory/Inventory.jsx";
 
 function AdminMobile() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -151,7 +153,17 @@ function AdminMobile() {
           {activeNav === "Inventory Tracker" && (
             <div>
               <h2>Inventory Tracker</h2>
-              
+              {isMobile ? (
+                <MobileInventory
+                  products={products}
+                  setProducts={setProducts}
+                />
+              ) : (
+                <Inventory
+                  products={products}
+                  setProducts={setProducts}
+                />
+              )}
             </div>
           )}
         </div>
@@ -167,7 +179,7 @@ function AdminMobile() {
             onClick={() => setActiveNav(item.key)}
           >
             <span className="icon">{item.icon}</span>
-            <span className="label">{item.label}</span>
+            {/* <span className="label">{item.label}</span> */}
           </button>
         ))}
       </nav>

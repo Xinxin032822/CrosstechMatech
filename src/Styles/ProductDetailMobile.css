@@ -24,6 +24,12 @@
   border-radius: 10px;
 }
 
+.mobileAvailableProducts{
+  font-family: "Ubuntu", sans-serif;
+  color: #666;
+  text-align: center;
+}
+
 .product-detail-mobile-info h2 {
   font-size: 1.6rem;
   margin-bottom: 0.5rem;

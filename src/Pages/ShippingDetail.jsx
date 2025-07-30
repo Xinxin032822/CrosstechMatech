@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, addDoc, collection, serverTimestamp, updateDoc  } from 'firebase/firestore';
 import { db,auth } from '../Data/firebase';
 import '../Styles/ShippingDetail.css';
 
@@ -103,6 +103,11 @@ function ShippingDetail() {
           xenditInvoiceId: data.id,
         });
 
+        const productRef = doc(db, "products", product.id);
+        await updateDoc(productRef, {
+          stock: product.stock - quantity
+        });
+
         window.location.href = data.invoice_url;
       } else {
         alert("Failed to create GCash invoice.");
@@ -146,6 +151,11 @@ function ShippingDetail() {
           paymentStatus: "Pending",
           createdAt: serverTimestamp(),
           xenditInvoiceId: data.id,
+        });
+        
+        const productRef = doc(db, "products", product.id);
+        await updateDoc(productRef, {
+          stock: product.stock - quantity
         });
 
         window.location.href = data.invoice_url;
@@ -216,6 +226,11 @@ function ShippingDetail() {
       createdAt: serverTimestamp(),
     });
 
+    const productRef = doc(db, "products", product.id);
+    await updateDoc(productRef, {
+      stock: product.stock - quantity
+    });
+
     alert('Order placed successfully!');
   } catch (error) {
     console.error("Error placing order:", error);
@@ -271,7 +286,7 @@ function ShippingDetail() {
             <h3>Payment Method</h3>
             <div className="payment-methods">
               {[
-                { label: "Credit Card", icon: "CreditCard.png" },
+                // { label: "Credit Card", icon: "CreditCard.png" },
                 { label: "GCash", icon: "gcash.png" },
                 { label: "Cash on Delivery", icon: "COD.png" },
                 { label: "Other Methods", icon: "bank.png" },

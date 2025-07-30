@@ -74,6 +74,7 @@ const ProductForm = ({ onProductAdded }) => {
             shippingFee: data.shippingFee,
             imageName: downloadURL,
             stock: data.stock,
+            maxstock: data.stock,
             description: data.description,
             specification: specs.filter(s => s.title && s.value),
             createdAt: new Date(),
