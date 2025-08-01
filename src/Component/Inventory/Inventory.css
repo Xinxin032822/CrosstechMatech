@@ -145,3 +145,36 @@
 .add-stock button:last-of-type:hover {
   background-color: #ccc;
 }
+
+
+.search-bar {
+  padding: 10px;
+  font-size: 1.2rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  transition: border-color 0.2s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #e50914;
+}
+
+.inventory-title {
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.TitleInventorySearchBar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar{
+  margin-bottom: 1em;
+}

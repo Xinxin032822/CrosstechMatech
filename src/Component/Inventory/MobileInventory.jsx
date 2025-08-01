@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MobileInventory.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { motion } from 'framer-motion';
 
 import { collection, updateDoc, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../Data/firebase';
@@ -10,6 +11,8 @@ function MobileInventory() {
   const [products, setProducts] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [addAmount, setAddAmount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'products'), snapshot => {
@@ -26,6 +29,10 @@ function MobileInventory() {
 
     return () => unsubscribe();
   }, []);
+
+  const filteredProducts = products.filter(product =>
+    product.productName?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleAddClick = (id) => {
     setEditingId(id);
@@ -59,12 +66,25 @@ function MobileInventory() {
 
   return (
     <div className="mobile-inventory-container">
-      <h2 className="mobile-title">Inventory</h2>
+      <div className="mobile-title-section">
+        <h2 className="mobile-title">Inventory</h2>
+        <motion.input
+          type="text"
+          className="mobile-search"
+          placeholder="Search for a product..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        />
+      </div>
 
-      {products.length === 0 && <p className="mobile-empty">No products in inventory.</p>}
+
+      {filteredProducts.length === 0 && <p className="mobile-empty">No products in inventory.</p>}
 
       <div className="mobile-cards">
-        {products.map(product => {
+        {filteredProducts.map(product => {
           const totalPrice = (product.price || 0) * (product.quantity || 0);
           const percentage = (product.quantity / (product.maxstock || 1)) * 100;
           const isLow = percentage <= 15;

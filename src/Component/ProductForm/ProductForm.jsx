@@ -90,8 +90,8 @@ const ProductForm = ({ onProductAdded }) => {
         price: data.price,
         shippingFee: data.shippingFee,
         imageName: downloadURL,
-        stock: data.stock,
-        maxstock: data.stock,
+        quantity: Number(data.quantity),
+        maxstock: Number(data.quantity),
         description: data.description,
         specification: specs.filter(s => s.title && s.value),
         createdAt: new Date(),
@@ -233,9 +233,9 @@ const ProductForm = ({ onProductAdded }) => {
           </div>
 
           <div className="field full-width">
-            <label htmlFor="stock">Stock / Quantity</label>
+            <label htmlFor="stock">Quantity</label>
             <Controller
-              name="stock"
+              name="quantity"
               control={control}
               rules={{ required: 'Stock is required', min: { value: 0, message: 'Must be at least 0' } }}
               render={({ field }) => (
@@ -249,7 +249,7 @@ const ProductForm = ({ onProductAdded }) => {
                 />
               )}
             />
-            {errors.stock && <p className="error">{errors.stock.message}</p>}
+            {errors.quantity && <p className="error">{errors.quantity.message}</p>}
           </div>
         </div>
 

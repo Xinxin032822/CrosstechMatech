@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Inventory.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 import { collection, updateDoc, doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../../Data/firebase';
@@ -10,6 +12,10 @@ function Inventory() {
   const [products, setProducts] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [addAmount, setAddAmount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [editingTitle, setEditingTitle] = useState(false);
+
+
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'products'), snapshot => {
@@ -22,11 +28,17 @@ function Inventory() {
         };
       });
       setProducts(productList);
+      const filteredProducts = products.filter(product =>
+        product.productName?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
     });
 
     return () => unsubscribe();
   }, []);
-
+  const filteredProducts = products.filter(product =>
+    product.productName?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   const handleAddClick = (id) => {
     setEditingId(id);
     setAddAmount(0);
@@ -59,12 +71,46 @@ function Inventory() {
 
   return (
     <div className="inventory-container">
-      <h2 className="inventory-title">Inventory</h2>
 
-      {products.length === 0 && <p className="empty-message">No products in inventory.</p>}
+    <div className='TitleInventorySearchBar'>
+      <AnimatePresence mode="wait">
+      {editingTitle ? (
+        <motion.input
+          key="search"
+          type="text"
+          className="search-bar"
+          placeholder="Search for a product..."
+          value={searchQuery}
+          autoFocus
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onBlur={() => setEditingTitle(false)}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          transition={{ duration: 0.3 }}
+        />
+      ) : (
+        <motion.h2
+          key="title"
+          className="inventory-title"
+          onClick={() => setEditingTitle(true)}
+          whileHover={{ scale: 1.05, color: '#e50914' }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.3 }}
+        >
+          Inventory
+        </motion.h2>
+      )}
+    </AnimatePresence>
+    </div>
+
+ 
+      {filteredProducts.length === 0 && <p className="empty-message">No products in inventory.</p>}
 
       <div className="inventory-grid">
-        {products.map(product => {
+        {filteredProducts.map(product => {
           const quantity = product.quantity || 0;
           const maxstock = product.maxstock || 1;
           const percentage = (quantity / maxstock) * 100;
