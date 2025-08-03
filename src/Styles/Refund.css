@@ -1,0 +1,37 @@
+.refund-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border-left: 2px solid #cccccc2c;
+  border-left: 2px solid #cccccc2c;
+  background-color: #fff;
+  color: #333;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.01);
+}
+
+.refund-container h1 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.refund-container ul {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.refund-container li {
+  margin-bottom: 10px;
+}
+
+.refund-container p {
+  margin-bottom: 16px;
+}
+
+.last-updated {
+  font-size: 14px;
+  color: #666;
+  text-align: right;
+}

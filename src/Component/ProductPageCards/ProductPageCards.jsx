@@ -4,7 +4,7 @@ import { db } from '../../Data/firebase';
 import './ProductPageCards.css';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader.jsx';
-function ProductPageCards({ activeCategory, sortOption }) {
+function ProductPageCards({ activeCategory, sortOption, searchQuery  }) {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
@@ -35,10 +35,36 @@ function ProductPageCards({ activeCategory, sortOption }) {
     return <Loader/>;
   }
   const filteredProducts = activeCategory
-  ? products.filter(p => p.category === activeCategory)
+  ? products.filter(product => {
+    const selectedCategory = Array.isArray(activeCategory)
+      ? activeCategory[activeCategory.length - 1]
+      : activeCategory;
+
+
+      console.log("Product Category:", product.category);
+      console.log("Subcategories:", product.subcategories);
+      console.log("Active Category:", selectedCategory);
+
+      return (
+        product.category?.toLowerCase() === selectedCategory?.toLowerCase() ||
+        (product.subcategories &&
+          product.subcategories.some(
+            sub => sub.toLowerCase() === selectedCategory?.toLowerCase()
+          ))
+      );
+    })
   : products;
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
+  const searchedProducts = filteredProducts.filter(product => {
+  const query = searchQuery.toLowerCase();
+  return (
+    product.productName?.toLowerCase().includes(query) ||
+    product.description?.toLowerCase().includes(query)
+  );
+});
+
+
+  const sortedProducts = [...searchedProducts].sort((a, b) => {
     if (sortOption === "sortByPrice") {
       return (a.price || 0) - (b.price || 0);
     } else if (sortOption === "sortByName") {
@@ -47,12 +73,12 @@ function ProductPageCards({ activeCategory, sortOption }) {
     return 0;
   });
 
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
+
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
-
 
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {

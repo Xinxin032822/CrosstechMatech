@@ -19,6 +19,9 @@ const schema = yup.object({
   name: yup.string().required("Full name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+    termsAccepted: yup
+    .boolean()
+    .oneOf([true], "You must accept the terms and policies"),
 });
 
 function Signup() {
@@ -75,6 +78,8 @@ function Signup() {
         </div>
 
         <form className="SignupForm" onSubmit={handleSubmit(onSubmit)}>
+
+          
           <div className="FormGroup">
             <label className='LabelSignupPage'>Full Name</label>
             <input
@@ -85,6 +90,7 @@ function Signup() {
             />
             {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
           </div>
+
 
           <div className="FormGroup">
             <label className='LabelSignupPage'>Email</label>
@@ -97,6 +103,7 @@ function Signup() {
             {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
           </div>
 
+
           <div className="FormGroup">
             <label className='LabelSignupPage'>Password</label>
             <input
@@ -107,6 +114,25 @@ function Signup() {
             />
             {errors.password && <p className="text-red-600 text-sm">{errors.password.message}</p>}
           </div>
+
+
+          <div className="CheckboxGroup">
+            <input
+              type="checkbox"
+              {...register("termsAccepted")}
+              className="CheckboxInput"
+              id="termsCheckbox"
+            />
+            <label htmlFor="termsCheckbox" className="CheckboxLabel">
+              I agree to the <a href="/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a>, 
+              <a href="/privacy" target="_blank" rel="noopener noreferrer"> Privacy Policy</a>, and 
+              <a href="/refund" target="_blank" rel="noopener noreferrer"> Refund Policy</a>.
+            </label>
+          </div>
+          {errors.termsAccepted && (
+            <p className="text-red-600 text-sm">{errors.termsAccepted.message}</p>
+          )}
+
 
           <button type="submit" className="SignupButton">Create Account</button>
         </form>

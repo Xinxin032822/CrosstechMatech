@@ -26,36 +26,52 @@
 
 .products-page-container-body {
   width: 100%;
-  padding: 2em 10em;
+  padding: 2em 8em;
   box-sizing: border-box;
+  display: flex;
 }
 
 .products-page-body-item-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: start;
+  padding-top: 3em;
   font-family: "Ubuntu", sans-serif;
   border-bottom: #f0f2f5 1px solid;
   padding-bottom: 1em;
   margin-bottom: 2em;
+  min-width: 12em;
 }
 
-.filterCategory,
-.filterSorter {
-  flex: 1;
+.categoryTree{
+  width: 100%;
 }
 
 .filterSorter {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  margin-bottom: 1em;
+  width: 100%;
 }
 
 .filterSorter-select {
-  padding: 0.5em 1em;
+  padding: 0.6em 1em;
   border-radius: 8px;
+  width: 100%;
   font-size: 1em;
   font-family: "Ubuntu", sans-serif;
   border: 1px solid #ced4da;
+  background-color: white;
+  color: #121212;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.filterSorter-select:focus {
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
 }
 
 .products-page-body-item {
@@ -70,6 +86,28 @@
   text-align: center;
   color: #6c757d;
   font-family: "Ubuntu", sans-serif;
+}
+.searchBar {
+  width: 100%;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: center;
+}
+
+.searchBar-input {
+  width: 100%;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-family: "Ubuntu", sans-serif;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.searchBar-input:focus {
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
 }
 
 @media (max-width: 868px) {
@@ -116,5 +154,19 @@
     flex-direction: column;
     align-items: center;
     gap: 2em;
+  }
+}
+@media (max-width: 1500) {
+  .products-page-container-body {
+    width: 100%;
+    padding: 2em 3em;
+    box-sizing: border-box;
+    display: flex;
+  }
+}
+@media (max-width: 1100px) {
+  .products-page-container-body {
+    flex-direction: column-reverse;
+    padding: 2em;
   }
 }

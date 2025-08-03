@@ -1,0 +1,31 @@
+.category-tree-container {
+  padding: 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.category-tree {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.category-tree li {
+  margin: 4px 0;
+}
+
+.category-btn {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  text-align: left;
+  transition: color 0.2s ease, 0.2s ease;
+}
+
+.category-btn:hover {
+  color: #e50914;
+  background-color: rgba(229, 9, 20, 0.1);
+  border-radius: 4px;
+}

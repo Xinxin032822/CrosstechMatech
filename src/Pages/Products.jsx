@@ -1,16 +1,60 @@
-  import React from 'react'
-  import { useState } from 'react'
-  import "../Styles/Product.css"
-  import FilterCategory from '../Component/FilterCategory/FilterCategory'
-  import ProductPageCards from '../Component/ProductPageCards/ProductPageCards'
-
-  import { motion } from "framer-motion";
+import { useState, useEffect } from 'react'
+import "../Styles/Product.css"
+import FilterCategory from '../Component/FilterCategory/FilterCategory'
+import ProductPageCards from '../Component/ProductPageCards/ProductPageCards'
+import { motion } from "framer-motion";
 import { pageVariants, pageTransition } from "../Component/Transition/pageTransition.js";
 
 import Footer from '../Component/Footer/Footer'
+import CategoryTree from '../Component/CategoryTree/CategoryTree.jsx';
+
+//firestore
+import { db } from '../Data/firebase.js';
+import { collection, getDocs } from 'firebase/firestore';
+
+
+
   function Products() {
     const [activeCategory, setActiveCategory] = useState(null);
     const [sortOption, setSortOption] = useState('sortByPrice');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [categoriesTree, setCategoriesTree] = useState([]);
+
+    useEffect(() => {
+      const fetchCategories = async () => {
+        const productsSnap = await getDocs(collection(db, 'products'));
+        const allProducts = productsSnap.docs.map(doc => doc.data());
+
+        const paths = allProducts.map(product => {
+          const fullPath = [product.category, ...(product.subcategories || [])];
+          return fullPath.filter(Boolean);
+        });
+
+        const buildTree = (paths) => {
+          const root = {};
+
+          paths.forEach(path => {
+            let current = root;
+            path.forEach(part => {
+              if (!current[part]) current[part] = {};
+              current = current[part];
+            });
+          });
+
+          const convertToTree = (obj) =>
+            Object.entries(obj).map(([name, children]) => ({
+              name,
+              children: convertToTree(children),
+            }));
+
+          return convertToTree(root);
+        };
+
+        setCategoriesTree(buildTree(paths));
+      };
+
+      fetchCategories();
+    }, []);
     
     const titleVariant = {
       hidden: { x: 100, opacity: 0 },
@@ -65,17 +109,22 @@ import Footer from '../Component/Footer/Footer'
             From custom-fabricated seals to high-performance pistons, find the perfect solution for your machinery needs.
           </motion.p>        
         </div>
-        <div className='products-page-container-body'>
-            <div className='products-page-body-item-header'>
-              <div className='filterCategory'>
-                <FilterCategory
-                  activeCategory={activeCategory}
-                  setActiveCategory={setActiveCategory}
-                />
+          <div className='products-page-container-body'>
+            <div className="products-page-body-item-header">
+              <div className="searchBar">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="searchBar-input"
+                />  
               </div>
-              <div className='filterSorter'>
-                <select 
-                  className='filterSorter-select'
+
+
+              <div className="filterSorter">
+                <select
+                  className="filterSorter-select"
                   value={sortOption}
                   onChange={(e) => setSortOption(e.target.value)}
                 >
@@ -83,14 +132,22 @@ import Footer from '../Component/Footer/Footer'
                   <option value="sortByName">Sort by Name</option>
                 </select>
               </div>
+
+
+              <div className="categoryTree">
+                <CategoryTree
+                  categories={categoriesTree}
+                  onSelectCategory={setActiveCategory}
+                />
+              </div>
             </div>
             <div className='products-page-body-item'>
               <ProductPageCards 
                 activeCategory={activeCategory} 
                 sortOption={sortOption}
+                searchQuery={searchQuery}
               />
             </div>
-            <div></div>
         </div>
         <Footer/>
       </motion.div>

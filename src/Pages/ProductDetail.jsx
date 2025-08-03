@@ -35,7 +35,6 @@ function ProductDetail() {
           </div>
           <div className="product-detail-info">
             <h2 className="productNameProductDetailPage">{product.productName}</h2>
-            <p className="subtitle">Heavy-duty construction excavator for professional use</p>
 
             <div className="specs-box">
               <h3>Specifications</h3>

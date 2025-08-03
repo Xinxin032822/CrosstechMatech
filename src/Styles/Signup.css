@@ -128,4 +128,29 @@
   text-align: center;
 }
 
+.CheckboxGroup {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.CheckboxInput {
+  flex-shrink: 5;
+  margin-top: 3px; 
+  transform: scale(1.2);
+}
+
+.CheckboxLabel {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.4;
+}
+
+.CheckboxLabel a {
+  color: #0066cc;
+  text-decoration: underline;
+  margin: 0 4px;
+}
+
 

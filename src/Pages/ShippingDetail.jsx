@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, addDoc, collection, serverTimestamp, updateDoc  } from 'firebase/firestore';
+import { doc, getDoc, addDoc, collection, serverTimestamp, updateDoc, runTransaction   } from 'firebase/firestore';
 import { db,auth } from '../Data/firebase';
 import '../Styles/ShippingDetail.css';
 
@@ -65,6 +65,11 @@ function ShippingDetail() {
     alert("You must be logged in to place an order.");
     return;
   }
+  if (quantity > product.quantity) {
+    alert("Ordered quantity exceeds available stock.");
+    return;
+  }
+
 
   try {
     if (selectedMethod === "GCash") {
@@ -104,9 +109,22 @@ function ShippingDetail() {
         });
 
         const productRef = doc(db, "products", product.id);
-        await updateDoc(productRef, {
-          stock: product.stock - quantity
+        await runTransaction(db, async (transaction) => {
+          const productDoc = await transaction.get(productRef);
+          if (!productDoc.exists()) {
+            throw new Error("Product does not exist");
+          }
+
+          const currentQty = productDoc.data().quantity;
+          if (currentQty < quantity) {
+            throw new Error("Not enough stock available");
+          }
+
+          transaction.update(productRef, {
+            quantity: currentQty - quantity
+          });
         });
+
 
         window.location.href = data.invoice_url;
       } else {
@@ -154,57 +172,26 @@ function ShippingDetail() {
         });
         
         const productRef = doc(db, "products", product.id);
-        await updateDoc(productRef, {
-          stock: product.stock - quantity
+        await runTransaction(db, async (transaction) => {
+          const productDoc = await transaction.get(productRef);
+          if (!productDoc.exists()) {
+            throw new Error("Product does not exist");
+          }
+
+          const currentQty = productDoc.data().quantity;
+          if (currentQty < quantity) {
+            throw new Error("Not enough stock available");
+          }
+
+          transaction.update(productRef, {
+            quantity: currentQty - quantity
+          });
         });
 
         window.location.href = data.invoice_url;
       } else {
         alert("Failed to create Credit Card invoice.");
         console.error(data);
-      }
-
-      return;
-    }
-
-    if (selectedMethod === "PayPal") {
-      const response = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-paypal-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: total,
-          currency: "PHP"
-        })
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.id) {
-        const approvalLink = data.links.find(link => link.rel === "approve");
-        if (approvalLink) {
-          await addDoc(collection(db, "users", user.uid, "orders"), {
-            ...form,
-            payment: "PayPal",
-            quantity,
-            productId: product.id,
-            productName: product.productName,
-            productPrice: product.price,
-            subtotal,
-            shipping,
-            total,
-            status: "Pending",
-            paymentStatus: "Pending",
-            createdAt: serverTimestamp(),
-            paypalOrderId: data.id,
-          });
-          window.location.href = approvalLink.href;
-        } else {
-          alert("PayPal approval link not found.");
-        }
-      } else {
-        alert("Failed to create PayPal order.");
-          alert("Failed to create PayPal order.");
-          console.error("❌ PayPal order creation failed:", data);
       }
 
       return;
@@ -227,8 +214,18 @@ function ShippingDetail() {
     });
 
     const productRef = doc(db, "products", product.id);
-    await updateDoc(productRef, {
-      stock: product.stock - quantity
+    await runTransaction(db, async (transaction) => {
+      const productDoc = await transaction.get(productRef);
+      if (!productDoc.exists()) {
+        throw new Error("Product does not exist");
+      }
+      const currentQty = productDoc.data().quantity;
+      if (currentQty < quantity) {
+        throw new Error("Not enough stock available");
+      }
+      transaction.update(productRef, {
+        quantity: currentQty - quantity
+      });
     });
 
     alert('Order placed successfully!');
@@ -317,7 +314,7 @@ function ShippingDetail() {
               <div className='quantityShippingDetails'>
                 <p className='quantityNumberShippingDetails'>Quantity: {quantity}</p>
                 <div className='quantityButtonsShippingDetails'>
-                  <button type="button" className='quantityButtonFunctionalShippingDetailsPage' onClick={increaseQty}>
+                  <button type="button" className='quantityButtonFunctionalShippingDetailsPage' onClick={increaseQty} disabled={quantity >= product.quantity}>
                     <i className="fas fa-plus"></i>
                   </button>
                   <button type="button" className='quantityButtonFunctionalShippingDetailsPage' onClick={decreaseQty}>
