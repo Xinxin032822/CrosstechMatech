@@ -4,7 +4,8 @@ import { db } from '../../Data/firebase';
 import './ProductPageCards.css';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader.jsx';
-function ProductPageCards({ activeCategory, sortOption, searchQuery  }) {
+
+function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
@@ -13,38 +14,47 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery  }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const querySnapshot = await getDocs(collection(db, 'products'));
-      const productList = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setProducts(productList);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchData();
+    setCurrentPage(1);
+  }, [activeCategory, searchQuery, sortOption]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const querySnapshot = await getDocs(collection(db, 'products'));
+        const productList = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setProducts(productList);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
-  if(loading) {
-    return <Loader/>;
+  if (loading) {
+    return <Loader />;
   }
-  const filteredProducts = activeCategory
-  ? products.filter(product => {
+
+  const query = searchQuery.trim().toLowerCase();
+
+  let filteredProducts;
+
+  if (query) {
+    filteredProducts = products.filter(product =>
+      product.productName?.toLowerCase().includes(query) ||
+      product.description?.toLowerCase().includes(query)
+    );
+  } else if (activeCategory) {
     const selectedCategory = Array.isArray(activeCategory)
       ? activeCategory[activeCategory.length - 1]
       : activeCategory;
 
-
-      console.log("Product Category:", product.category);
-      console.log("Subcategories:", product.subcategories);
-      console.log("Active Category:", selectedCategory);
-
+    filteredProducts = products.filter(product => {
       return (
         product.category?.toLowerCase() === selectedCategory?.toLowerCase() ||
         (product.subcategories &&
@@ -52,19 +62,12 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery  }) {
             sub => sub.toLowerCase() === selectedCategory?.toLowerCase()
           ))
       );
-    })
-  : products;
+    });
+  } else {
+    filteredProducts = products;
+  }
 
-  const searchedProducts = filteredProducts.filter(product => {
-  const query = searchQuery.toLowerCase();
-  return (
-    product.productName?.toLowerCase().includes(query) ||
-    product.description?.toLowerCase().includes(query)
-  );
-});
-
-
-  const sortedProducts = [...searchedProducts].sort((a, b) => {
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOption === "sortByPrice") {
       return (a.price || 0) - (b.price || 0);
     } else if (sortOption === "sortByName") {
@@ -74,8 +77,6 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery  }) {
   });
 
   const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
-
-
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -83,9 +84,8 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery  }) {
   const handlePageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
-    } 
+    }
   };
-
   return (
     <div className="product-page-cards-container-main-holder">
       <div className="product-cards-container">
@@ -108,7 +108,6 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery  }) {
           </div>
         ))}
       </div>
-
       <div className="pagination">
         <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
           &lt;

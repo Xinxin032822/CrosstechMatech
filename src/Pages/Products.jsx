@@ -19,13 +19,16 @@ import { collection, getDocs } from 'firebase/firestore';
     const [sortOption, setSortOption] = useState('sortByPrice');
     const [searchQuery, setSearchQuery] = useState('');
     const [categoriesTree, setCategoriesTree] = useState([]);
+    const [allProducts, setAllProducts] = useState([]);
 
     useEffect(() => {
       const fetchCategories = async () => {
         const productsSnap = await getDocs(collection(db, 'products'));
-        const allProducts = productsSnap.docs.map(doc => doc.data());
+        const productsData = productsSnap.docs.map(doc => doc.data());
 
-        const paths = allProducts.map(product => {
+        setAllProducts(productsData);
+        
+        const paths = productsData.map(product => {
           const fullPath = [product.category, ...(product.subcategories || [])];
           return fullPath.filter(Boolean);
         });
@@ -138,6 +141,7 @@ import { collection, getDocs } from 'firebase/firestore';
                 <CategoryTree
                   categories={categoriesTree}
                   onSelectCategory={setActiveCategory}
+                  products={allProducts}
                 />
               </div>
             </div>
