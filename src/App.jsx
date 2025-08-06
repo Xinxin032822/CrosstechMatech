@@ -24,6 +24,7 @@ import MobileForgotPassword from './Component/ForgotPassword/MobileForgotPasswor
 import Terms from './Pages/Terms';
 import Privacy from './Pages/Privacy';
 import Refund from './Pages/Refund';
+import EditProduct from './Pages/EditProduct';
 function App() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -66,6 +67,11 @@ function App() {
               </ProtectedAdminRoute>
             }
           />
+          <Route path='/admin/edit/:id' element={
+            <ProtectedAdminRoute>
+              <EditProduct/>
+            </ProtectedAdminRoute>
+          }/>
           <Route path="/products/:id" element={isMobile ? <ProductDetailMobile /> : <ProductDetail />} />
           <Route path="/shipping/:id" element={<ShippingDetail />} />
           <Route path="/forgot-password" element={isMobile? <MobileForgotPassword/> :<ForgotPassword />} />

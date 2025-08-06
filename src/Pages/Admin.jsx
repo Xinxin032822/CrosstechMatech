@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import '../Styles/admin.css';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { initializeApp } from 'firebase/app';
@@ -33,7 +34,10 @@ function Admin() {
     const [activeNav, setActiveNav] = useState("Product Management");
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
+    const handleEdit = (productId) => {
+        navigate(`/admin/edit/${productId}`);
+    };
     const fetchProducts = async () => {
     setLoading(true);
     try {
@@ -160,6 +164,7 @@ function Admin() {
                                 <td>₱{product.price}</td>
                                 <td>
                                 <button className="deleteBtn" onClick={() => handleDelete(product.id)}>Delete</button>
+                                <button className='editBtn' onClick={() => handleEdit(product.id)}>Edit</button>
                                 </td>
                             </tr>
                             ))}

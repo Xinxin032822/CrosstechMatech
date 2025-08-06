@@ -7,9 +7,10 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { addDoc, collection, getDocs } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import './ProductForm.css';
 import Loader from '../Loader/Loader';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const firebaseConfig = {
   apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
   authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
@@ -26,14 +27,14 @@ const db = getFirestore(app);
 const schema = yup.object().shape({
   productName: yup.string().required('Product Name is required'),
   price: yup.number().required('Price is required').positive('Price must be positive'),
-  image: yup.mixed().required('Image is required'),
   shippingFee: yup.number().required('Shipping Fee is required').min(0, 'Shipping fee must be zero or more'),
   description: yup.string().required('Description is required'),
 });
 
 const ProductForm = ({ onProductAdded }) => {
   const [specs, setSpecs] = useState([{ title: '', value: '' }]);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreviews, setImagePreviews] = useState([]);
+  const [imageFiles, setImageFiles] = useState([]);
   const [categoryInput, setCategoryInput] = useState('');
   const [category, setCategory] = useState('');
   const [subcategories, setSubcategories] = useState([]);
@@ -78,18 +79,23 @@ const ProductForm = ({ onProductAdded }) => {
     setSubmitSuccess(false);
 
     try {
-      const imageFile = data.image[0];
       const storage = getStorage();
-      const storageRef = ref(storage, `product-images/${Date.now()}-${imageFile.name}`);
-      const uploadTask = await uploadBytes(storageRef, imageFile);
-      const downloadURL = await getDownloadURL(uploadTask.ref);
+      const uploadedImageURLs = [];
+
+      for (let i = 0; i < imageFiles.length; i++) {
+        const file = imageFiles[i];
+        const storageRef = ref(storage, `product-images/${Date.now()}-${file.name}`);
+        const uploadTask = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(uploadTask.ref);
+        uploadedImageURLs.push(downloadURL);
+      }
       const productData = {
         productName: data.productName,
         category: category,
         subcategories: subcategories,
         price: data.price,
         shippingFee: data.shippingFee,
-        imageName: downloadURL,
+        images: uploadedImageURLs,
         quantity: Number(data.quantity),
         maxstock: Number(data.quantity),
         description: data.description,
@@ -104,11 +110,12 @@ const ProductForm = ({ onProductAdded }) => {
       }
       console.log("Document written with ID: ", docRef.id);
       setSubmitSuccess(true);
-      setImagePreview(null);
       reset();
       setCategoryInput('');
       setCategory('');
       setSubcategories([]);
+      setImagePreviews([]);
+      setImageFiles([]);
       setSpecs([{ title: '', value: '' }]);
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -122,7 +129,7 @@ const ProductForm = ({ onProductAdded }) => {
     <div className='FormAddProductAdminPageMain'>
       {isSubmitting && (
         <div className="overlay">
-          <div className='overlay-conten'>
+          <div className='overlay-content'>
             <Loader />
           </div>
         </div>
@@ -200,37 +207,47 @@ const ProductForm = ({ onProductAdded }) => {
 
         <div className="row">
           <div className="field full-width inputChoseFileType">
-            <label htmlFor="image">Image Upload</label>
-            <Controller
-              name="image"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <input
-                    className='InputStyleAddproduct InputStyleAddproductImage'
-                    type="file"
-                    id="image"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        setImagePreview(URL.createObjectURL(file));
-                        field.onChange(e.target.files);
-                      }
-                    }}
-                  />
-                  {imagePreview && (
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      style={{ marginTop: '10px', maxHeight: '200px', borderRadius: '8px', width: "auto", objectFit: "cover" }}
-                    />
-                  )}
-                </>
-              )}
+            <label htmlFor="image">Image Upload (multiple)</label>
+            <input
+              className="InputStyleAddproduct InputStyleAddproductImage"
+              type="file"
+              id="image"
+              accept="image/*"
+              multiple
+              onChange={(e) => {
+                const files = Array.from(e.target.files);
+                const previews = files.map((file) => ({
+                  file,
+                  preview: URL.createObjectURL(file),
+                }));
+                setImageFiles((prev) => [...prev, ...files]);
+                setImagePreviews((prev) => [...prev, ...previews]);
+              }}
             />
             {errors.image && <p className="error">{errors.image.message}</p>}
+
+            <div className="preview-gallery">
+              {imagePreviews.map((img, idx) => (
+                <div key={idx} className="preview-item">
+                  <img src={img.preview} alt={`Preview ${idx}`} />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updatedPreviews = [...imagePreviews];
+                      const updatedFiles = [...imageFiles];
+                      updatedPreviews.splice(idx, 1);
+                      updatedFiles.splice(idx, 1);
+                      setImagePreviews(updatedPreviews);
+                      setImageFiles(updatedFiles);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faXmark} />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
+
 
           <div className="field full-width">
             <label htmlFor="stock">Quantity</label>
