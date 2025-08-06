@@ -8,6 +8,14 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../Component/Footer/Footer';
 import Loader from '../Component/Loader/Loader';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Thumbs } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+
+
 function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -30,9 +38,23 @@ function ProductDetail() {
     <div>
       <div className="product-detail-container">
         <div className="product-detail-content">
-          <div className="product-detail-image-container">
-            <img src={product.imageName} alt={product.productName} className="product-detail-image" />
-          </div>
+            <div className="product-detail-image-container">
+              <Swiper
+                modules={[Navigation, Pagination]}
+                navigation
+                pagination={{ clickable: true }}
+                spaceBetween={10}
+                slidesPerView={1}
+                loop={true}
+                className="product-image-swiper"
+              >
+                {(product.images || []).map((img, idx) => (
+                  <SwiperSlide key={idx}>
+                    <img src={img} alt={`product-${idx}`} className="product-detail-image" />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           <div className="product-detail-info">
             <h2 className="productNameProductDetailPage">{product.productName}</h2>
 

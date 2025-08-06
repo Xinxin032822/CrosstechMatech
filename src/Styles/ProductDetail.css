@@ -163,6 +163,34 @@
 }
 
 
+.product-detail-image-container {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  position: relative;
+}
+
+.product-detail-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  font-size: 24px;
+}
+
+.swiper-pagination-bullet {
+  background: #ccc;
+}
+
+.swiper-pagination-bullet-active {
+  background: #333;
+}
+
 
 
 .productNameProductDetailPage{
@@ -179,3 +207,5 @@
     width: 50%;
   }
 }
+
+

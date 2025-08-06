@@ -64,15 +64,22 @@ function Admin() {
         const productToDelete = products.find(p => p.id === id);
         if (!productToDelete) return;
 
-        const imageUrl = productToDelete.imageName;
+        const images = productToDelete.images || [];
 
+        for (const imageUrl of images) {
         const pathStart = imageUrl.indexOf("/o/") + 3;
         const pathEnd = imageUrl.indexOf("?", pathStart);
         const encodedPath = imageUrl.slice(pathStart, pathEnd);
         const fullPath = decodeURIComponent(encodedPath);
 
         const imageRef = storageRef(storage, fullPath);
-        await deleteObject(imageRef);
+        try {
+            await deleteObject(imageRef);
+        } catch (err) {
+            console.warn(`Failed to delete image ${imageUrl}:`, err);
+        }
+        }
+
 
         await deleteDoc(doc(db, "products", id));
         setProducts(products.filter(p => p.id !== id));
@@ -151,13 +158,14 @@ function Admin() {
                             {products.map(product => (
                             <tr key={product.id}>
                                 <td style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                {product.imageName && (
-                                    <img 
-                                    src={product.imageName} 
-                                    alt={product.productName} 
-                                    style={{ width: '50px', height: '50px', borderRadius: '4px', objectFit: 'cover' }}
-                                    />
-                                )}
+{product.images && product.images.length > 0 && (
+  <img 
+    src={product.images[0]} 
+    alt={product.productName} 
+    style={{ width: '50px', height: '50px', borderRadius: '4px', objectFit: 'cover' }}
+  />
+)}
+
                                 <span>{product.productName}</span>
                                 </td>
                                 <td>{product.category}</td>

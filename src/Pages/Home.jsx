@@ -182,7 +182,7 @@ function Home() {
             <ProductCard
               key={item.id}
               id={item.id}
-              image={item.imageName}
+              image={item.images?.[0]}
               title={item.title}
               description={item.description}
             />

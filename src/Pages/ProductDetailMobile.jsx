@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../Data/firebase';
@@ -7,11 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../Component/Footer/Footer';
 import Loader from '../Component/Loader/Loader';
 
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css/pagination';
+
 function ProductDetailMobile() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const navigate = useNavigate();
-
+    const swiperRef = useRef(null);
     useEffect(() => {
         const fetchProduct = async () => {
         const docRef = doc(db, 'products', id);
@@ -29,7 +34,21 @@ function ProductDetailMobile() {
     <div className="product-detail-mobile-container">
         <div className="product-detail-mobile-content">
             <div className="product-detail-mobile-image-container">
-                <img src={product.imageName} alt={product.productName} className="product-detail-mobile-image" />
+                <Swiper
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    loop={true}
+                    pagination={{ clickable: true }}
+                    modules={[Pagination]}
+                    className="product-detail-mobile-image-swiper"
+                >
+                    {(product.images || []).map((img, idx) => (
+                    <SwiperSlide key={idx}>
+                        <img src={img} alt={`Product ${idx}`} className="product-detail-mobile-image" />
+                    </SwiperSlide>
+                    ))}
+                </Swiper>
             </div>
             <div className="product-detail-mobile-info">
                 <h2 className="productNameProductDetailMobilePage">{product.productName}</h2>
