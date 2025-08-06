@@ -5,6 +5,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import {
   ref as storageRef,
   deleteObject,
@@ -34,6 +35,8 @@ function AdminMobile() {
   const [activeNav, setActiveNav] = useState("Product Management");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
 
   const navItems = [
     { key: "Product Management", icon: <FaBoxOpen />, label: "Products" },
@@ -123,6 +126,12 @@ function AdminMobile() {
                         <p>Price: ₱{product.price}</p>
                       </div>
                       <div className="admin-mobile-product-actions">
+                        <button
+                          className="admin-mobile-button edit"
+                          onClick={() => navigate(`/admin/edit/${product.id}`)}
+                        >
+                          Edit
+                        </button>
                         <button
                           className="admin-mobile-button delete"
                           onClick={() => handleDelete(product.id)}
