@@ -25,6 +25,7 @@ import Terms from './Pages/Terms';
 import Privacy from './Pages/Privacy';
 import Refund from './Pages/Refund';
 import EditProduct from './Pages/EditProduct';
+import Services from './Pages/Services';
 function App() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -57,6 +58,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={isMobile? <MobileLogin />: <Login/>} />
           <Route path="/signup" element={isMobile? <MobileSignup/> : <Signup/>} />
+          <Route path='/services' element={<Services/>}/>
           <Route
             path="/admin"
             element={

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, set } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import '../Styles/admin.css';
@@ -17,6 +17,7 @@ import { pageVariants, pageTransition } from "../Component/Transition/pageTransi
 import Loader from '../Component/Loader/Loader.jsx';
 import ArchiveOrder from '../Component/ArchiveOrder/ArchiveOrder.jsx';
 import Inventory from '../Component/Inventory/Inventory.jsx';
+import ServiceForm from '../Component/ServicesForm/ServicesForm.jsx';
 const firebaseConfig = {
   apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
   authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
@@ -123,6 +124,12 @@ function Admin() {
                     <svg className='SVGAdminPage' aria-hidden="true" focusable="false" data-prefix="fas" data-icon="warehouse" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M320 32L0 192V480c0 17.7 14.3 32 32 32H608c17.7 0 32-14.3 32-32V192L320 32zM64 224l256-128l256 128V480H64V224zm96 64h64v64H160V288zm96 0h64v64H256V288zm96 0h64v64H352V288z"></path></svg>
                 <li className='LiUlDivAdminPageMainNav'>Inventory Tracker</li>
                 </div>
+                <div className={`ulChildDivAdminPage ulChildDivAdminPageStyle ${activeNav === 'Services Management' ? 'active' : ''}`} onClick={() => {setActiveNav('Services Management')}}>
+                    <svg className="SVGAdminPage" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path fill="currentColor" d="M487.4 315.7l-28.3-16.4c2.9-14.8 4.3-30.1 4.3-45.3s-1.5-30.5-4.3-45.3l28.3-16.4c15.1-8.8 20.5-28.2 11.7-43.3l-43.4-75.1c-8.8-15.1-28.2-20.5-43.3-11.7l-28.3 16.4c-23.3-19.3-50.2-34-79.7-42.6V24c0-17-13.9-31-31-31h-86.8c-17 0-31 13.9-31 31v32.6c-29.6 8.6-56.4 23.3-79.7 42.6l-28.3-16.4c-15.1-8.8-34.5-3.4-43.3 11.7L12.9 149c-8.8 15.1-3.4 34.5 11.7 43.3l28.3 16.4C49.9 223.1 48.4 238.4 48.4 253.6s1.5 30.5 4.3 45.3l-28.3 16.4c-15.1 8.8-20.5 28.2-11.7 43.3l43.4 75.1c8.8 15.1 28.2 20.5 43.3 11.7l28.3-16.4c23.3 19.3 50.2 34 79.7 42.6V488c0 17 13.9 31 31 31h86.8c17 0 31-13.9 31-31v-32.6c29.6-8.6 56.4-23.3 79.7-42.6l28.3 16.4c15.1 8.8 34.5 3.4 43.3-11.7l43.4-75.1c8.8-15.1 3.4-34.5-11.7-43.3zM256 336c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"></path>
+                    </svg>
+                    <li className='LiUlDivAdminPageMainNav'>Services Management</li>
+                </div>
 
             </ul>
         </div>
@@ -158,14 +165,13 @@ function Admin() {
                             {products.map(product => (
                             <tr key={product.id}>
                                 <td style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-{product.images && product.images.length > 0 && (
-  <img 
-    src={product.images[0]} 
-    alt={product.productName} 
-    style={{ width: '50px', height: '50px', borderRadius: '4px', objectFit: 'cover' }}
-  />
-)}
-
+                                    {product.images && product.images.length > 0 && (
+                                    <img 
+                                        src={product.images[0]} 
+                                        alt={product.productName} 
+                                        style={{ width: '50px', height: '50px', borderRadius: '4px', objectFit: 'cover' }}
+                                    />
+                                    )}
                                 <span>{product.productName}</span>
                                 </td>
                                 <td>{product.category}</td>
@@ -230,6 +236,9 @@ function Admin() {
                     >
                         <Inventory/>
                     </motion.div>
+                )}
+                {activeNav === 'Services Management' && (
+                    <ServiceForm/>
                 )}
             </AnimatePresence>
         </div>

@@ -49,6 +49,7 @@ function MobileNavbar() {
           <ul className="mobile-links">
             <li><Link to="/" onClick={() => setOpen(false)}>Home</Link></li>
             <li><Link to="/about" onClick={() => setOpen(false)}>About</Link></li>
+            <li><Link to="/services" onClick={() => setOpen(false)}>Services</Link></li>
             <li><Link to="/products" onClick={() => setOpen(false)}>Products</Link></li>
             <li><Link to="/contact" onClick={() => setOpen(false)}>Contact</Link></li>
           </ul>
@@ -61,8 +62,8 @@ function MobileNavbar() {
               </>
             ) : (
               <>
-                <Link to="/login" className="auth-btn login-btn">Login</Link>
-                <Link to="/signup" className="auth-btn signup-btn">Sign Up</Link>
+                <Link to="/login" onClick={() => setOpen(false)} className="auth-btn login-btn">Login</Link>
+                <Link to="/signup" onClick={() => setOpen(false)} className="auth-btn signup-btn">Sign Up</Link>
               </>
             )}
           </div>

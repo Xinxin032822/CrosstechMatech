@@ -21,7 +21,8 @@ import {
   FaEnvelope,
   FaTruck,
   FaHistory,
-  FaClipboardList
+  FaClipboardList,
+  FaCog
 } from "react-icons/fa";
 import "../Styles/AdminMobile.css";
 import MobileDeliveryManagement from "../Component/DeliveryManagement/MobileDeliveryManagement.jsx";
@@ -29,6 +30,7 @@ import ArchiveOrder from "../Component/ArchiveOrder/ArchiveOrder.jsx";
 import ArchiveOrderMobile from "../Component/ArchiveOrder/ArchiveOrderMobile.jsx";
 import MobileInventory from "../Component/Inventory/MobileInventory.jsx";
 import Inventory from "../Component/Inventory/Inventory.jsx";
+import ServicesForm from "../Component/ServicesForm/ServicesForm.jsx"
 
 function AdminMobile() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -44,6 +46,7 @@ function AdminMobile() {
     { key: "Delivery Management", icon: <FaTruck />, label: "Deliveries" },
     { key: "Order History", icon: <FaHistory />, label: "History" },
     { key: "Inventory Tracker", icon: <FaClipboardList />, label: "Inventory" },
+    { key: "Services Management", icon: <FaCog/>, label: "Services Management"}
   ];
 
   useEffect(() => {
@@ -174,6 +177,9 @@ function AdminMobile() {
                 />
               )}
             </div>
+          )}
+          {activeNav === 'Services Management' && (
+            <ServicesForm/>
           )}
         </div>
       </div>

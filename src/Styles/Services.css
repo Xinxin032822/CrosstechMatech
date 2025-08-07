@@ -1,0 +1,28 @@
+.MainServicesBody{
+    height: auto;
+}
+.HeadLine{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Ubuntu", sans-serif;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #121212;
+}
+.headlineTitle{
+    font-size: 2.4em;
+    font-weight: bold;
+    padding: 2.1em 0 0 0 ;
+    margin: 0;
+}
+.headlineDesc{
+    font-size: 1.2em;
+    padding: 0 0 2em 0;
+    color: #6c757d;
+    width: 50%;
+    text-align: center;
+    line-height: 1.6em;
+    font-weight: 400;
+}
