@@ -25,6 +25,10 @@ function Services() {
     fetchServices();
   }, []);
 
+  const handleOnlickServiceCard = (service) => {
+    console.log("Go to:", service.title);
+  }
+
   return (
     <div className='MainServicesBody'>
       <div className='HeadLine'>
@@ -41,17 +45,18 @@ function Services() {
             title={service.title}
             description={service.description}
             image={service.images?.[0] || ''}
-            onClick={() => console.log("Go to:", service.title)}
+            category={service.category}
+            onClick={() => handleOnlickServiceCard(service)}
           />
         ))}
       </div>
 
       <div className='ForAssistance'>
-        <div>
+        <div className="ForAssistanceText">
           <p>For Assistance</p>
         </div>
-        <div>
-          <button>MESSAGE US</button>
+        <div className="ForAssistanceButton">
+          <button className="ButtonAssistance">MESSAGE US</button>
         </div>
       </div>
 
