@@ -66,6 +66,146 @@
   transition: background-color 0.3s ease;
 }
 
+
+
+
+.IndustriesWeServe {
+  position: relative;
+  background: none;
+  color: #ddd;
+  padding: 2em 5em;
+  overflow: hidden;
+}
+
+.IndustriesWeServe::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  background: #111;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.industries-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  max-width: 1200px;
+  margin: auto;
+  gap: 40px;
+}
+
+.text-section {
+  flex: 1;
+}
+
+.text-section h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.highlight {
+  color: #313131;
+  text-align: left;
+  font-size: 1.5em;
+  font-family: "Ubuntu", sans-serif;
+  position: relative; /* Needed for pseudo-elements */
+  display: inline-block; /* Ensures positioning context */
+  z-index: 1;
+}
+
+.highlight::before {
+  content: "awesome services ";
+  color: transparent;
+  font-size: 1.5em;
+  font-weight: 900;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  opacity: 0.18;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translateY(-60%);
+  -webkit-text-stroke: 2px #ffffff3d;
+  text-stroke: 2px #fff
+}
+
+.highlight::after {
+  content: "";
+  display: block;
+  width: 20%;
+  height: 3px;
+  background: #e50914;
+  margin-top: 8px;
+  border-radius: 2px;
+}
+
+.text-section p {
+  font-size: 1rem;
+  color: #484848;
+  line-height: 1.5;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: bold;
+}
+
+.contact-link {
+  color: #e50914;
+  text-decoration: none;
+}
+
+.fb-link {
+  color: #e50914;
+  text-decoration: none;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-section img {
+  max-width: 80%;
+  border-radius: 8px;
+  margin-top: 10em;
+}
+
+
+.ContactUsFooterServicesPage{
+  background-color: #e50914;
+  padding: 4em 4em;
+  margin-top: 8em;
+}
+
+.ContactUsSercivePageLast{
+  color: #ddd;
+  font-family: "Ubuntu",sans-serif;
+  font-weight: 600;
+  font-size: 2em;
+}
+
+.ContactUsButtonServicePageLast button{
+  padding: 1em 2.3em;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+}
+
+.ContactUsButtonServicePageLast button:hover{
+  background-color: #ddd;
+  cursor: pointer;
+}
+
 @media (min-width: 1200px) {
   .Cards {
     grid-template-columns: repeat(4, 1fr);
@@ -73,13 +213,37 @@
 }
 
 @media (max-width: 900px) {
-  .Cards {
-    grid-template-columns: repeat(2, 1fr);
+  .IndustriesWeServe {
+    padding: 2em 1em;
+  }
+  .industries-content {
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .image-section img {
+    margin-top: 2em;
+    max-width: 100%;
+  }
+  .text-section h2 {
+    font-size: 1.5rem;
+  }
+  .text-section p {
+    font-size: 0.98rem;
   }
 }
 
 @media (max-width: 600px) {
-  .Cards {
-    grid-template-columns: 1fr;
+  .IndustriesWeServe {
+    padding: 1.2em 0.5em;
+  }
+  .industries-content {
+    gap: 16px;
+  }
+  .text-section h2 {
+    font-size: 1.1rem;
+  }
+  .highlight {
+    font-size: 1.1em;
   }
 }
