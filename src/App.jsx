@@ -65,6 +65,7 @@ function App() {
             path="/admin"
             element={
               <ProtectedAdminRoute>
+                {/* {isMobile ? <AdminMobile /> : <Admin />} */}
                 <AdminDashboard/>
               </ProtectedAdminRoute>
             }

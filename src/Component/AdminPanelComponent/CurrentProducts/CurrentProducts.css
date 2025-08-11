@@ -1,0 +1,124 @@
+.cp-main-grid {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 2rem;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.cp-upper-grid {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+
+.cp-search-input {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 9999px;
+  border: 2px solid #eee;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fafbfc;
+  box-shadow: 0 1px 2px rgba(229, 9, 20, 0.04);
+}
+
+.cp-search-input:focus {
+  border-color: #e5091493;
+  box-shadow: 0 0 5px 1px rgba(229, 9, 20, 0.616);
+}
+
+.cp-add-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  background: #e50914;
+  color: #fff;
+  font-family: "Ubuntu", sans-serif;
+  border: none;
+  cursor: pointer;
+  transition: 0.4s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.219);
+}
+.cp-add-btn:hover {
+  background: #ff303a;
+}
+
+.cp-list-section {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 1rem;
+}
+.cp-products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  align-items: stretch; /* Make all cards in a row equal height */
+}
+.cp-pagination {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align: center;
+}
+.ccp-row {
+  height: 100%; /* Card fills grid cell */
+}
+
+
+.cp-category-dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.cp-category-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.cp-category-dropdown {
+  position: relative;
+  width: 180px;
+}
+
+.cp-category-select {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  padding-right: 2.5rem; /* space for arrow */
+  border: 2px solid #eee;
+  border-radius: 9999px;
+  font-size: 0.95rem;
+  background: #fafbfc;
+  color: #333;
+  appearance: none; /* remove default select arrow */
+  outline: none;
+  box-shadow: 0 1px 2px rgba(229, 9, 20, 0.04);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  cursor: pointer;
+}
+
+.cp-category-select:focus {
+  border-color: #e5091493;
+  box-shadow: 0 0 5px 1px rgba(229, 9, 20, 0.616);
+  background: #fff;
+}
+
+.cp-category-arrow {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.8rem;
+  color: #888;
+}

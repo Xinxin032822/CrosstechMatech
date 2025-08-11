@@ -125,7 +125,7 @@ function Services() {
           <div className="ForAssistanceButton">
             <button
               className="ButtonAssistance"
-              onClick={() => window.open('https://facebook.com', '_blank')}
+              onClick={() => window.open('https://www.facebook.com/people/Matech-Fabrication-Heavy-Equipment-Parts-Trading/100072122677086/', '_blank')}
             >
               MESSAGE US
             </button>
@@ -154,7 +154,7 @@ function Services() {
               </p>
             </div>
             <div className="image-section">
-              <img src="public\assets\img\hydraulic-repairs-services-e1674055230173.webp" alt="Services" />
+              <img src="\assets\img\hydraulic-repairs-services-e1674055230173.webp" alt="Services" />
             </div>
           </div>
         </div>
