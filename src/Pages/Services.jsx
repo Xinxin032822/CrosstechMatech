@@ -123,7 +123,12 @@ function Services() {
             <p>For Assistance</p>
           </div>
           <div className="ForAssistanceButton">
-            <button className="ButtonAssistance">MESSAGE US</button>
+            <button
+              className="ButtonAssistance"
+              onClick={() => window.open('https://facebook.com', '_blank')}
+            >
+              MESSAGE US
+            </button>
           </div>
         </div>
       </AnimatedSection>
@@ -161,7 +166,7 @@ function Services() {
             <p>IF YOU NEED HELP CONTACT US</p>
           </div>
           <div className="ContactUsButtonServicePageLast">
-            <button>CONTACT US</button>
+            <button onClick={() => navigate('/contact')}>CONTACT US</button>
           </div>
         </div>
       </AnimatedSection>

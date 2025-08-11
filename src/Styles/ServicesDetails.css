@@ -1,0 +1,149 @@
+.service-detail-container {
+  width: 100%;
+  padding: 2rem;
+  box-sizing: border-box;
+  min-height: 100vh; /* Added for full viewport height */
+}
+
+.service-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3em 5em;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.service-detail-image-container,
+.service-detail-info {
+  width: 100%;
+}
+
+.service-detail-image {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.service-detail-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.service-detail-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.service-detail-info li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.features-box {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.features-box h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.features-box ul {
+  padding-left: 1.2rem;
+}
+
+.description-box {
+  margin-top: 1rem;
+}
+
+.description-box h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.secondary-button {
+  background-color: #fff;
+  color: #e50914;
+  border: 2px solid #e50914;
+  transition: 0.3s;
+  padding: 1em 1em;
+  border-radius: 7px;
+}
+
+.secondary-button:hover {
+  background-color: #e50914;
+  color: #fff;
+}
+
+.primary-button {
+  background-color: #e50914;
+  color: #fff;
+  border: 2px solid #e50914;
+  transition: 0.3s;
+  padding: 1em 1em;
+  border-radius: 7px;
+}
+
+.primary-button:hover {
+  background-color: #ff3c46;
+}
+
+.service-detail-image-container {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  position: relative;
+}
+
+.service-detail-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  color: #333;
+  font-size: 24px;
+}
+
+.swiper-pagination-bullet {
+  background: #ccc;
+}
+
+.swiper-pagination-bullet-active {
+  background: #333;
+}
+
+.serviceName {
+  margin-top: 0;
+}
+
+@media (min-width: 1199px) {
+  .service-detail-content {
+    flex-direction: row;
+    padding: 3em 10em;
+  }
+
+  .service-detail-image-container,
+  .service-detail-info {
+    width: 50%;
+  }
+}

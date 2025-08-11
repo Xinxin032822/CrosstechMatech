@@ -1,4 +1,3 @@
-// ServicesDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
@@ -21,7 +20,7 @@ function ServicesDetails() {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const docRef = doc(db, 'services', id); // fetch from 'services' collection
+        const docRef = doc(db, 'services', id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setService({ id: docSnap.id, ...docSnap.data() });
@@ -39,7 +38,6 @@ function ServicesDetails() {
     <div>
       <div className="service-detail-container">
         <div className="service-detail-content">
-          {/* Image Slider */}
           <div className="service-detail-image-container">
             <Swiper
               modules={[Navigation, Pagination]}
@@ -62,11 +60,33 @@ function ServicesDetails() {
             </Swiper>
           </div>
 
-          {/* Service Info */}
           <div className="service-detail-info">
             <h2 className="serviceName">{service.title}</h2>
 
-            {/* Optional: Service Features */}
+            <ul>
+              <li>
+                <span style={{ fontWeight: "bold", color: "#333" }}>Category:</span>
+                <span style={{ color: "#555" }}>{service.category || "N/A"}</span>
+              </li>
+              <li>
+                <span style={{ fontWeight: "bold", color: "#333" }}>Subcategory:</span>
+                <span style={{ color: "#555" }}>
+                  {Array.isArray(service.subcategories) && service.subcategories.length > 0
+                    ? service.subcategories.join(" > ")
+                    : "N/A"}
+                </span>
+              </li>
+            </ul>
+
+            {service.price && (
+              <div className="price-box" style={{ marginTop: "1.5rem" }}>
+                <div>
+                  <span className="starting-label">Starting from</span>
+                  <h2 className="price">₱{Number(service.price).toLocaleString()}</h2>
+                </div>
+              </div>
+            )}
+
             {service.features?.length > 0 && (
               <div className="features-box">
                 <h3>Key Features</h3>
@@ -78,13 +98,11 @@ function ServicesDetails() {
               </div>
             )}
 
-            {/* Description */}
             <div className="description-box">
               <h3>Description</h3>
               <p>{service.description}</p>
             </div>
 
-            {/* Call to Action */}
             <div className="action-buttons">
               <button
                 className="secondary-button"
@@ -94,9 +112,9 @@ function ServicesDetails() {
               </button>
               <button
                 className="primary-button"
-                onClick={() => navigate(`/booking/${service.id}`)}
+                onClick={() => window.open('https://facebook.com', '_blank')}
               >
-                <i className="fas fa-calendar-check"></i> Message Us
+                <i className="fab fa-facebook-messenger"></i> Message Us
               </button>
             </div>
           </div>
