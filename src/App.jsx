@@ -27,6 +27,7 @@ import Refund from './Pages/Refund';
 import EditProduct from './Pages/EditProduct';
 import Services from './Pages/Services';
 import ServicesDetails from './Pages/ServicesDetails';
+import AdminDashboard from './Pages/AdminDashboard';
 function App() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -64,9 +65,7 @@ function App() {
             path="/admin"
             element={
               <ProtectedAdminRoute>
-                {
-                  isTabletOrSmaller? <AdminMobile/> :<Admin/>
-                }
+                <AdminDashboard/>
               </ProtectedAdminRoute>
             }
           />

@@ -1,0 +1,30 @@
+.admin-dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(200px, 280px) 1fr;
+  min-height: 100vh;
+}
+
+/* .admin-dashboard-nav {
+  background: #f5f5f5;
+} */
+
+.admin-dashboard-main {
+  /* background: #fff; */
+  overflow-y: auto;
+}
+
+@media (max-width: 800px) {
+  .admin-dashboard-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    height: auto;
+  }
+  .admin-dashboard-nav {
+    grid-row: 1;
+    grid-column: 1;
+  }
+  .admin-dashboard-main {
+    grid-row: 2;
+    grid-column: 1;
+  }
+}
