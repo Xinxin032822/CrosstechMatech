@@ -3,6 +3,8 @@ import '../Styles/AdminDashboard.css'
 import AdminPanel from '../Component/AdminPanel/AdminPanel'
 import ProductManagement from '../Component/AdminPanelComponent/ProductManagement/ProductManagement';
 import CurrentProducts from '../Component/AdminPanelComponent/CurrentProducts/CurrentProducts';
+import InquiryManagement from '../Component/AdminPanelComponent/InquiryManagement/InquiryManagement';
+import DeliveryManagement from '../Component/AdminPanelComponent/DeliveryManagement/DeliveryManagement';
 
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState('product');
@@ -14,9 +16,9 @@ function AdminDashboard() {
       </div>
       <div className="admin-dashboard-main">
         {activeSection === 'product' && <div><ProductManagement/></div>}
-        {activeSection === 'currentProducts' && <div><CurrentProducts/></div>}
-        {activeSection === 'inquiry' && <div>Inquiry Management Section</div>}
-        {activeSection === 'delivery' && <div>Delivery Management Section</div>}
+        {activeSection === 'currentProducts' && <div><CurrentProducts setActiveSection={setActiveSection}/></div>}
+        {activeSection === 'inquiry' && <div><InquiryManagement/></div>}
+        {activeSection === 'delivery' && <div><DeliveryManagement/></div>}
         {activeSection === 'order' && <div>Order History Section</div>}
         {activeSection === 'inventory' && <div>Inventory Tracker Section</div>}
         {activeSection === 'services' && <div>Services Management Section</div>}

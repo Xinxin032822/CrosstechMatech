@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc, addDoc, collection, serverTimestamp, updateDoc, runTransaction   } from 'firebase/firestore';
-import { db,auth } from '../Data/firebase';
+import { doc, getDoc, addDoc, collection, serverTimestamp, runTransaction } from 'firebase/firestore';
+import { db, auth } from '../Data/firebase';
 import '../Styles/ShippingDetail.css';
-
 
 import Loader from '../Component/Loader/Loader';
 
@@ -13,7 +12,7 @@ function ShippingDetail() {
   const [quantity, setQuantity] = useState(1);
   const [selectedMethod, setSelectedMethod] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [form, setForm] = useState({    
+  const [form, setForm] = useState({
     fullName: '',
     phone: '',
     email: '',
@@ -40,207 +39,148 @@ function ShippingDetail() {
   const decreaseQty = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (isButtonDisabled) return;
+    e.preventDefault();
+    if (isButtonDisabled) return;
 
-  setIsButtonDisabled(true);
-  setTimeout(() => setIsButtonDisabled(false), 5000);
-  const { fullName, phone, email, address } = form;
-  if (![fullName, phone, email, address].every(val => val.trim() !== "")) {
-    alert("Please fill in all required fields.");
-    return;
-  }
+    setIsButtonDisabled(true);
+    setTimeout(() => setIsButtonDisabled(false), 5000);
 
-  if (!selectedMethod) {
-    alert('Please select a payment method');
-    return;
-  }
-
-  const subtotal = product.price * quantity;
-  const shipping = product.shippingFee;
-  const total = subtotal + shipping;
-
-  const user = auth.currentUser;
-  if (!user) {
-    alert("You must be logged in to place an order.");
-    return;
-  }
-  if (quantity > product.quantity) {
-    alert("Ordered quantity exceeds available stock.");
-    return;
-  }
-
-
-  try {
-    if (selectedMethod === "GCash") {
-      const response = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: total,
-          name: form.fullName,
-          email: form.email,
-          userId: user.uid,
-          formData: form,
-          productInfo: {
-            productId: product.id,
-            productName: product.productName,
-          }
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.invoice_url) {
-        await addDoc(collection(db, "users", user.uid, "orders"), {
-          ...form,
-          payment: selectedMethod,
-          quantity,
-          productId: product.id,
-          productName: product.productName,
-          productPrice: product.price,
-          subtotal,
-          shipping,
-          total,
-          status: "Pending",
-          paymentStatus: "Pending",
-          createdAt: serverTimestamp(),
-          xenditInvoiceId: data.id,
-        });
-
-        const productRef = doc(db, "products", product.id);
-        await runTransaction(db, async (transaction) => {
-          const productDoc = await transaction.get(productRef);
-          if (!productDoc.exists()) {
-            throw new Error("Product does not exist");
-          }
-
-          const currentQty = productDoc.data().quantity;
-          if (currentQty < quantity) {
-            throw new Error("Not enough stock available");
-          }
-
-          transaction.update(productRef, {
-            quantity: currentQty - quantity
-          });
-        });
-
-
-        window.location.href = data.invoice_url;
-      } else {
-        alert("Failed to create GCash invoice.");
-        console.error(data);
-      }
-
+    const { fullName, phone, email, address } = form;
+    if (![fullName, phone, email, address].every(val => val.trim() !== "")) {
+      alert("Please fill in all required fields.");
       return;
     }
 
-    if (selectedMethod === "Other Methods") {
-      const response = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-card-invoice', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: total,
-          name: form.fullName,
-          email: form.email,
-          userId: user.uid,
-          formData: form,
-          productInfo: {
-            productId: product.id,
-            productName: product.productName,
-          }
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.invoice_url) {
-        await addDoc(collection(db, "users", user.uid, "orders"), {
-          ...form,
-          payment: selectedMethod,
-          quantity,
-          productId: product.id,
-          productName: product.productName,
-          productPrice: product.price,
-          subtotal,
-          shipping,
-          total,
-          status: "Pending",
-          paymentStatus: "Pending",
-          createdAt: serverTimestamp(),
-          xenditInvoiceId: data.id,
-        });
-        
-        const productRef = doc(db, "products", product.id);
-        await runTransaction(db, async (transaction) => {
-          const productDoc = await transaction.get(productRef);
-          if (!productDoc.exists()) {
-            throw new Error("Product does not exist");
-          }
-
-          const currentQty = productDoc.data().quantity;
-          if (currentQty < quantity) {
-            throw new Error("Not enough stock available");
-          }
-
-          transaction.update(productRef, {
-            quantity: currentQty - quantity
-          });
-        });
-
-        window.location.href = data.invoice_url;
-      } else {
-        alert("Failed to create Credit Card invoice.");
-        console.error(data);
-      }
-
+    if (!selectedMethod) {
+      alert('Please select a payment method');
       return;
     }
 
+    const subtotal = Number(product.price) * quantity;
+    const shipping = Number(product.shippingFee);
+    const total = subtotal + shipping;
 
-    await addDoc(collection(db, "users", user.uid, "orders"), {
-      ...form,
-      payment: selectedMethod,
-      quantity,
-      productId: product.id,
-      productName: product.productName,
-      productPrice: product.price,
-      subtotal,
-      shipping,
-      total,
-      status: "Pending",
-      paymentStatus: "Pending",
-      createdAt: serverTimestamp(),
-    });
+    const user = auth.currentUser;
+    if (!user) {
+      alert("You must be logged in to place an order.");
+      return;
+    }
 
-    const productRef = doc(db, "products", product.id);
+    if (quantity > Number(product.quantity)) {
+      alert("Ordered quantity exceeds available stock.");
+      return;
+    }
+
+    try {
+      let invoiceResponse = null;
+
+      if (selectedMethod === "GCash") {
+        invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: total,
+            name: form.fullName,
+            email: form.email,
+            userId: user.uid,
+            formData: form,
+            productInfo: {
+              productId: product.id,
+              productName: product.productName,
+            }
+          }),
+        });
+      } else if (selectedMethod === "Other Methods") {
+        invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-card-invoice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: total,
+            name: form.fullName,
+            email: form.email,
+            userId: user.uid,
+            formData: form,
+            productInfo: {
+              productId: product.id,
+              productName: product.productName,
+            }
+          }),
+        });
+      }
+
+      let invoiceData = null;
+      if (invoiceResponse) {
+        invoiceData = await invoiceResponse.json();
+        if (invoiceResponse.ok && invoiceData.invoice_url) {
+          await addDoc(collection(db, "users", user.uid, "orders"), {
+            ...form,
+            payment: selectedMethod,
+            quantity,
+            productId: product.id,
+            productName: product.productName,
+            productPrice: Number(product.price),
+            subtotal,
+            shipping,
+            total,
+            status: "Pending",
+            paymentStatus: "Pending",
+            createdAt: serverTimestamp(),
+            xenditInvoiceId: invoiceData.id,
+          });
+
+          await adjustProductStock(product.id, quantity);
+
+          window.location.href = invoiceData.invoice_url;
+          return;
+        } else {
+          alert("Failed to create invoice.");
+          console.error(invoiceData);
+          return;
+        }
+      }
+
+      await addDoc(collection(db, "users", user.uid, "orders"), {
+        ...form,
+        payment: selectedMethod,
+        quantity,
+        productId: product.id,
+        productName: product.productName,
+        productPrice: Number(product.price),
+        subtotal,
+        shipping,
+        total,
+        status: "Pending",
+        paymentStatus: "Pending",
+        createdAt: serverTimestamp(),
+      });
+
+      await adjustProductStock(product.id, quantity);
+
+      alert('Order placed successfully!');
+    } catch (error) {
+      console.error("Error placing order:", error);
+      alert("Something went wrong while placing the order.");
+    }
+  };
+
+  const adjustProductStock = async (productId, qty) => {
+    const productRef = doc(db, "products", productId);
     await runTransaction(db, async (transaction) => {
       const productDoc = await transaction.get(productRef);
-      if (!productDoc.exists()) {
-        throw new Error("Product does not exist");
-      }
-      const currentQty = productDoc.data().quantity;
-      if (currentQty < quantity) {
-        throw new Error("Not enough stock available");
-      }
+      if (!productDoc.exists()) throw new Error("Product does not exist");
+
+      const currentQty = Number(productDoc.data().quantity);
+      if (currentQty < qty) throw new Error("Not enough stock available");
+
       transaction.update(productRef, {
-        quantity: currentQty - quantity
+        quantity: currentQty - qty
       });
     });
+  };
 
-    alert('Order placed successfully!');
-  } catch (error) {
-    console.error("Error placing order:", error);
-    alert("Something went wrong while placing the order.");
-  }
-};
-
-
-
-  if (!product) return <Loader/>;
-
-  const subtotal = product.price * quantity;
-  const shipping = product.shippingFee;
+  if (!product) return <Loader />;
+  const subtotal = Number(product.price) * quantity;
+  const shipping = Number(product.shippingFee);
   const total = subtotal + shipping;
 
   return (
@@ -283,7 +223,6 @@ function ShippingDetail() {
             <h3>Payment Method</h3>
             <div className="payment-methods">
               {[
-                // { label: "Credit Card", icon: "CreditCard.png" },
                 { label: "GCash", icon: "gcash.png" },
                 { label: "Cash on Delivery", icon: "COD.png" },
                 { label: "Other Methods", icon: "bank.png" },
@@ -314,7 +253,7 @@ function ShippingDetail() {
               <div className='quantityShippingDetails'>
                 <p className='quantityNumberShippingDetails'>Quantity: {quantity}</p>
                 <div className='quantityButtonsShippingDetails'>
-                  <button type="button" className='quantityButtonFunctionalShippingDetailsPage' onClick={increaseQty} disabled={quantity >= product.quantity}>
+                  <button type="button" className='quantityButtonFunctionalShippingDetailsPage' onClick={increaseQty} disabled={quantity >= Number(product.quantity)}>
                     <i className="fas fa-plus"></i>
                   </button>
                   <button type="button" className='quantityButtonFunctionalShippingDetailsPage' onClick={decreaseQty}>
@@ -330,10 +269,12 @@ function ShippingDetail() {
             <p className='prices-summary-details'>Subtotal: <span className='dynamic-prices-summary-details'>₱{subtotal.toLocaleString()}</span></p>
             <p className='prices-summary-details'>Shipping: <span className='dynamic-prices-summary-details'>₱{shipping.toLocaleString()}</span></p>
             <hr />
-            <h4>Total: <span className=''>₱{total.toLocaleString()}</span></h4>
+            <h4>Total: <span>₱{total.toLocaleString()}</span></h4>
           </div>
           <p className="secure-checkout"><i className="fas fa-shield-halved"></i> Secure Checkout</p>
-          <button type="submit" className="place-order-button" onClick={handleSubmit} disabled={isButtonDisabled}>{isButtonDisabled ? "Please wait..." : "Place Order"}</button>
+          <button type="submit" className="place-order-button" onClick={handleSubmit} disabled={isButtonDisabled}>
+            {isButtonDisabled ? "Please wait..." : "Place Order"}
+          </button>
         </div>
       </div>
     </div>

@@ -4,11 +4,14 @@ import { db } from '../../../Data/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import CardsCurrentProducts from './cardsCurrentProducts/cardsCurrentProducts';
 
-function CurrentProducts() {
+function CurrentProducts({ setActiveSection }) {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('');
   const [categories, setCategories] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // 🔹 New state
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,7 +39,6 @@ function CurrentProducts() {
     fetchProducts();
   }, []);
 
-  // Filtered products based on category + search term
   const filteredProducts = products.filter(product => {
     const matchesCategory =
       !category || product.category?.toLowerCase().trim() === category.toLowerCase().trim();
@@ -48,10 +50,19 @@ function CurrentProducts() {
     return matchesCategory && matchesSearch;
   });
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, category]);
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const currentProducts = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="cp-main-grid">
       <div className="cp-upper-grid">
-        {/* 🔹 Search Bar */}
         <input
           type="text"
           placeholder="Search products..."
@@ -60,7 +71,6 @@ function CurrentProducts() {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
 
-        {/* Category Filter */}
         <div className="cp-category-dropdown-group">
           <div className="cp-category-dropdown">
             <select
@@ -73,20 +83,18 @@ function CurrentProducts() {
                 <option key={cat} value={cat}>{cat}</option>
               ))}
             </select>
-
             <span className="cp-category-arrow">&#9660;</span>
           </div>
         </div>
 
-        <button className="cp-add-btn">
+        <button className="cp-add-btn" onClick={() => setActiveSection('product')}>
           Add New Product
         </button>
       </div>
 
-      {/* Product List */}
       <div className="cp-list-section">
         <div className="cp-products-grid">
-          {filteredProducts.map((product) => (
+          {currentProducts.map((product) => (
             <CardsCurrentProducts
               key={product.id}
               image={product.images}
@@ -98,8 +106,49 @@ function CurrentProducts() {
             />
           ))}
         </div>
+
         <div className="cp-pagination">
-          {/* Pagination controls */}
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(prev => prev - 1)}
+          >
+            Prev
+          </button>
+
+          {currentPage > 3 && (
+            <>
+              <button onClick={() => setCurrentPage(1)}>1</button>
+              {currentPage > 4 && <span>...</span>}
+            </>
+          )}
+
+          {Array.from({ length: totalPages }, (_, index) => index + 1)
+            .filter(page =>
+              page >= currentPage - 2 && page <= currentPage + 2
+            )
+            .map(page => (
+              <button
+                key={page}
+                className={currentPage === page ? 'active' : ''}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+
+          {currentPage < totalPages - 2 && (
+            <>
+              {currentPage < totalPages - 3 && <span>...</span>}
+              <button onClick={() => setCurrentPage(totalPages)}>{totalPages}</button>
+            </>
+          )}
+
+          <button
+            disabled={currentPage === totalPages || totalPages === 0}
+            onClick={() => setCurrentPage(prev => prev + 1)}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

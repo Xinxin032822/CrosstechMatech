@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collectionGroup, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../../Data/firebase';
+import { db } from '../../../Data/firebase';
 import './InquiryManagement.css';
 
 function InquiryManagement() {

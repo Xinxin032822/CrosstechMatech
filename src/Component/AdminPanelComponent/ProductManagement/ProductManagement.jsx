@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import "./ProductManagement.css";
+import { db, storage } from '../../../Data/firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import './ProductManagement.css';
 
-function ProductManagement() {
-  // Example state for controlled inputs (replace/add logic as needed)
+function ProductManagement({ setActiveSection }) {
   const [productName, setProductName] = useState('');
   const [categoryInput, setCategoryInput] = useState('');
   const [price, setPrice] = useState('');
@@ -12,8 +14,8 @@ function ProductManagement() {
   const [specs, setSpecs] = useState([{ title: '', value: '' }]);
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Handlers for specs (add/remove/change)
   const handleSpecChange = (index, field, value) => {
     const updated = [...specs];
     updated[index][field] = value;
@@ -22,7 +24,6 @@ function ProductManagement() {
   const addSpec = () => setSpecs([...specs, { title: '', value: '' }]);
   const removeSpec = (index) => setSpecs(specs.filter((_, i) => i !== index));
 
-  // Handler for image preview
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     const previews = files.map((file) => ({
@@ -33,50 +34,111 @@ function ProductManagement() {
     setImagePreviews((prev) => [...prev, ...previews]);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!productName || !categoryInput || !price || !quantity) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    setLoading(true);
+
+    try {
+      const categoryParts = categoryInput.split('>').map(c => c.trim());
+      const category = categoryParts[0] || '';
+      const subcategories = categoryParts.slice(1);
+
+      const uploadedImageURLs = [];
+      for (const file of imageFiles) {
+        const storageRef = ref(storage, `products/${Date.now()}-${file.name}`);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        uploadedImageURLs.push(downloadURL);
+      }
+
+      const productData = {
+        productName: productName,
+        category: category,
+        subcategories: subcategories,
+        price: Number(price),
+        shippingFee: Number(shippingFee),
+        images: uploadedImageURLs,
+        quantity: Number(quantity),
+        maxstock: Number(quantity),
+        description: description,
+        specification: specs.filter(s => s.title && s.value),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      await addDoc(collection(db, 'products'), productData);
+
+      alert('✅ Product added successfully!');
+      setLoading(false);
+
+      setProductName('');
+      setCategoryInput('');
+      setPrice('');
+      setShippingFee('');
+      setQuantity('');
+      setDescription('');
+      setSpecs([{ title: '', value: '' }]);
+      setImageFiles([]);
+      setImagePreviews([]);
+
+      if (setActiveSection) {
+        setActiveSection('currentProducts');
+      }
+
+    } catch (error) {
+      console.error('Error adding product:', error);
+      alert('❌ Failed to add product.');
+      setLoading(false);
+    }
+  };
+
   return (
     <div className='FormAddProductAdminPageMain'>
       <p className='AdminPageContentAddProductComponentTitle'>Add New Product</p>
-      <form className=''>
+      <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="field">
-            <label htmlFor="productName">Product Name</label>
+            <label>Product Name</label>
             <input
               className='InputStyleAddproduct'
-              id="productName"
               value={productName}
               onChange={e => setProductName(e.target.value)}
+              required
             />
           </div>
           <div className="field">
-            <label htmlFor="categoryInput">Category & Subcategories</label>
+            <label>Category & Subcategories</label>
             <input
               className="InputStyleAddproduct"
-              id="categoryInput"
               value={categoryInput}
               onChange={e => setCategoryInput(e.target.value)}
               placeholder="e.g. Engine Parts > Spark Plugs > Fuel Injectors"
+              required
             />
           </div>
         </div>
 
         <div className="row">
           <div className="field">
-            <label htmlFor="price">Price</label>
+            <label>Price</label>
             <input
-              className='InputStyleAddproduct'
               type="number"
-              id="price"
+              className='InputStyleAddproduct'
               placeholder='₱'
               value={price}
               onChange={e => setPrice(e.target.value)}
+              required
             />
           </div>
           <div className="field">
-            <label htmlFor="shippingFee">Shipping Fee</label>
+            <label>Shipping Fee</label>
             <input
-              className="InputStyleAddproduct"
               type="number"
-              id="shippingFee"
+              className="InputStyleAddproduct"
               placeholder="₱"
               value={shippingFee}
               onChange={e => setShippingFee(e.target.value)}
@@ -86,11 +148,10 @@ function ProductManagement() {
 
         <div className="row">
           <div className="field full-width inputChoseFileType">
-            <label htmlFor="image">Image Upload (multiple)</label>
+            <label>Image Upload (multiple)</label>
             <input
               className="InputStyleAddproduct InputStyleAddproductImage"
               type="file"
-              id="image"
               accept="image/*"
               multiple
               onChange={handleImageChange}
@@ -117,25 +178,23 @@ function ProductManagement() {
             </div>
           </div>
           <div className="field full-width">
-            <label htmlFor="stock">Quantity</label>
+            <label>Quantity</label>
             <input
               type="number"
-              id="stock"
               className="InputStyleAddproduct"
-              placeholder="Enter stock quantity"
               min="0"
               value={quantity}
               onChange={e => setQuantity(e.target.value)}
+              required
             />
           </div>
         </div>
 
         <div className="row">
           <div className="field full-width">
-            <label htmlFor="description">Description</label>
+            <label>Description</label>
             <textarea
               className='InputStyleAddproduct'
-              id="description"
               value={description}
               onChange={e => setDescription(e.target.value)}
             />
@@ -169,8 +228,8 @@ function ProductManagement() {
         </div>
 
         <div className="row">
-          <button type="submit" className='btnSubmitSaveProduct'>
-            Save Product
+          <button type="submit" className='btnSubmitSaveProduct' disabled={loading}>
+            {loading ? 'Saving...' : 'Save Product'}
           </button>
         </div>
       </form>
@@ -178,4 +237,4 @@ function ProductManagement() {
   );
 }
 
-export default ProductManagement
+export default ProductManagement;

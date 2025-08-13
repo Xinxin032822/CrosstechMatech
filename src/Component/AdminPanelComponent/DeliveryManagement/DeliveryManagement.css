@@ -1,0 +1,269 @@
+.delivery-page {
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.delivery-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.delivery-controls input {
+  flex: 3;
+}
+
+.delivery-controls select {
+  flex: 1;
+  max-width: 200px;
+}
+
+.delivery-controls input,
+.delivery-controls select {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.delivery-controls input:focus,
+.delivery-controls select:focus {
+  outline: none;
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.2);
+}
+
+.delivery-table-wrapper {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+.delivery-table td,
+.delivery-table th {
+  max-width: 200px; /* adjust for your layout */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.delivery-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.delivery-table thead {
+  background-color: #e50914;
+  color: #fff;
+}
+
+.delivery-table th,
+.delivery-table td {
+  padding: 14px 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.product-cell p,
+.product-cell small {
+  display: block;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.delivery-table tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background 0.2s ease;
+}
+
+.delivery-table tbody tr:hover {
+  background: rgba(229, 9, 20, 0.04);
+}
+
+/* Product cell */
+.product-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-cell img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+/* Status badge */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.processing {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-badge.delivered {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Buttons */
+.view-btn,
+.archive-btn {
+  background-color: #e50914;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.view-btn:hover,
+.archive-btn:hover {
+  background-color: #bf0811;
+}
+
+/* Modal overlay */
+.delivery-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal content */
+.delivery-modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-close {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.delivery-modal img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 10px;
+  border-radius: 8px;
+}
+
+.delivery-modal p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.delivery-modal label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.delivery-modal select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+.delivery-summary {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-card {
+  flex: 1;
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.summary-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.summary-card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.summary-card.pending { border-left: 5px solid #f39c12; }
+.summary-card.processing { border-left: 5px solid #3498db; }
+.summary-card.delivered { border-left: 5px solid #2ecc71; }
+.summary-card.total { border-left: 5px solid #9b59b6; }
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+
+@media (max-width: 768px) {
+  .delivery-controls {
+    flex-direction: column;
+  }
+
+  .delivery-controls input,
+  .delivery-controls select {
+    width: 100%;
+    max-width: none;
+  }
+
+  .delivery-table td,
+  .delivery-table th {
+    max-width: 120px;
+  }
+
+  .product-cell p,
+  .product-cell small {
+    max-width: 100px;
+  }
+}

@@ -48,13 +48,20 @@
 }
 
 .cp-list-section {
-  display: grid;
-  grid-template-rows: 1fr auto;
-  height: 100%;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  padding: 1rem;
+  flex: 1;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  padding-bottom: 1em;
+}
+
+.cp-list-section::-webkit-scrollbar {
+  width: 6px;
+}
+.cp-list-section::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
 }
 .cp-products-grid {
   display: grid;
@@ -122,3 +129,47 @@
   font-size: 0.8rem;
   color: #888;
 }
+
+.cp-pagination {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.cp-pagination button {
+  padding: 6px 12px;
+  border: 1px solid #e50914;
+  background: white;
+  color: #e50914;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.cp-pagination button:hover:not(:disabled) {
+  background: #e50914;
+  color: white;
+}
+
+.cp-pagination button.active {
+  background: #e50914;
+  color: white;
+}
+
+.cp-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cp-pagination span {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  padding: 0 6px;
+  color: #555;
+}
+
+
