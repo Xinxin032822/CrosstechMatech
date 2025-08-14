@@ -27,7 +27,7 @@ function DeliveryManagement() {
       try {
         const snapshot = await getDocs(collectionGroup(db, "orders"));
         if (snapshot.empty) {
-          setOrders([]); // No fallback — just empty list
+          setOrders([]);
           return;
         }
 

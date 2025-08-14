@@ -5,6 +5,8 @@ import ProductManagement from '../Component/AdminPanelComponent/ProductManagemen
 import CurrentProducts from '../Component/AdminPanelComponent/CurrentProducts/CurrentProducts';
 import InquiryManagement from '../Component/AdminPanelComponent/InquiryManagement/InquiryManagement';
 import DeliveryManagement from '../Component/AdminPanelComponent/DeliveryManagement/DeliveryManagement';
+import OrderHistory from '../Component/AdminPanelComponent/OrderHistory/OrderHistory';
+import InventoryTracker from '../Component/AdminPanelComponent/InventoryTracker/InventoryTracker';
 
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState('product');
@@ -19,8 +21,8 @@ function AdminDashboard() {
         {activeSection === 'currentProducts' && <div><CurrentProducts setActiveSection={setActiveSection}/></div>}
         {activeSection === 'inquiry' && <div><InquiryManagement/></div>}
         {activeSection === 'delivery' && <div><DeliveryManagement/></div>}
-        {activeSection === 'order' && <div>Order History Section</div>}
-        {activeSection === 'inventory' && <div>Inventory Tracker Section</div>}
+        {activeSection === 'order' && <div><OrderHistory/></div>}
+        {activeSection === 'inventory' && <div><InventoryTracker/></div>}
         {activeSection === 'services' && <div>Services Management Section</div>}
         {activeSection === 'serviceMessages' && <div>Services Messages Section</div>}
       </div>

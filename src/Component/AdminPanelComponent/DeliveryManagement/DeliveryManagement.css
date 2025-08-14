@@ -46,7 +46,7 @@
 
 .delivery-table td,
 .delivery-table th {
-  max-width: 200px; /* adjust for your layout */
+  max-width: 200px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -87,7 +87,6 @@
   background: rgba(229, 9, 20, 0.04);
 }
 
-/* Product cell */
 .product-cell {
   display: flex;
   align-items: center;
@@ -102,7 +101,6 @@
   border: 1px solid #ddd;
 }
 
-/* Status badge */
 .status-badge {
   padding: 4px 10px;
   border-radius: 50px;
@@ -126,7 +124,6 @@
   color: #155724;
 }
 
-/* Buttons */
 .view-btn,
 .archive-btn {
   background-color: #e50914;
@@ -144,7 +141,6 @@
   background-color: #bf0811;
 }
 
-/* Modal overlay */
 .delivery-modal-overlay {
   position: fixed;
   top: 0;
@@ -157,8 +153,7 @@
   align-items: center;
   z-index: 1000;
 }
-
-/* Modal content */
+                   
 .delivery-modal {
   background: white;
   padding: 20px;
@@ -209,12 +204,14 @@
 
 .delivery-summary {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
 
 .summary-card {
-  flex: 1;
+  flex: 1 1 200px; /* grow, shrink, min width */
+  min-width: 200px;
   background: white;
   padding: 1rem;
   border-radius: 10px;
@@ -238,6 +235,31 @@
 .summary-card.processing { border-left: 5px solid #3498db; }
 .summary-card.delivered { border-left: 5px solid #2ecc71; }
 .summary-card.total { border-left: 5px solid #9b59b6; }
+
+.delivery-modal p,
+.delivery-modal strong,
+.delivery-modal small {
+  white-space: normal !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.delivery-modal {
+  max-width: 420px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.delivery-modal::-webkit-scrollbar {
+  width: 8px;
+}
+.delivery-modal::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+
 
 
 @keyframes fadeIn {
