@@ -49,7 +49,9 @@ function CircularProgress({ value, max }) {
 
 function InventoryTracker() {
   const [products, setProducts] = useState([]);
-  const [manualChanges, setManualChanges] = useState({}); // store manual inputs per product
+  const [manualChanges, setManualChanges] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "products"), (snapshot) => {
@@ -64,7 +66,6 @@ function InventoryTracker() {
 
   const updateStock = async (id, currentQty, change, maxStock) => {
     const newQty = Math.max(0, currentQty + change);
-
     await updateDoc(doc(db, "products", id), {
       quantity: newQty,
       maxstock:
@@ -80,14 +81,52 @@ function InventoryTracker() {
     const change = parseInt(manualChanges[id]) || 0;
     if (change === 0) return;
     updateStock(id, currentQty, change, maxStock);
-    setManualChanges((prev) => ({ ...prev, [id]: "" })); // reset after applying
+    setManualChanges((prev) => ({ ...prev, [id]: "" }));
   };
+
+  // Get unique categories for filter dropdown
+  const categories = ["All", ...new Set(products.map((p) => p.category).filter(Boolean))];
+
+  // Filter products by search term and category
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch =
+      p.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.category?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === "All" || p.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="inventory-container">
       <h2>Inventory Tracker</h2>
+
+      {/* Search and Filter Controls */}
+      <div className="inventory-controls">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Product Grid */}
       <div className="inventory-grid">
-        {products.map((p) => {
+        {filteredProducts.map((p) => {
           const quantity = isNaN(p.quantity) ? 0 : p.quantity;
           const maxStock = isNaN(p.maxstock) ? quantity : p.maxstock;
           const lowStock = quantity <= 5;
@@ -135,14 +174,10 @@ function InventoryTracker() {
                       type="number"
                       placeholder="±"
                       value={manualChanges[p.id] || ""}
-                      onChange={(e) =>
-                        handleManualChange(p.id, e.target.value)
-                      }
+                      onChange={(e) => handleManualChange(p.id, e.target.value)}
                     />
                     <button
-                      onClick={() =>
-                        applyManualChange(p.id, quantity, maxStock)
-                      }
+                      onClick={() => applyManualChange(p.id, quantity, maxStock)}
                     >
                       Apply
                     </button>

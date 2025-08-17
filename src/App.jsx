@@ -28,6 +28,7 @@ import EditProduct from './Pages/EditProduct';
 import Services from './Pages/Services';
 import ServicesDetails from './Pages/ServicesDetails';
 import AdminDashboard from './Pages/AdminDashboard';
+import ServicesContact from './Component/ServicesContact/ServicesContact';
 function App() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -80,6 +81,7 @@ function App() {
           <Route path="/shipping/:id" element={<ShippingDetail />} />
           <Route path="/forgot-password" element={isMobile? <MobileForgotPassword/> :<ForgotPassword />} />
           <Route path='/terms' element={<Terms/>}/>
+          <Route path='/services/:id/contact' element={<ServicesContact/>}/>
           <Route path='/privacy' element={<Privacy/>}/>
           <Route path='/refund' element={<Refund/>}/>
           <Route path="*" element={<h1>404 Not Found</h1>} />

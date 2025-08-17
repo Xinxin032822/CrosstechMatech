@@ -1,8 +1,8 @@
 .cp-main-grid {
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 2rem;
-  min-height: 100vh;
+  grid-template-rows: auto 1fr; /* header fixed, list fills rest */
+  height: 100vh; /* lock height to viewport */
+  overflow: hidden; /* prevent page scroll */
   padding: 2rem;
 }
 
@@ -53,7 +53,8 @@
   max-height: 100vh;
   overflow-y: auto;
   padding-right: 10px;
-  padding-bottom: 1em;
+  padding-bottom: 6em;
+  padding-top: 2em;
 }
 
 .cp-list-section::-webkit-scrollbar {

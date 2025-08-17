@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db, storage } from '../../../Data/firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './ProductManagement.css';
+import OverlayLoader from '../../Loader/OverlayLoader';
 
 function ProductManagement({ setActiveSection }) {
   const [productName, setProductName] = useState('');
@@ -15,6 +16,21 @@ function ProductManagement({ setActiveSection }) {
   const [imageFiles, setImageFiles] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
+
+useEffect(() => {
+  if (loading) {
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+  }
+
+  return () => {
+    document.body.style.overflow = 'auto';
+    document.documentElement.style.overflow = 'auto';
+  };
+}, [loading]);
 
   const handleSpecChange = (index, field, value) => {
     const updated = [...specs];
@@ -56,15 +72,15 @@ function ProductManagement({ setActiveSection }) {
       }
 
       const productData = {
-        productName: productName,
-        category: category,
-        subcategories: subcategories,
+        productName,
+        category,
+        subcategories,
         price: Number(price),
         shippingFee: Number(shippingFee),
         images: uploadedImageURLs,
         quantity: Number(quantity),
         maxstock: Number(quantity),
-        description: description,
+        description,
         specification: specs.filter(s => s.title && s.value),
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -73,8 +89,8 @@ function ProductManagement({ setActiveSection }) {
       await addDoc(collection(db, 'products'), productData);
 
       alert('✅ Product added successfully!');
-      setLoading(false);
-
+      
+      // reset form
       setProductName('');
       setCategoryInput('');
       setPrice('');
@@ -88,16 +104,18 @@ function ProductManagement({ setActiveSection }) {
       if (setActiveSection) {
         setActiveSection('currentProducts');
       }
-
     } catch (error) {
       console.error('Error adding product:', error);
       alert('❌ Failed to add product.');
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <div className='FormAddProductAdminPageMain'>
+      {loading && <OverlayLoader />} {/* overlay loader */}
+
       <p className='AdminPageContentAddProductComponentTitle'>Add New Product</p>
       <form onSubmit={handleSubmit}>
         <div className="row">

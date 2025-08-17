@@ -7,6 +7,8 @@ import InquiryManagement from '../Component/AdminPanelComponent/InquiryManagemen
 import DeliveryManagement from '../Component/AdminPanelComponent/DeliveryManagement/DeliveryManagement';
 import OrderHistory from '../Component/AdminPanelComponent/OrderHistory/OrderHistory';
 import InventoryTracker from '../Component/AdminPanelComponent/InventoryTracker/InventoryTracker';
+import ServicesManagement from '../Component/AdminPanelComponent/ServicesManagement/ServicesManagement';
+import ServicesMessages from '../Component/AdminPanelComponent/ServicesMessages/ServicesMessages';
 
 function AdminDashboard() {
   const [activeSection, setActiveSection] = useState('product');
@@ -23,8 +25,8 @@ function AdminDashboard() {
         {activeSection === 'delivery' && <div><DeliveryManagement/></div>}
         {activeSection === 'order' && <div><OrderHistory/></div>}
         {activeSection === 'inventory' && <div><InventoryTracker/></div>}
-        {activeSection === 'services' && <div>Services Management Section</div>}
-        {activeSection === 'serviceMessages' && <div>Services Messages Section</div>}
+        {activeSection === 'services' && <div><ServicesManagement/></div>}
+        {activeSection === 'serviceMessages' && <div><ServicesMessages/></div>}
       </div>
     </div>
   )

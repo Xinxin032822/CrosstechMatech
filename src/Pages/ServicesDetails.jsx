@@ -106,7 +106,7 @@ function ServicesDetails() {
             <div className="action-buttons">
               <button
                 className="secondary-button"
-                onClick={() => navigate(`/contact`)}
+                onClick={() => navigate(`contact`)}
               >
                 <i className="fas fa-envelope"></i> Contact Us
               </button>

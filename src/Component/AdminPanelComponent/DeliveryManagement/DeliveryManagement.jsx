@@ -9,6 +9,7 @@ import {
   deleteDoc,
   addDoc,
   collection,
+  setDoc
 } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../../Data/firebase";
@@ -114,13 +115,19 @@ function DeliveryManagement() {
 
   const handleArchive = async (order) => {
     if (!window.confirm("Archive this order?")) return;
+
     try {
       const orderRef = doc(db, `users/${order.userId}/orders/${order.id}`);
-      await addDoc(collection(db, "orderHistory"), {
+
+      // ✅ Use setDoc so the archived document keeps the same order.id
+      await setDoc(doc(db, "orderHistory", order.id), {
         ...order,
         archivedAt: new Date(),
       });
+
+      // delete from active orders
       await deleteDoc(orderRef);
+
       setOrders((prev) => prev.filter((o) => o.id !== order.id));
       setSelectedOrder(null);
     } catch (err) {

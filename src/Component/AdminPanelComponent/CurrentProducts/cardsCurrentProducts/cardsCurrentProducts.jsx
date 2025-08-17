@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './cardsCurrentProducts.css';
 
-function CardsCurrentProducts({ image, name, category, price, onEdit, onDelete }) {
+function CardsCurrentProducts({ id, image, name, category, price, onDelete }) {
+  const navigate = useNavigate();
+
   return (
     <div className="ccp-row">
       <div className="ccp-img-col">
@@ -16,8 +19,18 @@ function CardsCurrentProducts({ image, name, category, price, onEdit, onDelete }
           ₱{price}
         </div>
         <div className="ccp-action-col">
-          <button className="ccp-btn ccp-edit" onClick={onEdit}>Edit</button>
-          <button className="ccp-btn ccp-delete" onClick={onDelete}>Delete</button>
+          <button
+            className="ccp-btn ccp-edit"
+            onClick={() => navigate(`/admin/edit/${id}`)}
+          >
+            Edit
+          </button>
+          <button 
+            className="ccp-btn ccp-delete" 
+            onClick={() => onDelete(id)}
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>

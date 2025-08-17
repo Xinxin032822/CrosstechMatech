@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './CurrentProducts.css';
 import { db } from '../../../Data/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import CardsCurrentProducts from './cardsCurrentProducts/cardsCurrentProducts';
 
 function CurrentProducts({ setActiveSection }) {
@@ -20,9 +20,9 @@ function CurrentProducts({ setActiveSection }) {
         const productsArr = [];
         const categorySet = new Set();
 
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          productsArr.push({ id: doc.id, ...data });
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          productsArr.push({ id: docSnap.id, ...data });
 
           if (data.category) {
             categorySet.add(data.category);
@@ -38,6 +38,21 @@ function CurrentProducts({ setActiveSection }) {
 
     fetchProducts();
   }, []);
+
+  // ✅ handle delete
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this product?");
+    if (!confirmDelete) return;
+
+    try {
+      await deleteDoc(doc(db, "products", id));
+      setProducts((prev) => prev.filter((product) => product.id !== id));
+      alert("Product deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      alert("Failed to delete product.");
+    }
+  };
 
   const filteredProducts = products.filter(product => {
     const matchesCategory =
@@ -98,11 +113,11 @@ function CurrentProducts({ setActiveSection }) {
             <CardsCurrentProducts
               key={product.id}
               image={product.images}
+              id={product.id}
               name={product.productName}
               category={product.category}
               price={product.price}
-              onEdit={() => alert(`Edit ${product.productName}`)}
-              onDelete={() => alert(`Delete ${product.productName}`)}
+              onDelete={handleDelete}   // ✅ passing handleDelete
             />
           ))}
         </div>

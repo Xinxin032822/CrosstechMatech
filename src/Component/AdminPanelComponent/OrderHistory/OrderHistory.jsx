@@ -42,34 +42,27 @@ function OrderHistory() {
       return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
     });
 
-    const handleRestore = async (order) => {
-        if (!window.confirm("Restore this order to active orders?")) return;
+const handleRestore = async (order) => {
+  if (!window.confirm("Restore this order to active orders?")) return;
 
-        try {
-            // Remove archivedAt and other archive-only fields before restoring
-            const { archivedAt, ...orderData } = order;
+  try {
+    const { archivedAt, ...orderData } = order;
 
-            // Move order back to the user's active orders collection
-            await setDoc(
-            doc(db, `users/${order.userId}/orders/${order.id}`),
-            {
-                ...orderData,
-                restoredAt: new Date(), // optional tracking
-            }
-            );
+    // ✅ Restore to the same orderId inside user's orders
+    await setDoc(doc(db, `users/${order.userId}/orders/${order.id}`), {
+      ...orderData,
+      restoredAt: new Date(),
+    });
 
-            // Delete from archive after restore
-            await deleteDoc(doc(db, `orderHistory/${order.id}`));
+    // ✅ Delete from archive
+    await deleteDoc(doc(db, `orderHistory/${order.id}`));
 
-            // Update UI
-            setOrders(prev => prev.filter(o => o.id !== order.id));
-
-            console.log(`Order ${order.id} restored successfully`);
-        } catch (err) {
-            console.error("Failed to restore order:", err);
-        }
-    };
-
+    setOrders(prev => prev.filter(o => o.id !== order.id));
+    console.log(`Order ${order.id} restored successfully`);
+  } catch (err) {
+    console.error("Failed to restore order:", err);
+  }
+};
 
   return (
     <div className="order-history-page">

@@ -1,0 +1,224 @@
+.services-messages-container {
+  padding: 1.5rem;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.services-messages-container h2 {
+  margin-bottom: 1.2rem;
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+/* Controls Section */
+.services-messages-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.8rem;
+}
+
+.services-messages-controls input,
+.services-messages-controls select {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.services-messages-controls input:focus,
+.services-messages-controls select:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.15);
+  outline: none;
+}
+
+/* Messages List */
+.services-messages-list {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Message Card */
+.message-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.message-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.message-header strong {
+  font-size: 1.15rem;
+  color: #2d3436;
+}
+
+.status {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Status Colors */
+.message-card.unread .status {
+  background-color: #ffe9e9;
+  color: #d63031;
+}
+
+.message-card.read .status {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+}
+
+.message-card.resolved .status {
+  background-color: #e6f4ea;
+  color: #34a853;
+}
+
+.message-card.archived .status {
+  background-color: #f1f2f6;
+  color: #636e72;
+}
+
+.message-email,
+.message-service {
+  margin-bottom: 0.4rem;
+  color: #555;
+  font-size: 0.92rem;
+}
+
+.message-content {
+  color: #444;
+  margin-bottom: 0.9rem;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.message-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: #777;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Action Buttons */
+.message-actions button {
+  padding: 0.4rem 0.85rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-respond {
+  background-color: #00b894;
+  color: white;
+}
+.btn-respond:hover {
+  background-color: #019874;
+}
+
+.btn-mark-read {
+  background-color: #0984e3;
+  color: white;
+}
+.btn-mark-read:hover {
+  background-color: #0864b3;
+}
+
+.btn-resolve {
+  background-color: #6c5ce7;
+  color: white;
+}
+.btn-resolve:hover {
+  background-color: #5848c2;
+}
+
+.btn-archive {
+  background-color: #b2bec3;
+  color: white;
+}
+.btn-archive:hover {
+  background-color: #8e999d;
+}
+
+.no-messages {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1rem;
+}
+
+.services-messages-controls {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.8rem;
+}
+
+.services-messages-controls input {
+  flex: 3;
+  min-width: 250px;
+}
+
+.services-messages-controls select {
+  flex: 1;
+  min-width: 150px;
+}
+
+.services-messages-controls input,
+.services-messages-controls select {
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #dfe6e9;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.services-messages-controls input:focus,
+.services-messages-controls select:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.15);
+  outline: none;
+}
+
+.message-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.message-actions button {
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
