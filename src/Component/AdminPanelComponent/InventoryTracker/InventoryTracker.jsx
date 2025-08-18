@@ -66,12 +66,22 @@ function InventoryTracker() {
 
   const updateStock = async (id, currentQty, change, maxStock) => {
     const newQty = Math.max(0, currentQty + change);
+
+    const newMaxStock = change > 0 ? newQty : maxStock;
+
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === id ? { ...p, quantity: newQty, maxstock: newMaxStock } : p
+      )
+    );
+
     await updateDoc(doc(db, "products", id), {
       quantity: newQty,
-      maxstock:
-        change > 0 && (!maxStock || newQty > maxStock) ? newQty : maxStock || newQty,
+      maxstock: newMaxStock,
     });
   };
+
+
 
   const handleManualChange = (id, value) => {
     setManualChanges((prev) => ({ ...prev, [id]: value }));
@@ -83,11 +93,7 @@ function InventoryTracker() {
     updateStock(id, currentQty, change, maxStock);
     setManualChanges((prev) => ({ ...prev, [id]: "" }));
   };
-
-  // Get unique categories for filter dropdown
   const categories = ["All", ...new Set(products.map((p) => p.category).filter(Boolean))];
-
-  // Filter products by search term and category
   const filteredProducts = products.filter((p) => {
     const matchesSearch =
       p.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -102,8 +108,6 @@ function InventoryTracker() {
   return (
     <div className="inventory-container">
       <h2>Inventory Tracker</h2>
-
-      {/* Search and Filter Controls */}
       <div className="inventory-controls">
         <input
           type="text"
@@ -123,70 +127,58 @@ function InventoryTracker() {
           ))}
         </select>
       </div>
-
-      {/* Product Grid */}
       <div className="inventory-grid">
         {filteredProducts.map((p) => {
-          const quantity = isNaN(p.quantity) ? 0 : p.quantity;
-          const maxStock = isNaN(p.maxstock) ? quantity : p.maxstock;
-          const lowStock = quantity <= 5;
+  const quantity = isNaN(p.quantity) ? 0 : p.quantity;
+  const lowStock = quantity <= 5;
 
-          return (
-            <motion.div
-              key={p.id}
-              className={`inventory-card ${lowStock ? "low-stock" : ""}`}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+  return (
+    <motion.div
+      key={p.id}
+      className={`inventory-card ${lowStock ? "low-stock" : ""}`}
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <img
+        src={p.images?.[0] || "https://via.placeholder.com/150"}
+        alt={p.productName}
+        className="inventory-image"
+      />
+
+      <div className="inventory-body">
+        <h4 className="inventory-title">{p.productName}</h4>
+        <p className="inventory-meta">
+          {p.category} • {p.subcategories?.join(", ")}
+        </p>
+
+        <div className="inventory-footer">
+          <CircularProgress value={quantity} max={p.maxstock} />
+
+          <div className="inventory-actions">
+            <button onClick={() => updateStock(p.id, quantity, -1, p.maxstock)} className="btn btn-subtract">−</button>
+            <button onClick={() => updateStock(p.id, quantity, 1, p.maxstock)} className="btn btn-add">+</button>
+          </div>
+
+          <div className="manual-input">
+            <input
+              type="number"
+              placeholder="±"
+              value={manualChanges[p.id] || ""}
+              onChange={(e) => handleManualChange(p.id, e.target.value)}
+            />
+            <button
+              onClick={() => applyManualChange(p.id, quantity, p.maxstock)}
             >
-              <img
-                src={p.images?.[0] || "https://via.placeholder.com/150"}
-                alt={p.productName}
-                className="inventory-image"
-              />
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+})}
 
-              <div className="inventory-body">
-                <h4 className="inventory-title">{p.productName}</h4>
-                <p className="inventory-meta">
-                  {p.category} • {p.subcategories?.join(", ")}
-                </p>
-
-                <div className="inventory-footer">
-                  <CircularProgress value={quantity} max={maxStock} />
-
-                  <div className="inventory-actions">
-                    <button
-                      onClick={() => updateStock(p.id, quantity, -1, maxStock)}
-                      className="btn btn-subtract"
-                    >
-                      −
-                    </button>
-                    <button
-                      onClick={() => updateStock(p.id, quantity, 1, maxStock)}
-                      className="btn btn-add"
-                    >
-                      +
-                    </button>
-                  </div>
-
-                  <div className="manual-input">
-                    <input
-                      type="number"
-                      placeholder="±"
-                      value={manualChanges[p.id] || ""}
-                      onChange={(e) => handleManualChange(p.id, e.target.value)}
-                    />
-                    <button
-                      onClick={() => applyManualChange(p.id, quantity, maxStock)}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          );
-        })}
       </div>
     </div>
   );

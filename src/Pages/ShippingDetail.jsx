@@ -247,7 +247,7 @@ function ShippingDetail() {
         <div className="order-summary">
           <h3>Order Summary</h3>
           <div className="summary-product">
-            <img className='productImageShippingDetails' src={product.imageName} alt={product.productName} />
+            <img className='productImageShippingDetails' src={product.images} alt={product.productName} />
             <div className='summary-product-details'>
               <p className='product-name-shipping-detail-page-header'>{product.productName}</p>
               <div className='quantityShippingDetails'>

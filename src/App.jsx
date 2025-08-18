@@ -29,6 +29,7 @@ import Services from './Pages/Services';
 import ServicesDetails from './Pages/ServicesDetails';
 import AdminDashboard from './Pages/AdminDashboard';
 import ServicesContact from './Component/ServicesContact/ServicesContact';
+import EditService from './Pages/EditService';
 function App() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -76,6 +77,7 @@ function App() {
               <EditProduct/>
             </ProtectedAdminRoute>
           }/>
+          <Route path="/admin/edit-service/:id" element={<EditService />} />
           <Route path="/products/:id" element={isMobile ? <ProductDetailMobile /> : <ProductDetail />} />
           <Route path='/services/:id' element={<ServicesDetails/>}/>
           <Route path="/shipping/:id" element={<ShippingDetail />} />

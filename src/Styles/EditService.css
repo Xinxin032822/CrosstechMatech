@@ -1,0 +1,131 @@
+.EditServiceContainer {
+  max-width: 800px;
+  margin: 2rem auto;
+  font-family: "Ubuntu", sans-serif;
+  padding: 2rem;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+.EditServiceContainer h2 {
+  text-align: center;
+  color: #e50914;
+  margin-bottom: 2rem;
+}
+
+.EditServiceForm input[type="text"],
+.EditServiceForm input[type="number"],
+.EditServiceForm textarea,
+.EditServiceForm input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.EditServiceForm input:focus,
+.EditServiceForm textarea:focus {
+  border-color: #e50914;
+  outline: none;
+}
+
+.EditServiceForm textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.EditServiceForm label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-top: 1rem;
+}
+
+.preview-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.preview-item {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.preview-item button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #e50914;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.save-button {
+  background: #e50914;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s ease;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.save-button:hover {
+  background: #c40811;
+}
+
+.save-button {
+  background-color: #e50914;
+  color: white;
+  padding: 0.75em 1.5em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover:not(:disabled) {
+  background-color: #db4c53;
+}
+
+.save-button.saving {
+  background-color: #e26269;
+  cursor: progress;
+}
+
+.save-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+

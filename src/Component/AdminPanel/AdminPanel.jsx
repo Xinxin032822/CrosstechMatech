@@ -13,6 +13,7 @@ function AdminPanel({ activeSection, setActiveSection }) {
     { label: 'Inventory Tracker', key: 'inventory', icon: <FiArchive /> },
     { label: 'Services Management', key: 'services', icon: <FiTool /> },
     { label: 'Services Messages', key: 'serviceMessages', icon: <FiMail /> },
+    { label: 'Current Services', key: 'currentServices', icon: <FiList /> },
   ];
 
   return (
