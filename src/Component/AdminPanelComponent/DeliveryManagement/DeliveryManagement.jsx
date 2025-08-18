@@ -23,69 +23,71 @@ function DeliveryManagement() {
   const [sortOrder, setSortOrder] = useState("newest");
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      setLoading(true);
-      try {
-        const snapshot = await getDocs(collectionGroup(db, "orders"));
-        if (snapshot.empty) {
-          setOrders([]);
-          return;
-        }
+  const fetchOrders = async () => {
+    setLoading(true);
+    try {
+      const userOrderSnap = await getDocs(collectionGroup(db, "orders"));
+      const userOrders = userOrderSnap.docs.map((docSnap) => {
+        const pathParts = docSnap.ref.path.split("/");
+        const userId = pathParts[pathParts.indexOf("users") + 1];
+        return {
+          id: docSnap.id,
+          userId,
+          isGuest: false,
+          ...docSnap.data(),
+        };
+      });
 
-        const ordersData = snapshot.docs.map((docSnap) => {
-          const pathParts = docSnap.ref.path.split("/");
-          const userId = pathParts[pathParts.indexOf("users") + 1];
-          return {
-            id: docSnap.id,
-            userId,
-            ...docSnap.data(),
-          };
-        });
+      const guestSnap = await getDocs(collection(db, "guestOrders"));
+      const guestOrders = guestSnap.docs.map((docSnap) => ({
+        id: docSnap.id,
+        userId: null,
+        isGuest: true,
+        ...docSnap.data(),
+      }));
 
-        const enriched = await Promise.all(
-            ordersData.map(async (order) => {
-                if (!order.productId) return order;
-                try {
-                const productRef = doc(db, "products", order.productId);
-                const productSnap = await getDoc(productRef);
+      const combinedOrders = [...userOrders, ...guestOrders];
 
-                if (productSnap.exists()) {
-                    const productData = productSnap.data();
-                    let imageUrl = "";
+      const enriched = await Promise.all(
+        combinedOrders.map(async (order) => {
+          if (!order.productId) return order;
+          try {
+            const productRef = doc(db, "products", order.productId);
+            const productSnap = await getDoc(productRef);
+            if (productSnap.exists()) {
+              const productData = productSnap.data();
+              let imageUrl = Array.isArray(productData.images) && productData.images[0]
+                ? productData.images[0]
+                : "";
 
-                    if (Array.isArray(productData.images) && productData.images.length > 0) {
-                    imageUrl = productData.images[0];
-                    }
+              return {
+                ...order,
+                productImage: imageUrl,
+                category: productData.category || "",
+                productName: productData.productName || "",
+                productPrice: productData.price || 0,
+                quantity: productData.quantity || order.quantity || 0,
+              };
+            }
+          } catch (err) {
+            console.error("Error fetching product:", err);
+          }
+          return order;
+        })
+      );
 
-                    return {
-                    ...order,
-                    productImage: imageUrl,
-                    category: productData.category || "",
-                    productName: productData.productName || "",
-                    productPrice: productData.price || 0,
-                    quantity: productData.quantity || order.quantity || 0
-                    };
-                }
-                } catch (err) {
-                console.error("Error fetching product:", err);
-                }
-                return order;
-            })
-        );
+      setOrders(enriched);
+    } catch (err) {
+      console.error("Error fetching orders:", err);
+      setOrders([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  fetchOrders();
+}, []);
 
-
-        setOrders(enriched);
-      } catch (err) {
-        console.error("Error fetching orders:", err);
-        setOrders([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrders();
-  }, []);
 
   const filteredOrders = orders
     .filter((o) =>

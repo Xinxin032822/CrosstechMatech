@@ -48,11 +48,19 @@ function ShippingDetail() {
     const { fullName, phone, email, address } = form;
     if (![fullName, phone, email, address].every(val => val.trim() !== "")) {
       alert("Please fill in all required fields.");
+      setIsButtonDisabled(false);
       return;
     }
 
     if (!selectedMethod) {
       alert('Please select a payment method');
+      setIsButtonDisabled(false);
+      return;
+    }
+
+    if (quantity > Number(product.quantity)) {
+      alert("Ordered quantity exceeds available stock.");
+      setIsButtonDisabled(false);
       return;
     }
 
@@ -60,51 +68,37 @@ function ShippingDetail() {
     const shipping = Number(product.shippingFee);
     const total = subtotal + shipping;
 
+    // Get current user, if any (guest if null)
     const user = auth.currentUser;
-    if (!user) {
-      alert("You must be logged in to place an order.");
-      return;
-    }
-
-    if (quantity > Number(product.quantity)) {
-      alert("Ordered quantity exceeds available stock.");
-      return;
-    }
 
     try {
       let invoiceResponse = null;
+      let userIdOrGuest = user ? user.uid : "guest";
+
+      // Prepare invoice body payload
+      const invoicePayload = {
+        amount: total,
+        name: form.fullName,
+        email: form.email,
+        userId: user ? user.uid : null,  // null for guest
+        formData: form,
+        productInfo: {
+          productId: product.id,
+          productName: product.productName,
+        }
+      };
 
       if (selectedMethod === "GCash") {
         invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            amount: total,
-            name: form.fullName,
-            email: form.email,
-            userId: user.uid,
-            formData: form,
-            productInfo: {
-              productId: product.id,
-              productName: product.productName,
-            }
-          }),
+          body: JSON.stringify(invoicePayload),
         });
       } else if (selectedMethod === "Other Methods") {
         invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-card-invoice', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            amount: total,
-            name: form.fullName,
-            email: form.email,
-            userId: user.uid,
-            formData: form,
-            productInfo: {
-              productId: product.id,
-              productName: product.productName,
-            }
-          }),
+          body: JSON.stringify(invoicePayload),
         });
       }
 
@@ -112,21 +106,43 @@ function ShippingDetail() {
       if (invoiceResponse) {
         invoiceData = await invoiceResponse.json();
         if (invoiceResponse.ok && invoiceData.invoice_url) {
-          await addDoc(collection(db, "users", user.uid, "orders"), {
-            ...form,
-            payment: selectedMethod,
-            quantity,
-            productId: product.id,
-            productName: product.productName,
-            productPrice: Number(product.price),
-            subtotal,
-            shipping,
-            total,
-            status: "Pending",
-            paymentStatus: "Pending",
-            createdAt: serverTimestamp(),
-            xenditInvoiceId: invoiceData.id,
-          });
+          // Save order
+          if (user) {
+            // Logged-in user order
+            await addDoc(collection(db, "users", user.uid, "orders"), {
+              ...form,
+              payment: selectedMethod,
+              quantity,
+              productId: product.id,
+              productName: product.productName,
+              productPrice: Number(product.price),
+              subtotal,
+              shipping,
+              total,
+              status: "Pending",
+              paymentStatus: "Pending",
+              createdAt: serverTimestamp(),
+              xenditInvoiceId: invoiceData.id,
+            });
+          } else {
+            // Guest order saved to guestOrders collection
+            await addDoc(collection(db, "guestOrders"), {
+              ...form,
+              payment: selectedMethod,
+              quantity,
+              productId: product.id,
+              productName: product.productName,
+              productPrice: Number(product.price),
+              subtotal,
+              shipping,
+              total,
+              status: "Pending",
+              paymentStatus: "Pending",
+              createdAt: serverTimestamp(),
+              xenditInvoiceId: invoiceData.id,
+              guest: true,
+            });
+          }
 
           await adjustProductStock(product.id, quantity);
 
@@ -135,24 +151,44 @@ function ShippingDetail() {
         } else {
           alert("Failed to create invoice.");
           console.error(invoiceData);
+          setIsButtonDisabled(false);
           return;
         }
       }
 
-      await addDoc(collection(db, "users", user.uid, "orders"), {
-        ...form,
-        payment: selectedMethod,
-        quantity,
-        productId: product.id,
-        productName: product.productName,
-        productPrice: Number(product.price),
-        subtotal,
-        shipping,
-        total,
-        status: "Pending",
-        paymentStatus: "Pending",
-        createdAt: serverTimestamp(),
-      });
+      // Fallback: save order without invoice URL
+      if (user) {
+        await addDoc(collection(db, "users", user.uid, "orders"), {
+          ...form,
+          payment: selectedMethod,
+          quantity,
+          productId: product.id,
+          productName: product.productName,
+          productPrice: Number(product.price),
+          subtotal,
+          shipping,
+          total,
+          status: "Pending",
+          paymentStatus: "Pending",
+          createdAt: serverTimestamp(),
+        });
+      } else {
+        await addDoc(collection(db, "guestOrders"), {
+          ...form,
+          payment: selectedMethod,
+          quantity,
+          productId: product.id,
+          productName: product.productName,
+          productPrice: Number(product.price),
+          subtotal,
+          shipping,
+          total,
+          status: "Pending",
+          paymentStatus: "Pending",
+          createdAt: serverTimestamp(),
+          guest: true,
+        });
+      }
 
       await adjustProductStock(product.id, quantity);
 
@@ -160,6 +196,7 @@ function ShippingDetail() {
     } catch (error) {
       console.error("Error placing order:", error);
       alert("Something went wrong while placing the order.");
+      setIsButtonDisabled(false);
     }
   };
 
@@ -234,7 +271,7 @@ function ShippingDetail() {
                 >
                   <img
                     className="paymentIcon"
-                    src={`/assets/ShippingDetailAssets/${method.icon}`} 
+                    src={`/assets/ShippingDetailAssets/${method.icon}`}
                     alt={method.label}
                   />
                   <span>{method.label}</span>
