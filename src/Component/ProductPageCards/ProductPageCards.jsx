@@ -8,7 +8,7 @@ import Loader from '../Loader/Loader.jsx';
 function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const productsPerPage = 24;
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -81,11 +81,6 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = sortedProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
   return (
     <div className="product-page-cards-container-main-holder">
       <div className="product-cards-container">
@@ -108,20 +103,45 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
           </div>
         ))}
       </div>
+
       <div className="pagination">
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+        <button
+          onClick={() => setCurrentPage(prev => prev - 1)}
+          disabled={currentPage === 1}
+        >
           &lt;
         </button>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <button
-            key={i + 1}
-            className={currentPage === i + 1 ? 'active' : ''}
-            onClick={() => handlePageChange(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+
+        {currentPage > 3 && (
+          <>
+            <button onClick={() => setCurrentPage(1)}>1</button>
+            {currentPage > 4 && <span>...</span>}
+          </>
+        )}
+
+        {Array.from({ length: totalPages }, (_, index) => index + 1)
+          .filter(page => page >= currentPage - 2 && page <= currentPage + 2)
+          .map(page => (
+            <button
+              key={page}
+              className={currentPage === page ? 'active' : ''}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </button>
+          ))}
+
+        {currentPage < totalPages - 2 && (
+          <>
+            {currentPage < totalPages - 3 && <span>...</span>}
+            <button onClick={() => setCurrentPage(totalPages)}>{totalPages}</button>
+          </>
+        )}
+
+        <button
+          onClick={() => setCurrentPage(prev => prev + 1)}
+          disabled={currentPage === totalPages || totalPages === 0}
+        >
           &gt;
         </button>
       </div>
