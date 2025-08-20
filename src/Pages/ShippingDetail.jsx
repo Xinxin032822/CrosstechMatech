@@ -38,182 +38,133 @@ function ShippingDetail() {
   const increaseQty = () => setQuantity(prev => prev + 1);
   const decreaseQty = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isButtonDisabled) return;
 
-    setIsButtonDisabled(true);
-    setTimeout(() => setIsButtonDisabled(false), 5000);
-
-    const { fullName, phone, email, address } = form;
-    if (![fullName, phone, email, address].every(val => val.trim() !== "")) {
-      alert("Please fill in all required fields.");
-      setIsButtonDisabled(false);
-      return;
+const adjustProductStock = async (productId, orderQty) => {
+  const productRef = doc(db, "products", productId);
+  await runTransaction(db, async (transaction) => {
+    const productDoc = await transaction.get(productRef);
+    if (!productDoc.exists()) {
+      throw new Error("Product does not exist!");
     }
 
-    if (!selectedMethod) {
-      alert('Please select a payment method');
-      setIsButtonDisabled(false);
-      return;
+    const currentStock = productDoc.data().quantity;
+    if (currentStock < orderQty) {
+      throw new Error("Not enough stock available.");
     }
 
-    if (quantity > Number(product.quantity)) {
-      alert("Ordered quantity exceeds available stock.");
-      setIsButtonDisabled(false);
-      return;
-    }
-
-    const subtotal = Number(product.price) * quantity;
-    const shipping = Number(product.shippingFee);
-    const total = subtotal + shipping;
-
-    // Get current user, if any (guest if null)
-    const user = auth.currentUser;
-
-    try {
-      let invoiceResponse = null;
-      let userIdOrGuest = user ? user.uid : "guest";
-
-      // Prepare invoice body payload
-      const invoicePayload = {
-        amount: total,
-        name: form.fullName,
-        email: form.email,
-        userId: user ? user.uid : null,  // null for guest
-        formData: form,
-        productInfo: {
-          productId: product.id,
-          productName: product.productName,
-        }
-      };
-
-      if (selectedMethod === "GCash") {
-        invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(invoicePayload),
-        });
-      } else if (selectedMethod === "Other Methods") {
-        invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-card-invoice', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(invoicePayload),
-        });
-      }
-
-      let invoiceData = null;
-      if (invoiceResponse) {
-        invoiceData = await invoiceResponse.json();
-        if (invoiceResponse.ok && invoiceData.invoice_url) {
-          // Save order
-          if (user) {
-            // Logged-in user order
-            await addDoc(collection(db, "users", user.uid, "orders"), {
-              ...form,
-              payment: selectedMethod,
-              quantity,
-              productId: product.id,
-              productName: product.productName,
-              productPrice: Number(product.price),
-              subtotal,
-              shipping,
-              total,
-              status: "Pending",
-              paymentStatus: "Pending",
-              createdAt: serverTimestamp(),
-              xenditInvoiceId: invoiceData.id,
-            });
-          } else {
-            // Guest order saved to guestOrders collection
-            await addDoc(collection(db, "guestOrders"), {
-              ...form,
-              payment: selectedMethod,
-              quantity,
-              productId: product.id,
-              productName: product.productName,
-              productPrice: Number(product.price),
-              subtotal,
-              shipping,
-              total,
-              status: "Pending",
-              paymentStatus: "Pending",
-              createdAt: serverTimestamp(),
-              xenditInvoiceId: invoiceData.id,
-              guest: true,
-            });
-          }
-
-          await adjustProductStock(product.id, quantity);
-
-          window.location.href = invoiceData.invoice_url;
-          return;
-        } else {
-          alert("Failed to create invoice.");
-          console.error(invoiceData);
-          setIsButtonDisabled(false);
-          return;
-        }
-      }
-
-      // Fallback: save order without invoice URL
-      if (user) {
-        await addDoc(collection(db, "users", user.uid, "orders"), {
-          ...form,
-          payment: selectedMethod,
-          quantity,
-          productId: product.id,
-          productName: product.productName,
-          productPrice: Number(product.price),
-          subtotal,
-          shipping,
-          total,
-          status: "Pending",
-          paymentStatus: "Pending",
-          createdAt: serverTimestamp(),
-        });
-      } else {
-        await addDoc(collection(db, "guestOrders"), {
-          ...form,
-          payment: selectedMethod,
-          quantity,
-          productId: product.id,
-          productName: product.productName,
-          productPrice: Number(product.price),
-          subtotal,
-          shipping,
-          total,
-          status: "Pending",
-          paymentStatus: "Pending",
-          createdAt: serverTimestamp(),
-          guest: true,
-        });
-      }
-
-      await adjustProductStock(product.id, quantity);
-
-      alert('Order placed successfully!');
-    } catch (error) {
-      console.error("Error placing order:", error);
-      alert("Something went wrong while placing the order.");
-      setIsButtonDisabled(false);
-    }
-  };
-
-  const adjustProductStock = async (productId, qty) => {
-    const productRef = doc(db, "products", productId);
-    await runTransaction(db, async (transaction) => {
-      const productDoc = await transaction.get(productRef);
-      if (!productDoc.exists()) throw new Error("Product does not exist");
-
-      const currentQty = Number(productDoc.data().quantity);
-      if (currentQty < qty) throw new Error("Not enough stock available");
-
-      transaction.update(productRef, {
-        quantity: currentQty - qty
-      });
+    transaction.update(productRef, {
+      quantity: currentStock - orderQty,
     });
-  };
+  });
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (isButtonDisabled) return;
+
+  setIsButtonDisabled(true);
+  setTimeout(() => setIsButtonDisabled(false), 5000);
+
+  const { fullName, phone, email, address } = form;
+  if (![fullName, phone, email, address].every(val => val.trim() !== "")) {
+    alert("Please fill in all required fields.");
+    setIsButtonDisabled(false);
+    return;
+  }
+
+  if (!selectedMethod) {
+    alert('Please select a payment method');
+    setIsButtonDisabled(false);
+    return;
+  }
+
+  if (quantity > Number(product.quantity)) {
+    alert("Ordered quantity exceeds available stock.");
+    setIsButtonDisabled(false);
+    return;
+  }
+
+  const subtotal = Number(product.price) * quantity;
+  const shipping = Number(product.shippingFee);
+  const total = subtotal + shipping;
+
+  // Get current user, if any (guest if null)
+  const user = auth.currentUser;
+
+  try {
+    let invoiceResponse = null;
+
+    // Prepare invoice body payload
+    const invoicePayload = {
+      amount: total,
+      name: form.fullName,
+      email: form.email,
+      userId: user ? user.uid : null,  // null for guest
+      formData: form,
+      productInfo: {
+        productId: product.id,
+        productName: product.productName,
+      }
+    };
+
+    if (selectedMethod === "GCash") {
+      invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(invoicePayload),
+      });
+    } else if (selectedMethod === "Other Methods") {
+      invoiceResponse = await fetch('https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-card-invoice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(invoicePayload),
+      });
+    }
+
+    let invoiceData = null;
+    if (invoiceResponse) {
+      invoiceData = await invoiceResponse.json();
+    }
+
+    // Build common order data
+    const orderData = {
+      ...form,
+      payment: selectedMethod,
+      quantity,
+      productId: product.id,
+      productName: product.productName,
+      productPrice: Number(product.price),
+      subtotal,
+      shipping,
+      total,
+      status: "Pending",
+      paymentStatus: "Pending",
+      createdAt: serverTimestamp(),
+      guest: user ? false : true,
+      userId: user ? user.uid : null,
+      xenditInvoiceId: invoiceData?.id || null,
+    };
+
+    if (user) {
+      await addDoc(collection(db, "users", user.uid, "orders"), orderData);
+    } else {
+      await addDoc(collection(db, "guestOrders"), orderData);
+    }
+
+    await adjustProductStock(product.id, quantity);
+
+    if (invoiceData?.invoice_url) {
+      window.location.href = invoiceData.invoice_url;
+    } else {
+      alert('Order placed successfully!');
+    }
+  } catch (error) {
+    console.error("Error placing order:", error);
+    alert("Something went wrong while placing the order.");
+    setIsButtonDisabled(false);
+  }
+};
+
 
   if (!product) return <Loader />;
   const subtotal = Number(product.price) * quantity;

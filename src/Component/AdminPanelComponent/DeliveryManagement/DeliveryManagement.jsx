@@ -119,23 +119,24 @@ function DeliveryManagement() {
     if (!window.confirm("Archive this order?")) return;
 
     try {
-      const orderRef = doc(db, `users/${order.userId}/orders/${order.id}`);
-
-      // ✅ Use setDoc so the archived document keeps the same order.id
       await setDoc(doc(db, "orderHistory", order.id), {
         ...order,
         archivedAt: new Date(),
       });
-
-      // delete from active orders
-      await deleteDoc(orderRef);
-
+      if (order.isGuest) {
+        await deleteDoc(doc(db, `guestOrders/${order.id}`));
+      } else {
+        await deleteDoc(doc(db, `users/${order.userId}/orders/${order.id}`));
+      }
       setOrders((prev) => prev.filter((o) => o.id !== order.id));
       setSelectedOrder(null);
+
+      console.log(`Order ${order.id} archived successfully`);
     } catch (err) {
       console.error("Failed to archive order:", err);
     }
   };
+
 
   return (
     <div className="delivery-page">

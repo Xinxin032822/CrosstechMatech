@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './AdminPanel.css'
-import { FiBox, FiHelpCircle, FiTruck, FiClock, FiArchive, FiTool, FiMail, FiList } from 'react-icons/fi'
+import { 
+  FiBox, FiHelpCircle, FiTruck, FiClock, FiArchive, 
+  FiTool, FiMail, FiList, FiChevronDown, FiChevronUp 
+} from 'react-icons/fi'
 import { FaAngleRight } from 'react-icons/fa'
 
 function AdminPanel({ activeSection, setActiveSection }) {
+  const [openMobile, setOpenMobile] = useState(false);
+
   const navItems = [
     { label: 'Product Management', key: 'product', icon: <FiBox /> },
     { label: 'Current Products', key: 'currentProducts', icon: <FiList /> },
@@ -18,16 +23,27 @@ function AdminPanel({ activeSection, setActiveSection }) {
 
   return (
     <div className='admin-panel'>
-      <div className="admin-brand">
-        <span><span style={{color:"#e50914", fontWeight: 600}}>Matech</span> Admin</span>
+      <div 
+        className="admin-brand" 
+        onClick={() => setOpenMobile(!openMobile)}
+      >
+        <span>
+          <span style={{color:"#e50914", fontWeight: 600}}>Matech</span> Admin
+        </span>
+        <span className="mobile-toggle">
+          {openMobile ? <FiChevronUp /> : <FiChevronDown />}
+        </span>
       </div>
-      <hr />
-      <nav className="admin-nav">
+
+      <nav className={`admin-nav ${openMobile ? 'open' : ''}`}>
         {navItems.map(item => (
           <button
             key={item.key}
             className={`admin-nav-btn${activeSection === item.key ? ' active' : ''}`}
-            onClick={() => setActiveSection(item.key)}
+            onClick={() => {
+              setActiveSection(item.key);
+              setOpenMobile(false);
+            }}
             type="button"
             style={{
               display: 'flex',

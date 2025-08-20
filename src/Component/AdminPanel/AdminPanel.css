@@ -43,3 +43,36 @@
   background: #e50914;
   color: #fff;
 }
+
+.mobile-toggle {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .admin-panel {
+    height: auto;
+    padding: 1rem;
+  }
+
+  .admin-brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .mobile-toggle {
+    display: inline-block;
+  }
+
+  .admin-nav {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .admin-nav.open {
+    display: flex;
+  }
+}

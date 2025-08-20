@@ -17,26 +17,33 @@ function ProductManagement({ setActiveSection }) {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
 
-useEffect(() => {
-  if (loading) {
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
-  }
+  // prevent scroll when loading
+  useEffect(() => {
+    if (loading) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+      document.documentElement.style.overflow = 'auto';
+    };
+  }, [loading]);
 
-  return () => {
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
+  // 🔹 Safe number parser
+  const parseSafeNumber = (value, fallback = 0) => {
+    const num = Number(value);
+    return isNaN(num) ? fallback : num;
   };
-}, [loading]);
 
   const handleSpecChange = (index, field, value) => {
     const updated = [...specs];
     updated[index][field] = value;
     setSpecs(updated);
   };
+
   const addSpec = () => setSpecs([...specs, { title: '', value: '' }]);
   const removeSpec = (index) => setSpecs(specs.filter((_, i) => i !== index));
 
@@ -52,6 +59,7 @@ useEffect(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!productName || !categoryInput || !price || !quantity) {
       alert('Please fill in all required fields.');
       return;
@@ -59,10 +67,11 @@ useEffect(() => {
     setLoading(true);
 
     try {
-      const categoryParts = categoryInput.split('>').map(c => c.trim());
+      const categoryParts = categoryInput.split('>').map((c) => c.trim());
       const category = categoryParts[0] || '';
       const subcategories = categoryParts.slice(1);
 
+      // Upload images
       const uploadedImageURLs = [];
       for (const file of imageFiles) {
         const storageRef = ref(storage, `products/${Date.now()}-${file.name}`);
@@ -71,17 +80,18 @@ useEffect(() => {
         uploadedImageURLs.push(downloadURL);
       }
 
+      // Build product object
       const productData = {
         productName,
         category,
         subcategories,
-        price: Number(price),
-        shippingFee: Number(shippingFee),
+        price: parseSafeNumber(price, 0),
+        shippingFee: parseSafeNumber(shippingFee, 0),
         images: uploadedImageURLs,
-        quantity: Number(quantity),
-        maxstock: Number(quantity),
+        quantity: parseSafeNumber(quantity, 0),
+        maxstock: parseSafeNumber(quantity, 0),
         description,
-        specification: specs.filter(s => s.title && s.value),
+        specification: specs.filter((s) => s.title && s.value),
         createdAt: new Date(),
         updatedAt: new Date(),
       };
@@ -89,7 +99,7 @@ useEffect(() => {
       await addDoc(collection(db, 'products'), productData);
 
       alert('✅ Product added successfully!');
-      
+
       // reset form
       setProductName('');
       setCategoryInput('');
@@ -113,18 +123,18 @@ useEffect(() => {
   };
 
   return (
-    <div className='FormAddProductAdminPageMain'>
+    <div className="FormAddProductAdminPageMain">
       {loading && <OverlayLoader />} {/* overlay loader */}
 
-      <p className='AdminPageContentAddProductComponentTitle'>Add New Product</p>
+      <p className="AdminPageContentAddProductComponentTitle">Add New Product</p>
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="field">
             <label>Product Name</label>
             <input
-              className='InputStyleAddproduct'
+              className="InputStyleAddproduct"
               value={productName}
-              onChange={e => setProductName(e.target.value)}
+              onChange={(e) => setProductName(e.target.value)}
               required
             />
           </div>
@@ -133,7 +143,7 @@ useEffect(() => {
             <input
               className="InputStyleAddproduct"
               value={categoryInput}
-              onChange={e => setCategoryInput(e.target.value)}
+              onChange={(e) => setCategoryInput(e.target.value)}
               placeholder="e.g. Engine Parts > Spark Plugs > Fuel Injectors"
               required
             />
@@ -145,10 +155,10 @@ useEffect(() => {
             <label>Price</label>
             <input
               type="number"
-              className='InputStyleAddproduct'
-              placeholder='₱'
+              className="InputStyleAddproduct"
+              placeholder="₱"
               value={price}
-              onChange={e => setPrice(e.target.value)}
+              onChange={(e) => setPrice(e.target.value)}
               required
             />
           </div>
@@ -159,7 +169,7 @@ useEffect(() => {
               className="InputStyleAddproduct"
               placeholder="₱"
               value={shippingFee}
-              onChange={e => setShippingFee(e.target.value)}
+              onChange={(e) => setShippingFee(e.target.value)}
             />
           </div>
         </div>
@@ -202,7 +212,7 @@ useEffect(() => {
               className="InputStyleAddproduct"
               min="0"
               value={quantity}
-              onChange={e => setQuantity(e.target.value)}
+              onChange={(e) => setQuantity(e.target.value)}
               required
             />
           </div>
@@ -212,9 +222,9 @@ useEffect(() => {
           <div className="field full-width">
             <label>Description</label>
             <textarea
-              className='InputStyleAddproduct'
+              className="InputStyleAddproduct"
               value={description}
-              onChange={e => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
         </div>
@@ -229,14 +239,14 @@ useEffect(() => {
                   placeholder="Title (e.g. Engine)"
                   value={spec.title}
                   className="InputStyleAddproduct"
-                  onChange={e => handleSpecChange(index, 'title', e.target.value)}
+                  onChange={(e) => handleSpecChange(index, 'title', e.target.value)}
                 />
                 <input
                   type="text"
                   placeholder="Value (e.g. Turbo V8)"
                   value={spec.value}
                   className="InputStyleAddproduct"
-                  onChange={e => handleSpecChange(index, 'value', e.target.value)}
+                  onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
                 />
                 <button type="button" onClick={() => removeSpec(index)}>X</button>
               </div>
@@ -246,7 +256,7 @@ useEffect(() => {
         </div>
 
         <div className="row">
-          <button type="submit" className='btnSubmitSaveProduct' disabled={loading}>
+          <button type="submit" className="btnSubmitSaveProduct" disabled={loading}>
             {loading ? 'Saving...' : 'Save Product'}
           </button>
         </div>
