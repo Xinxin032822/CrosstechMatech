@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { Link, useNavigate } from "react-router-dom"; // ✅ add useNavigate
+import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../Data/firebase';
-import { auth } from '../../Data/firebase';
+import { db, auth } from '../../Data/firebase';
 import "../Navbar/Navbar.css";
 
 function Navbar() {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // ✅ needed for redirects
 
   useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         const docRef = doc(db, 'users', currentUser.uid);
         const docSnap = await getDoc(docRef);
@@ -22,20 +22,10 @@ function Navbar() {
       } else {
         setUser(null);
       }
-  });
+    });
 
     return () => unsubscribe();
   }, []);
-
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
 
   return (
     <div className='NavbarMainLoggedOut'>
@@ -56,10 +46,8 @@ function Navbar() {
       <div className="NavbarItemsLoggedOut NavbarItemsLoggedOutThirdChild">
         {user ? (
           <>
-            <span className="nav-logged-user">Hi, {user.name}</span>
-            <button onClick={handleLogout} className="nav-btn logout-btn">
-              Logout
-            </button>
+            <span className="nav-logged-user">Hi, {user.name || user.displayName || "User"}</span>
+            <Link to="/user" className="nav-btn settings-btn">⚙</Link>
           </>
         ) : (
           <>

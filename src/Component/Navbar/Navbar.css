@@ -223,3 +223,30 @@
   font-size: 1.2em;
   font-weight: bold;
 }
+
+/* Base nav button style */
+.nav-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 24px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* Settings button (brand red) */
+.settings-btn {
+  color: #e50914 !important;
+  border: none;
+}
+
+.settings-btn:hover {
+  transform: translateY(-2px); /* subtle lift */
+}
+
+/* Optional: smooth hover effect for all nav buttons */
+.nav-btn:hover {
+  opacity: 0.95;
+}
