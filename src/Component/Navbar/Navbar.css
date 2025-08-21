@@ -224,7 +224,6 @@
   font-weight: bold;
 }
 
-/* Base nav button style */
 .nav-btn {
   padding: 8px 16px;
   border-radius: 8px;
@@ -235,18 +234,14 @@
   cursor: pointer;
   display: inline-block;
 }
-
-/* Settings button (brand red) */
 .settings-btn {
   color: #e50914 !important;
   border: none;
 }
 
 .settings-btn:hover {
-  transform: translateY(-2px); /* subtle lift */
+  transform: translateY(-2px);
 }
-
-/* Optional: smooth hover effect for all nav buttons */
 .nav-btn:hover {
   opacity: 0.95;
 }

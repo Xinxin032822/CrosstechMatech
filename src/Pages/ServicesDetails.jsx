@@ -112,7 +112,7 @@ function ServicesDetails() {
               </button>
               <button
                 className="primary-button"
-                onClick={() => window.open('https://facebook.com', '_blank')}
+                onClick={() => window.open('https://www.facebook.com/profile.php?id=61558731775709', '_blank')}
               >
                 <i className="fab fa-facebook-messenger"></i> Message Us
               </button>

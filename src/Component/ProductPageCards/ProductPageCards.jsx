@@ -86,7 +86,17 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
       <div className="product-cards-container">
         {currentProducts.map(product => (
           <div className="product-card" key={product.id}>
-            <img src={product.images?.[0]} alt={product.productName} className="product-image" />
+            {product.images?.[0] ? (
+              <img 
+                src={product.images[0]} 
+                alt={product.productName} 
+                className="product-image" 
+              />
+            ) : (
+              <div className="no-image-placeholder">
+                No Image
+              </div>
+            )}
             <div className="product-content-product-page">
               <h3 className="product-title">{product.productName}</h3>
               <p className="product-description-product-page">{product.description}</p>

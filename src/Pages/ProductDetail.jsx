@@ -39,21 +39,33 @@ function ProductDetail() {
       <div className="product-detail-container">
         <div className="product-detail-content">
             <div className="product-detail-image-container">
-              <Swiper
-                modules={[Navigation, Pagination]}
-                navigation
-                pagination={{ clickable: true }}
-                spaceBetween={10}
-                slidesPerView={1}
-                loop={true}
-                className="product-image-swiper"
-              >
-                {(product.images || []).map((img, idx) => (
-                  <SwiperSlide key={idx}>
-                    <img src={img} alt={`product-${idx}`} className="product-detail-image" />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+            <div className="product-detail-image-container">
+              {product.images && product.images.length > 0 ? (
+                <Swiper
+                  modules={[Navigation, Pagination]}
+                  navigation
+                  pagination={{ clickable: true }}
+                  spaceBetween={10}
+                  slidesPerView={1}
+                  loop={true}
+                  className="product-image-swiper"
+                >
+                  {product.images.map((img, idx) => (
+                    <SwiperSlide key={idx}>
+                      <img
+                        src={img}
+                        alt={`product-${idx}`}
+                        className="product-detail-image"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                <div className="no-image-placeholder-detail">
+                  No Image Available
+                </div>
+              )}
+            </div>
             </div>
           <div className="product-detail-info">
             <h2 className="productNameProductDetailPage">{product.productName}</h2>

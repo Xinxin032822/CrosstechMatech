@@ -305,6 +305,21 @@ textarea.Input-shipping-details-form {
 }
 
 
+.no-image-placeholder-shipping {
+  width: 120px;              /* match productImageShippingDetails */
+  height: 120px;             /* adjust for square ratio */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+  font-size: 14px;
+  font-style: italic;
+  border: 2px dashed #ccc;
+  border-radius: 8px;         /* slightly rounded corners */
+  background-color: #f9f9f9;
+}
+
+
 
 
 @media (max-width: 867px) {

@@ -267,11 +267,18 @@ function ShippingDetail() {
         <div className="order-summary">
           <h3>Order Summary</h3>
           <div className="summary-product">
-            <img
-              className="productImageShippingDetails"
-              src={product.images}
-              alt={product.productName}
-            />
+            {product.images?.[0] ? (
+              <img
+                className="productImageShippingDetails"
+                src={product.images[0]}
+                alt={product.productName}
+              />
+            ) : (
+              <div className="no-image-placeholder-shipping">
+                No Image
+              </div>
+            )}
+
             <div className="summary-product-details">
               <p className="product-name-shipping-detail-page-header">
                 {product.productName}
