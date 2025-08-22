@@ -16,7 +16,7 @@ import Loader from '../Component/Loader/Loader';
 function ShippingDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(1); // user-selected qty
+  const [quantity, setQuantity] = useState(1);
   const [selectedMethod, setSelectedMethod] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [form, setForm] = useState({
@@ -26,8 +26,13 @@ function ShippingDetail() {
     address: '',
     notes: '',
   });
+  const [errors, setErrors] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    address: '',
+  });
 
-  // 🔹 fetch product
   const fetchProduct = async () => {
     const docRef = doc(db, 'products', id);
     const docSnap = await getDoc(docRef);
@@ -41,7 +46,39 @@ function ShippingDetail() {
   }, [id]);
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+
+    // Clear error when user starts typing
+    setErrors((prev) => ({ ...prev, [name]: '' }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!form.fullName.trim()) {
+      newErrors.fullName = 'Full name is required';
+    }
+
+    if (!form.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\d{11}$/.test(form.phone)) {
+      newErrors.phone = 'Phone number must be 11 digits';
+    }
+
+    if (!form.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (!form.address.trim()) {
+      newErrors.address = 'Address is required';
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
   };
 
   const increaseQty = () =>
@@ -51,7 +88,6 @@ function ShippingDetail() {
   const decreaseQty = () =>
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
-  // 🔹 transaction stock adjust
   const adjustProductStock = async (productId, orderQty) => {
     const productRef = doc(db, 'products', productId);
     await runTransaction(db, async (transaction) => {
@@ -79,10 +115,28 @@ function ShippingDetail() {
       );
     });
   };
+  const saveFormData = async (userId, formData) => {
+    try {
+      // Saving form data to the "savedInputs" subcollection under the user's document
+      const docRef = await addDoc(
+        collection(db, 'users', userId, 'savedInputs'),
+        {
+          ...formData,
+          createdAt: serverTimestamp(), // Timestamp to track when it was saved
+        }
+      );
+      console.log("Form data saved with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error saving form data: ", error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isButtonDisabled) return;
+
+    // First validate the form
+    if (!validateForm()) return;
 
     setIsButtonDisabled(true);
     setTimeout(() => setIsButtonDisabled(false), 5000);
@@ -110,7 +164,6 @@ function ShippingDetail() {
     const shipping = Number(product.shippingFee);
     const total = subtotal + shipping;
 
-    // Get current user
     const user = auth.currentUser;
 
     try {
@@ -173,13 +226,13 @@ function ShippingDetail() {
 
       if (user) {
         await addDoc(collection(db, 'users', user.uid, 'orders'), orderData);
+        await saveFormData(user.uid, form);
       } else {
         await addDoc(collection(db, 'guestOrders'), orderData);
       }
 
       await adjustProductStock(product.id, quantity);
 
-      // 🔹 Refresh stock after successful order
       await fetchProduct();
 
       if (invoiceData?.invoice_url) {
@@ -195,6 +248,7 @@ function ShippingDetail() {
   };
 
   if (!product) return <Loader />;
+
   const subtotal = Number(product.price) * quantity;
   const shipping = Number(product.shippingFee);
   const total = subtotal + shipping;
@@ -210,12 +264,12 @@ function ShippingDetail() {
                 <input
                   className="Input-shipping-details-form"
                   name={field}
-                  placeholder={`Enter your ${
-                    field === 'fullName' ? 'full name' : field
-                  }`}
+                  placeholder={`Enter your ${field === 'fullName' ? 'full name' : field}`}
                   onChange={handleChange}
+                  value={form[field]}
                   required
                 />
+                {errors[field] && <p className="error">{errors[field]}</p>}
               </div>
             ))}
             <div className="form-group-shipping-details">
@@ -224,8 +278,10 @@ function ShippingDetail() {
                 name="address"
                 placeholder="Enter your complete address"
                 onChange={handleChange}
+                value={form.address}
                 required
               />
+              {errors.address && <p className="error">{errors.address}</p>}
             </div>
             <div className="form-group-shipping-details">
               <textarea
@@ -233,6 +289,7 @@ function ShippingDetail() {
                 name="notes"
                 placeholder="Any special instructions?"
                 onChange={handleChange}
+                value={form.notes}
               />
             </div>
           </div>
@@ -274,19 +331,13 @@ function ShippingDetail() {
                 alt={product.productName}
               />
             ) : (
-              <div className="no-image-placeholder-shipping">
-                No Image
-              </div>
+              <div className="no-image-placeholder-shipping">No Image</div>
             )}
 
             <div className="summary-product-details">
-              <p className="product-name-shipping-detail-page-header">
-                {product.productName}
-              </p>
+              <p className="product-name-shipping-detail-page-header">{product.productName}</p>
               <div className="quantityShippingDetails">
-                <p className="quantityNumberShippingDetails">
-                  Quantity: {quantity}
-                </p>
+                <p className="quantityNumberShippingDetails">Quantity: {quantity}</p>
                 <div className="quantityButtonsShippingDetails">
                   <button
                     type="button"
@@ -313,21 +364,13 @@ function ShippingDetail() {
           <hr />
           <div className="summary-details">
             <p className="prices-summary-details">
-              Subtotal:{' '}
-              <span className="dynamic-prices-summary-details">
-                ₱{subtotal.toLocaleString()}
-              </span>
+              Subtotal: <span className="dynamic-prices-summary-details">₱{subtotal.toLocaleString()}</span>
             </p>
             <p className="prices-summary-details">
-              Shipping:{' '}
-              <span className="dynamic-prices-summary-details">
-                ₱{shipping.toLocaleString()}
-              </span>
+              Shipping: <span className="dynamic-prices-summary-details">₱{shipping.toLocaleString()}</span>
             </p>
             <hr />
-            <h4>
-              Total: <span>₱{total.toLocaleString()}</span>
-            </h4>
+            <h4>Total: <span>₱{total.toLocaleString()}</span></h4>
           </div>
           <p className="secure-checkout">
             <i className="fas fa-shield-halved"></i> Secure Checkout

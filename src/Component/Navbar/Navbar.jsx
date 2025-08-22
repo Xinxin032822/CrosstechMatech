@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom"; // ✅ add useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db, auth } from '../../Data/firebase';
+import { FaCog } from 'react-icons/fa'; 
 import "../Navbar/Navbar.css";
 
 function Navbar() {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate(); // ✅ needed for redirects
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -47,7 +48,7 @@ function Navbar() {
         {user ? (
           <>
             <span className="nav-logged-user">Hi, {user.name || user.displayName || "User"}</span>
-            <Link to="/user" className="nav-btn settings-btn">⚙</Link>
+            <Link to="/user" className="nav-btn settings-btn"><FaCog /> </Link>
           </>
         ) : (
           <>

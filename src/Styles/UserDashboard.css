@@ -221,6 +221,9 @@
   cursor: pointer;
 }
 
+
+
+
 /* Responsive table: stack on mobile */
 @media (max-width: 768px) {
   .table-header {
