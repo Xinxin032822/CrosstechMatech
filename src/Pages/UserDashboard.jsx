@@ -10,7 +10,9 @@ import {
   onSnapshot,
   doc,
   getDoc,
-  deleteDoc
+  deleteDoc,
+  updateDoc,
+  writeBatch
 } from "firebase/firestore";
 
 const UserDashboard = () => {
@@ -119,7 +121,7 @@ const UserDashboard = () => {
         <main className="main">
           <section className="card orders">
             <div className="orders-header">
-              <h3>📦 Orders</h3>
+              <h3>Orders</h3>
               <div className="controls">
                 <input
                   type="text"
@@ -169,7 +171,7 @@ const UserDashboard = () => {
           </section>
           <section className="card deliveries">
             <div className="deliveries-header">
-              <h3>🚚 Deliveries</h3>
+              <h3>Deliveries</h3>
               <div className="controls">
                 <input
                   type="text"
@@ -218,7 +220,7 @@ const UserDashboard = () => {
             </div>
           </section>
           <section className="card addresses">
-            <h3>📍 Saved Addresses</h3>
+            <h3>Saved Addresses</h3>
             {addresses.length > 0 ? (
               <div className="address-table">
                 <div className="address-header">
@@ -230,18 +232,42 @@ const UserDashboard = () => {
                 </div>
                 {addresses.map((address) => (
                   <div key={address.id} className="address-row">
-                    <span>{address.fullName}<br />{address.email}</span>
+                    <span>
+                      {address.fullName}
+                      <br />
+                      {address.email}
+                    </span>
                     <span>{address.address}</span>
                     <span>{address.phone}</span>
                     <span>
                       {new Date(address.createdAt?.seconds * 1000).toLocaleDateString()}
                     </span>
-                    <span>
+                    <span className="address-actions">
                       <button
                         className="delete-address-btn"
                         onClick={() => handleDeleteAddress(address.id)}
                       >
                         Delete
+                      </button>
+                      <button
+                        className={`status-toggle-btn ${address.active ? "active" : "inactive"}`}
+                        onClick={async () => {
+                          try {
+                            const batch = writeBatch(db);
+                            const userAddressesRef = collection(db, "users", user.uid, "savedInputs");
+                            addresses.forEach((addr) => {
+                              const addrRef = doc(userAddressesRef, addr.id);
+                              batch.update(addrRef, { active: addr.id === address.id });
+                            });
+
+                            await batch.commit();
+                          } catch (error) {
+                            console.error("Error setting default address:", error);
+                            alert("Failed to update address status.");
+                          }
+                        }}
+                      >
+                        {address.active ? "Active" : "Inactive"}
                       </button>
                     </span>
                   </div>

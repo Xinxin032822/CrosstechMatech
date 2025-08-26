@@ -1,266 +1,334 @@
-/* Layout */
-.dashboard {
-  display: flex;
-  min-height: 100vh;
-  background: #f4f6f9;
-  color: #222;
-  font-family: Arial, sans-serif;
-}
-
-/* Sidebar stays fixed size */
-.sidebar {
-  width: 250px;
-  background: #fff;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
-.profile {
-  text-align: center;
-}
-
-.profile h2 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.profile p {
-  margin: 4px 0;
-  font-size: 13px;
-  color: #666;
-}
-
-/* Main content grid */
-.main {
-  flex: 1;
-  padding: 30px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto;
-  gap: 20px;
-  grid-template-areas:
-    "orders deliveries"
-    "addresses addresses"
-    "logout logout";
-}
-
-/* Bento Cards */
-.card {
-  border-radius: 16px;
-  padding: 20px;
-  color: #fff;  
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-family: "Ubuntu", sans-serif;
-}
-
-.card h3 {
-  margin-bottom: 15px;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Card colors */
-.orders {
-  background: #101322;
-  grid-area: orders;
-  color: #fff;
-}
-
-.deliveries {
-  background: #95cfda;
-  grid-area: deliveries;
-  color: #222;
-}
-
-.addresses {
-  background: #d9bda7;
-  grid-area: addresses;
+  .dashboard {
+    display: flex;
+    min-height: 100vh;
+    background: #f4f6f9;
     color: #222;
-}
+    font-family: Arial, sans-serif;
+  }
+  .sidebar {
+    width: 250px;
+    background: #fff;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
 
-/* Items inside cards */
-.item {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 10px;
-  transition: background 0.2s ease;
-}
+  .profile {
+    text-align: center;
+  }
 
-.item:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
+  .profile h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
 
-.title {
-  font-weight: 600;
-  font-size: 14px;
-}
+  .profile p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #666;
+  }
+  .main {
+    flex: 1;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+    grid-template-areas:
+      "orders deliveries"
+      "addresses addresses"
+      "logout logout";
+  }
+  .card {
+    border-radius: 16px;
+    padding: 20px;
+    color: #fff;  
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: "Ubuntu", sans-serif;
+  }
 
-.details {
-  font-size: 12px;
-  opacity: 0.9;
-}
+  .card h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
-/* Logout button bottom */
-.logout-container {
-  grid-area: logout;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
+  /* Card colors */
+  .orders {
+    background: #101322;
+    grid-area: orders;
+    color: #fff;
+  }
 
-.logout {
-  border: none;
-  background: #e63946;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: background 0.2s ease;
-}
+  .deliveries {
+    background: #95cfda;
+    grid-area: deliveries;
+    color: #222;
+  }
 
-.logout:hover {
-  background: #b71c1c;
-}
+  .addresses {
+    background: #d9bda7;
+    grid-area: addresses;
+      color: #222;
+  }
 
-/* Table-style cards */
-.table {
-  display: grid;
-  gap: 10px;
-}
+  /* Items inside cards */
+  .item {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    transition: background 0.2s ease;
+  }
 
-.table-header,
-.table-row {
-  display: grid;
-  grid-template-columns: 2fr 1fr 2fr 1fr 0.5fr; /* product, date/eta, message, status, qty */
-  gap: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 13px;
-}
+  .item:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
 
-.table-header {
-  font-weight: bold;
-  background: rgba(255, 255, 255, 0.3);
-}
+  .title {
+    font-weight: 600;
+    font-size: 14px;
+  }
 
-.table-row {
-  background: rgba(255, 255, 255, 0.15);
-  transition: background 0.2s ease;
-}
+  .details {
+    font-size: 12px;
+    opacity: 0.9;
+  }
 
-.table-row:hover {
-  background: rgba(255, 255, 255, 0.25);
-}
+  /* Logout button bottom */
+  .logout-container {
+    grid-area: logout;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
 
-/* ✅ Scrollable tables so they don’t break grid */
-.table.scrollable {
-  max-height: 250px;
-  overflow-y: auto;
-  padding-right: 6px;
-}
+  .logout {
+    border: none;
+    background: #e63946;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background 0.2s ease;
+  }
 
-/* ✅ Scrollbar styling */
-.table.scrollable::-webkit-scrollbar {
-  width: 6px;
-}
-.table.scrollable::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-}
+  .logout:hover {
+    background: #b71c1c;
+  }
 
-/* Status colors */
-.status.completed,
-.status.delivered {
-  color: #2e7d32;
-  font-weight: bold;
-}
+  /* Table-style cards */
+  .table {
+    display: grid;
+    gap: 10px;
+  }
 
-.status.pending {
-  color: #ff9800;
-  font-weight: bold;
-}
+  .table-header,
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr 1fr 0.5fr; /* product, date/eta, message, status, qty */
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+  }
 
-.status.processing {
-  color: #1976d2;
-  font-weight: bold;
-}
-
-.status["in transit"],
-.status.intransit {
-  color: #0288d1;
-  font-weight: bold;
-}
-
-/* Controls (search + filter) */
-.controls {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.controls input,
-.controls select {
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: none;
-  font-size: 13px;
-}
-
-.controls input {
-  flex: 1;
-}
-
-.controls select {
-  background: #fff;
-  cursor: pointer;
-}
-
-
-
-
-/* Responsive table: stack on mobile */
-@media (max-width: 768px) {
   .table-header {
-    display: none; /* hide header for small screens */
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.3);
   }
 
   .table-row {
-    grid-template-columns: 1fr;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    transition: background 0.2s ease;
   }
 
-  .table-row span {
-    display: block;
-    font-size: 14px;
-    margin: 2px 0;
+  .table-row:hover {
+    background: rgba(255, 255, 255, 0.25);
   }
+
+  /* ✅ Scrollable tables so they don’t break grid */
+  .table.scrollable {
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  /* ✅ Scrollbar styling */
+  .table.scrollable::-webkit-scrollbar {
+    width: 6px;
+  }
+  .table.scrollable::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  /* Status colors */
+  .status.completed,
+  .status.delivered {
+    color: #2e7d32;
+    font-weight: bold;
+  }
+
+  .status.pending {
+    color: #ff9800;
+    font-weight: bold;
+  }
+
+  .status.processing {
+    color: #1976d2;
+    font-weight: bold;
+  }
+
+  .status["in transit"],
+  .status.intransit {
+    color: #0288d1;
+    font-weight: bold;
+  }
+
+  /* Controls (search + filter) */
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .controls input,
+  .controls select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+  }
+
+  .controls input {
+    flex: 1;
+  }
+
+  .controls select {
+    background: #fff;
+    cursor: pointer;
+  }
+
+
+
+  .address-table {
+  display: grid;
+  gap: 10px;
 }
 
-/* 📱 Responsive layout */
-@media (max-width: 968px) {
-  .dashboard {
-    flex-direction: column; /* Sidebar on top */
-  }
-
-  .sidebar {
-    width: 100%;
-    box-shadow: none;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .main {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "orders"
-      "deliveries"
-      "addresses"
-      "logout";
-  }
+.address-header,
+.address-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr; /* name/email, address, phone, date, actions */
+  gap: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
 }
+
+.address-header {
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.address-row {
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.2s ease;
+  align-items: center;
+}
+
+.address-row:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Actions (buttons side by side) */
+.address-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.delete-address-btn,
+.status-toggle-btn {
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-weight: bold;
+}
+
+/* Delete button */
+.delete-address-btn {
+  background: #e63946;
+  color: #fff;
+}
+.delete-address-btn:hover {
+  background: #b71c1c;
+}
+
+/* Active/Inactive toggle button */
+.status-toggle-btn.active {
+  background: #2e7d32;
+  color: #fff;
+}
+.status-toggle-btn.active:hover {
+  background: #1b5e20;
+}
+.status-toggle-btn.inactive {
+  background: #ff9800;
+  color: #fff;
+}
+.status-toggle-btn.inactive:hover {
+  background: #ef6c00;
+}
+
+
+
+
+
+  /* Responsive table: stack on mobile */
+  @media (max-width: 768px) {
+    .table-header {
+      display: none; /* hide header for small screens */
+    }
+
+    .table-row {
+      grid-template-columns: 1fr;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .table-row span {
+      display: block;
+      font-size: 14px;
+      margin: 2px 0;
+    }
+  }
+
+  /* 📱 Responsive layout */
+  @media (max-width: 968px) {
+    .dashboard {
+      flex-direction: column; /* Sidebar on top */
+    }
+
+    .sidebar {
+      width: 100%;
+      box-shadow: none;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .main {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "orders"
+        "deliveries"
+        "addresses"
+        "logout";
+    }
+  }
