@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  doc,
-  getDoc,
-  addDoc,
-  collection,
-  serverTimestamp,
-  runTransaction,
+  doc, getDoc, addDoc, collection, serverTimestamp, runTransaction,
+  query, orderBy, limit, getDocs, where, writeBatch
 } from 'firebase/firestore';
+
+
 import { db, auth } from '../Data/firebase';
 import '../Styles/ShippingDetail.css';
 
@@ -43,15 +41,72 @@ function ShippingDetail() {
 
   useEffect(() => {
     fetchProduct();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        loadSavedInput(user.uid);
+      }
+    });
+
+    return () => unsubscribe();
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user starts typing
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
+  const loadSavedInput = async (userId) => {
+  try {
+    const savedInputsRef = collection(db, 'users', userId, 'savedInputs');
+
+    // 1) try active
+    const qActive = query(savedInputsRef, where('isActive', '==', true), limit(1));
+    const activeSnap = await getDocs(qActive);
+
+    let data = null;
+    if (!activeSnap.empty) {
+      data = activeSnap.docs[0].data();
+    } else {
+      // 2) fallback to the most recent
+      const qLatest = query(savedInputsRef, orderBy('createdAt', 'desc'), limit(1));
+      const latestSnap = await getDocs(qLatest);
+      if (!latestSnap.empty) data = latestSnap.docs[0].data();
+    }
+
+    if (data) {
+      setForm({
+        fullName: data.fullName || '',
+        phone: data.phone || '',
+        email: data.email || '',
+        address: data.address || '',
+        notes: data.notes || '',
+      });
+      console.log("✅ Loaded saved input:", data);
+    }
+  } catch (error) {
+    console.error("Error loading saved input:", error);
+  }
+};
+
+const setActiveSavedInput = async (userId, savedInputId) => {
+  const ref = collection(db, 'users', userId, 'savedInputs');
+
+  // find any currently-active docs
+  const q = query(ref, where('isActive', '==', true));
+  const snap = await getDocs(q);
+
+  const batch = writeBatch(db);
+
+  // turn off old actives
+  snap.forEach(d => batch.update(d.ref, { isActive: false }));
+
+  // turn on the chosen one
+  batch.update(doc(db, 'users', userId, 'savedInputs', savedInputId), { isActive: true });
+
+  await batch.commit();
+};
+
 
   const validateForm = () => {
     const newErrors = {};
@@ -115,21 +170,27 @@ function ShippingDetail() {
       );
     });
   };
-  const saveFormData = async (userId, formData) => {
-    try {
-      // Saving form data to the "savedInputs" subcollection under the user's document
-      const docRef = await addDoc(
-        collection(db, 'users', userId, 'savedInputs'),
-        {
-          ...formData,
-          createdAt: serverTimestamp(), // Timestamp to track when it was saved
-        }
-      );
-      console.log("Form data saved with ID: ", docRef.id);
-    } catch (error) {
-      console.error("Error saving form data: ", error);
+  const saveFormData = async (userId, formData, makeActive = true) => {
+  try {
+    const newDocRef = await addDoc(
+      collection(db, 'users', userId, 'savedInputs'),
+      {
+        ...formData,
+        createdAt: serverTimestamp(),
+        isActive: !!makeActive, // mark on create
+      }
+    );
+
+    if (makeActive) {
+      await setActiveSavedInput(userId, newDocRef.id);
     }
-  };
+
+    console.log("Form data saved with ID: ", newDocRef.id);
+  } catch (error) {
+    console.error("Error saving form data: ", error);
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -226,7 +287,7 @@ function ShippingDetail() {
 
       if (user) {
         await addDoc(collection(db, 'users', user.uid, 'orders'), orderData);
-        await saveFormData(user.uid, form);
+        await saveFormData(user.uid, form, true);
       } else {
         await addDoc(collection(db, 'guestOrders'), orderData);
       }
