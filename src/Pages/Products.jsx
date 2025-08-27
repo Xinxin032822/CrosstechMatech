@@ -8,7 +8,6 @@ import { pageVariants, pageTransition } from "../Component/Transition/pageTransi
 import Footer from '../Component/Footer/Footer'
 import CategoryTree from '../Component/CategoryTree/CategoryTree.jsx';
 
-//firestore
 import { db } from '../Data/firebase.js';
 import { collection, getDocs } from 'firebase/firestore';
 
