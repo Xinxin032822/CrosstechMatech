@@ -140,11 +140,17 @@ function InventoryTracker() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <img
-        src={p.images?.[0] || "https://via.placeholder.com/150"}
-        alt={p.productName}
-        className="inventory-image"
-      />
+      {p.images?.[0] ? (
+          <img
+            src={p.images[0]}
+            alt={p.productName}
+            className="inventory-image"
+          />
+        ) : (
+          <div className="placeholder-image">
+            <span>No Image</span>
+          </div>
+      )}
 
       <div className="inventory-body">
         <h4 className="inventory-title">{p.productName}</h4>

@@ -1,0 +1,21 @@
+.row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  .FormAddProductAdminPageMain{
+    margin: 0 1em !important;
+  }
+  .field {
+    width: 100%;
+  }
+}

@@ -11,9 +11,8 @@ import {
   collection,
   setDoc
 } from "firebase/firestore";
-import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../../../Data/firebase";
 import "./DeliveryManagement.css";
+import NotFixedLoader from "../../Loader/NotFixedLoader"
 
 function DeliveryManagement() {
   const [orders, setOrders] = useState([]);
@@ -97,19 +96,20 @@ function DeliveryManagement() {
         .includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
-      const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date();
+      const dateA = a.createdAt?.toDate?.() || new Date(0);
       const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date();
       return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
     });
 
   const handleStatusChange = async (order, newStatus) => {
     try {
-      const orderRef = doc(db, `users/${order.userId}/orders/${order.id}`);
+      let orderRef;
+      if (order.isGuest) {
+        orderRef = doc(db, `guestOrders/${order.id}`);
+      } else {
+        orderRef = doc(db, `users/${order.userId}/orders/${order.id}`);
+      }
       await updateDoc(orderRef, { status: newStatus });
-      setOrders((prev) =>
-        prev.map((o) => (o.id === order.id ? { ...o, status: newStatus } : o))
-      );
-      setSelectedOrder((prev) => ({ ...prev, status: newStatus }));
     } catch (err) {
       console.error("Failed to update status:", err);
     }
@@ -177,7 +177,9 @@ function DeliveryManagement() {
 
       <div className="delivery-table-wrapper">
         {loading ? (
-          <p>Loading...</p>
+          <div className="loader-wrapper">
+            <NotFixedLoader />
+          </div>
         ) : (
           <table className="delivery-table">
             <thead>

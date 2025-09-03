@@ -17,7 +17,6 @@ function ProductManagement({ setActiveSection }) {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // prevent scroll when loading
   useEffect(() => {
     if (loading) {
       document.body.style.overflow = 'hidden';
@@ -32,7 +31,6 @@ function ProductManagement({ setActiveSection }) {
     };
   }, [loading]);
 
-  // 🔹 Safe number parser
   const parseSafeNumber = (value, fallback = 0) => {
     const num = Number(value);
     return isNaN(num) ? fallback : num;
@@ -71,7 +69,6 @@ function ProductManagement({ setActiveSection }) {
       const category = categoryParts[0] || '';
       const subcategories = categoryParts.slice(1);
 
-      // Upload images
       const uploadedImageURLs = [];
       for (const file of imageFiles) {
         const storageRef = ref(storage, `products/${Date.now()}-${file.name}`);
@@ -80,7 +77,6 @@ function ProductManagement({ setActiveSection }) {
         uploadedImageURLs.push(downloadURL);
       }
 
-      // Build product object
       const productData = {
         productName,
         category,
@@ -100,7 +96,6 @@ function ProductManagement({ setActiveSection }) {
 
       alert('✅ Product added successfully!');
 
-      // reset form
       setProductName('');
       setCategoryInput('');
       setPrice('');

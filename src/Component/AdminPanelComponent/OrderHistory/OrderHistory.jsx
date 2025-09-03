@@ -3,6 +3,7 @@ import { db } from "../../../Data/firebase";
 import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
 import "./OrderHistory.css";
+import NotFixedLoader from "../../Loader/NotFixedLoader"
 
 function OrderHistory() {
   const [orders, setOrders] = useState([]);
@@ -37,8 +38,8 @@ function OrderHistory() {
         .includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
-      const dateA = a.archivedAt?.toDate ? a.archivedAt.toDate() : new Date();
-      const dateB = b.archivedAt?.toDate ? b.archivedAt.toDate() : new Date();
+      const dateA = a.archivedAt?.toDate ? a.archivedAt.toDate() : new Date(0);
+      const dateB = b.archivedAt?.toDate ? b.archivedAt.toDate() : new Date(0);
       return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
     });
 
@@ -84,9 +85,19 @@ function OrderHistory() {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <div>
+            <NotFixedLoader/>
+        </div>
       ) : filteredOrders.length === 0 ? (
-        <p>No archived orders found.</p>
+        <motion.div
+          className="NoArchivedDivMain"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          <p>No archived orders found.</p>
+        </motion.div>
       ) : (
         <div className="order-history-list">
           {filteredOrders.map(order => (
@@ -105,8 +116,17 @@ function OrderHistory() {
                 <div>
                   <h4>{order.productName}</h4>
                   <p>₱{order.productPrice?.toLocaleString()} × {order.quantity}</p>
-                  <small>Archived: {order.archivedAt?.toDate().toLocaleDateString()}</small>
-                  <small> Created: {order.createdAt?.toDate().toLocaleDateString()}</small>
+                  <small>
+                    Archived: {order.archivedAt?.toDate
+                      ? order.archivedAt.toDate().toLocaleDateString()
+                      : "N/A"}
+                  </small>
+                  <small>
+                    Created: {order.createdAt?.toDate
+                      ? order.createdAt.toDate().toLocaleDateString()
+                      : "N/A"}
+                  </small>
+
                 </div>
               </div>
               <div className="order-actions">

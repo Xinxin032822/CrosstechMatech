@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collectionGroup, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../../Data/firebase';
 import './InquiryManagement.css';
+import NotFixedLoader from "../../Loader/NotFixedLoader"
 
 function InquiryManagement() {
   const [inquiries, setInquiries] = useState([]);
@@ -106,7 +107,9 @@ dcantuba_08@yahoo.com
       </div>
 
       {loading ? (
-        <p>Loading inquiries...</p>
+        <div className='LoaderMainClassInquiryManagement'>
+          <NotFixedLoader/>
+        </div>
       ) : (
         <div className="inquiry-list">
           {filteredInquiries.map((inq) => (

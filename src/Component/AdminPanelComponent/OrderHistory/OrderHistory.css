@@ -63,3 +63,20 @@
   background-color: #e74c3c;
   color: white;
 }
+.NoArchivedDivMain{
+  width: 100%;
+  padding: 1em 0;
+  display: flex;
+  margin: 3em 0em;
+  justify-content: center;
+  background: #fff;
+  box-shadow: 6px 8px 14px rgba(3, 7, 18, 0.09),
+  24px 31px 54px rgba(3, 7, 18, 0.09);
+  border-radius: 10px;
+}
+
+.NoArchivedDivMain p {
+  font-size: 1em;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 400;
+}

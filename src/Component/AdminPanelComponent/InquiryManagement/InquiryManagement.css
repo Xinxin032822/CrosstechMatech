@@ -1,6 +1,7 @@
 .inquiry-management {
   padding: 20px;
   width: 100%;
+  height: 100vh; 
 }
 
 .inquiry-controls {
@@ -95,3 +96,29 @@
   color: #888;
   margin-top: 20px;
 }
+.LoaderMainClassInquiryManagement{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 756px) {
+  .inquiry-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .inquiry-info {
+    max-width: 100%;
+  }
+  .delete-btn{
+    margin: 0;
+  }
+  .inquiry-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
