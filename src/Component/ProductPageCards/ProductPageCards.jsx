@@ -4,6 +4,7 @@ import { db } from '../../Data/firebase';
 import './ProductPageCards.css';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Loader/Loader.jsx';
+import LazyImage from '../LazyImage.jsx';
 
 function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
   const [products, setProducts] = useState([]);
@@ -87,7 +88,7 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
         {currentProducts.map(product => (
           <div className="product-card" key={product.id}>
             {product.images?.[0] ? (
-              <img 
+              <LazyImage 
                 src={product.images[0]} 
                 alt={product.productName} 
                 className="product-image" 

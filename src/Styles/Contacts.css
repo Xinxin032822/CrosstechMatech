@@ -151,6 +151,14 @@
     border-radius: 10px;
 }
 
+.success-message {
+  margin-top: 1em;
+  color: green;
+  font-weight: 500;
+  font-family: "Ubuntu", sans-serif;
+}
+
+
 @media (max-width: 868px) {
   .contacts-header {
     margin: 2em 0;

@@ -2,12 +2,21 @@ import React from 'react';
 import './ProductCard.css';
 import { useNavigate } from 'react-router-dom';
 
-function ProductCard({ image, title, description, id}) {
+function ProductCard({ image, title, description, id }) {
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
   return (
     <div className="product-card">
-      <img src={image} alt={title} className="product-image" />
+      {image ? (
+        <img
+          src={image}
+          alt={title}
+          className="product-image"
+          loading="lazy"
+        />
+      ) : (
+        <div className="no-image-placeholder">No Image</div>
+      )}
       <div className="product-content">
         <h3>{title}</h3>
         <p>{description}</p>

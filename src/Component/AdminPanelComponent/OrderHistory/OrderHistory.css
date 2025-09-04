@@ -63,10 +63,21 @@
   background-color: #e74c3c;
   color: white;
 }
-.NoArchivedDivMain{
+.NoArchivedDivMainDiv{
   width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.NoArchivedDivMain{
+  width: 50%;
   padding: 1em 0;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin: 3em 0em;
   justify-content: center;
   background: #fff;
@@ -74,9 +85,14 @@
   24px 31px 54px rgba(3, 7, 18, 0.09);
   border-radius: 10px;
 }
-
 .NoArchivedDivMain p {
   font-size: 1em;
   font-family: "Ubuntu", sans-serif;
   font-weight: 400;
+}
+.noArchivedHeader{
+  font-size: 1.5em;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  margin-bottom: 0em;
 }

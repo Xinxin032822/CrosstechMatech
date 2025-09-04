@@ -1,33 +1,24 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { addDoc, collection } from 'firebase/firestore';
-import { getFirestore } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
-import './ServicesForm.css'; // reuse same styles
+import { db, storage } from "../../../Data/firebase";
+import './ServicesForm.css';
 
-// ✅ Firebase config (same as in your ServiceForm)
-const firebaseConfig = {
-  apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
-  authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
-  projectId: "crosstechmatech-aa4c1",
-  storageBucket: "crosstechmatech-aa4c1.firebasestorage.app",
-  messagingSenderId: "939097855367",
-  appId: "1:939097855367:web:f38e4460453518b2bcaf22",
-  measurementId: "G-9ZSELNZP54"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-// ✅ Validation Schema
 const schema = yup.object().shape({
   serviceTitle: yup.string().required('Service Title is required'),
-  price: yup.number().required('Price is required').positive('Price must be positive'),
+  price: yup
+    .number()
+    .typeError('Price must be a number')
+    .required('Price is required')
+    .positive('Price must be positive')
+    .integer('Price must be a whole number'),
   description: yup.string().required('Description is required'),
 });
+
 
 function ServicesManagement({ onServiceAdded }) {
   const [categoryInput, setCategoryInput] = useState('');
@@ -38,6 +29,11 @@ function ServicesManagement({ onServiceAdded }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState(null);
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach(img => URL.revokeObjectURL(img.preview));
+    };
+  }, [imagePreviews]);
 
   const { control, handleSubmit, reset, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
@@ -57,7 +53,6 @@ function ServicesManagement({ onServiceAdded }) {
     setSubmitSuccess(false);
 
     try {
-      const storage = getStorage();
       const uploadedImageURLs = [];
 
       for (const file of imageFiles) {
@@ -103,7 +98,6 @@ function ServicesManagement({ onServiceAdded }) {
       <p className="AdminPageContentAddProductComponentTitle">Manage Services</p>
       <form onSubmit={handleSubmit(onSubmit)}>
 
-        {/* Service Title */}
         <div className="field full-width">
           <label>Service Title</label>
           <Controller
@@ -114,7 +108,6 @@ function ServicesManagement({ onServiceAdded }) {
           {errors.serviceTitle && <p className="error">{errors.serviceTitle.message}</p>}
         </div>
 
-        {/* Category */}
         <div className="field full-width">
           <label>Category & Subcategories</label>
           <input
@@ -131,7 +124,6 @@ function ServicesManagement({ onServiceAdded }) {
           </div>
         </div>
 
-        {/* Price */}
         <div className="field full-width">
           <label>Price (₱)</label>
           <Controller
@@ -142,7 +134,6 @@ function ServicesManagement({ onServiceAdded }) {
           {errors.price && <p className="error">{errors.price.message}</p>}
         </div>
 
-        {/* Images */}
         <div className="field full-width">
           <label>Upload Image(s)</label>
           <input
@@ -182,7 +173,6 @@ function ServicesManagement({ onServiceAdded }) {
           </div>
         </div>
 
-        {/* Description */}
         <div className="field full-width">
           <label>Description</label>
           <Controller
@@ -193,7 +183,6 @@ function ServicesManagement({ onServiceAdded }) {
           {errors.description && <p className="error">{errors.description.message}</p>}
         </div>
 
-        {/* Submit Button */}
         <div className="row">
           <button type="submit" className="btnSubmitSaveProduct" disabled={isSubmitting}>
             <svg className="svgSaveProductButton" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">

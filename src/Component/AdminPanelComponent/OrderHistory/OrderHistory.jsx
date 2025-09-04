@@ -89,15 +89,23 @@ function OrderHistory() {
             <NotFixedLoader/>
         </div>
       ) : filteredOrders.length === 0 ? (
-        <motion.div
-          className="NoArchivedDivMain"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-        >
-          <p>No archived orders found.</p>
-        </motion.div>
+        <div className="NoArchivedDivMainDiv">
+          <motion.div
+            className="NoArchivedDivMain"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
+            <h3 className="noArchivedHeader">
+              No Archived Orders
+            </h3>
+            <p className="noArchivedText">
+              Orders that you archive will appear here.  
+              Manage active orders from the <span className="">Orders</span> tab.
+            </p>
+          </motion.div>
+        </div>
       ) : (
         <div className="order-history-list">
           {filteredOrders.map(order => (

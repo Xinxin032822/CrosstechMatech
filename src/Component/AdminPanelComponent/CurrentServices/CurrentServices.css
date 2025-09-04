@@ -148,6 +148,7 @@
   cursor: not-allowed;
 }
 
+
 @media (max-width: 900px) {
   .services-header {
     display: none;
@@ -168,4 +169,14 @@
   .service-actions {
     justify-content: flex-end;
   }
+  .service-title,
+.service-category,
+.service-price,
+.service-description {
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 }
