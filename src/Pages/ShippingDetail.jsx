@@ -59,8 +59,6 @@ function ShippingDetail() {
   const loadSavedInput = async (userId) => {
   try {
     const savedInputsRef = collection(db, 'users', userId, 'savedInputs');
-
-    // 1) try active
     const qActive = query(savedInputsRef, where('isActive', '==', true), limit(1));
     const activeSnap = await getDocs(qActive);
 
@@ -68,7 +66,6 @@ function ShippingDetail() {
     if (!activeSnap.empty) {
       data = activeSnap.docs[0].data();
     } else {
-      // 2) fallback to the most recent
       const qLatest = query(savedInputsRef, orderBy('createdAt', 'desc'), limit(1));
       const latestSnap = await getDocs(qLatest);
       if (!latestSnap.empty) data = latestSnap.docs[0].data();
@@ -91,17 +88,10 @@ function ShippingDetail() {
 
 const setActiveSavedInput = async (userId, savedInputId) => {
   const ref = collection(db, 'users', userId, 'savedInputs');
-
-  // find any currently-active docs
   const q = query(ref, where('isActive', '==', true));
   const snap = await getDocs(q);
-
   const batch = writeBatch(db);
-
-  // turn off old actives
   snap.forEach(d => batch.update(d.ref, { isActive: false }));
-
-  // turn on the chosen one
   batch.update(doc(db, 'users', userId, 'savedInputs', savedInputId), { isActive: true });
 
   await batch.commit();
@@ -177,7 +167,7 @@ const setActiveSavedInput = async (userId, savedInputId) => {
       {
         ...formData,
         createdAt: serverTimestamp(),
-        isActive: !!makeActive, // mark on create
+        isActive: !!makeActive,
       }
     );
 
@@ -196,7 +186,6 @@ const setActiveSavedInput = async (userId, savedInputId) => {
     e.preventDefault();
     if (isButtonDisabled) return;
 
-    // First validate the form
     if (!validateForm()) return;
 
     setIsButtonDisabled(true);

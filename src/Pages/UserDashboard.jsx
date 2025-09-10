@@ -112,11 +112,15 @@ const UserDashboard = () => {
     <div>
       <div className="dashboard">
         <aside className="sidebar">
+
+          {/* sidebar */}
           <div className="profile">
             <h2>{user?.name || "User"}</h2>
             <p>{user?.email}</p>
             <p>{user?.phoneNumber || "No phone linked"}</p>
           </div>
+          {/* end sidebar */}
+          
         </aside>
         <main className="main">
           <section className="card orders">

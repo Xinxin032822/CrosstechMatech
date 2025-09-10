@@ -31,6 +31,7 @@ import AdminDashboard from './Pages/AdminDashboard';
 import ServicesContact from './Component/ServicesContact/ServicesContact';
 import EditService from './Pages/EditService';
 import UserDashboard from './Pages/UserDashboard';
+import UserDash from './Pages/UserDash';
 function App() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(false);
@@ -87,7 +88,7 @@ function App() {
           <Route path='/services/:id/contact' element={<ServicesContact/>}/>
           <Route path='/privacy' element={<Privacy/>}/>
           <Route path='/refund' element={<Refund/>}/>
-          <Route path='/user' element={<UserDashboard/>}/>
+          <Route path='/user' element={ <UserDash/> }/>
           <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </AnimatePresence>
