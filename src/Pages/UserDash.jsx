@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "../Styles/UserDash.css";
 import Orders from "../Component/UserDash/Orders";
 import Deliveries from "../Component/UserDash/Deliveries";
+import SavedAddresses from "../Component/UserDash/SavedAddresses";
+import Cart from "../Component/UserDash/Cart";
 
 export default function UserDash() {
     const [activeSection, setActiveSection] = useState("Orders");
@@ -28,15 +30,13 @@ export default function UserDash() {
         case "Saved Addresses":
             return (
             <div>
-                <h2>Saved Addresses</h2>
-                <p>Manage your delivery addresses.</p>
+                <SavedAddresses/>
             </div>
             );
         case "Cart":
             return (
             <div>
-                <h2>Your Cart</h2>
-                <p>Items you’ve added to your cart will appear here.</p>
+                <Cart />
             </div>
             );
         default:

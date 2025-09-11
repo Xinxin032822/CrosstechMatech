@@ -1,0 +1,82 @@
+.saved-addresses-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.saved-addresses-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #222;
+}
+
+.saved-addresses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.saved-address-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  background: #fafafa;
+  transition: box-shadow 0.2s;
+}
+
+.saved-address-card:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.saved-address-name {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.saved-address-line {
+  margin: 3px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.saved-address-status {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #28a745;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.saved-address-card.active {
+  border-color: #28a745;
+  background: #f3fff6;
+}
+
+
+
+
+.saved-address-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.saved-address-btn:hover {
+  background: #007bff;
+  color: white;
+}
+
+.saved-address-btn:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
