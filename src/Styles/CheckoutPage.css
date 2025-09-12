@@ -1,0 +1,154 @@
+.checkout-wrapper {
+  max-width: 900px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.checkout-form-box,
+.checkout-summary-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.checkout-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.checkout-subtitle {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 1.5rem 0 1rem;
+}
+
+.checkout-input,
+.checkout-textarea {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.checkout-input:focus,
+.checkout-textarea:focus {
+  outline: none;
+  border-color: #e50914;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.15);
+}
+
+.checkout-methods {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.checkout-method-btn {
+  flex: 1;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f8f8f8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.checkout-method-btn.active {
+  border-color: #e50914;
+  background: #e50914;
+  color: #fff;
+}
+
+.checkout-summary-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.checkout-summary-img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.checkout-place-btn {
+  width: 100%;
+  padding: 1rem;
+  background: #e50914;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.checkout-place-btn:hover:not(:disabled) {
+  background: #b20710;
+}
+
+.checkout-place-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.checkout-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.checkout-field label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.checkout-methods {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.checkout-method-card {
+  flex: 1;
+  min-width: 150px;
+  padding: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.checkout-method-card:hover {
+  border-color: #e50914;
+  background: #fff;
+}
+
+.checkout-method-card.active {
+  border-color: #e50914;
+  background: rgba(229, 9, 20, 0.05);
+}
+
+.method-icon {
+  font-size: 1.3rem;
+}
