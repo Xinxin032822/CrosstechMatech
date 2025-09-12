@@ -9,10 +9,15 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import "./Cart.css";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState(null)
+  const navigate = useNavigate();
+
+  const hasOutOfStock = cartItems.some((item) => item.maxQuantity === 0);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -55,19 +60,27 @@ const Cart = () => {
   }, []);
 
     const updateQuantity = async (id, newQty) => {
-        newQty = Number(newQty);
+      newQty = Number(newQty);
 
-        setCartItems((prev) =>
-            prev.map((item) =>
-            item.id === id ? { ...item, quantity: newQty } : item
-            )
-        );
+      setCartItems((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, quantity: newQty } : item
+        )
+      );
 
-        const user = auth.currentUser;
-        if (!user) return;
+      const user = auth.currentUser;
+      if (!user) return;
 
-        const itemRef = doc(db, `users/${user.uid}/cart`, id);
+      const itemRef = doc(db, `users/${user.uid}/cart`, id);
+
+      try {
+        setUpdatingId(id);
         await updateDoc(itemRef, { quantity: newQty });
+      } catch (error) {
+        console.error("Error updating quantity:", error);
+      } finally {
+        setUpdatingId(null);
+      }
     };
 
 
@@ -104,37 +117,41 @@ const Cart = () => {
           <div className="cart-items">
             {cartItems.map((item) => (
               <div key={item.id} className="cart-item">
-                <img
-                  src={item.image}
-                  alt={item.productName}
-                  className="cart-item-img"
-                />
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.productName}
+                    className="cart-item-img"
+                  />
+                ) : (
+                  <div className="cart-item-placeholder">
+                    No Image
+                  </div>
+                )}
+
                 <div className="cart-item-info">
                   <h2 className="cart-item-name">{item.productName}</h2>
                   <p className="cart-item-price">
                     ₱{item.price.toLocaleString()}
                   </p>
                   <p className="cart-item-stock">
-                    {item.maxQuantity} available
+                    {item.maxQuantity > 0
+                      ? `${item.maxQuantity} available`
+                      : "Out of stock"}
                   </p>
-
                   <div className="cart-quantity">
                     <button
                       className="qty-btn"
-                      disabled={item.quantity === 1}
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity - 1)
-                      }
+                      disabled={item.quantity === 1 || updatingId === item.id || item.maxQuantity === 0}
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
                     >
                       -
                     </button>
                     <span className="qty-value">{item.quantity}</span>
                     <button
                       className="qty-btn"
-                      disabled={item.quantity >= item.maxQuantity}
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity + 1)
-                      }
+                      disabled={item.quantity >= item.maxQuantity || updatingId === item.id || item.maxQuantity === 0}
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
                     >
                       +
                     </button>
@@ -163,7 +180,13 @@ const Cart = () => {
               <span>Total</span>
               <span>₱{grandTotal.toLocaleString()}</span>
             </div>
-            <button className="checkout-btn">Checkout</button>
+            <button
+              className="checkout-btn"
+              disabled={hasOutOfStock}
+              onClick={() => !hasOutOfStock && navigate("/user/checkout")}
+            >
+              {hasOutOfStock ? "Cannot checkout (out of stock)" : "Checkout"}
+            </button>
           </div>
         </>
       )}

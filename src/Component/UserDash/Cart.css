@@ -17,8 +17,6 @@
   color: #777;
   text-align: center;
 }
-
-/* Items */
 .cart-items {
   display: flex;
   flex-direction: column;
@@ -153,6 +151,24 @@
 .checkout-btn:hover {
   background: #c40812;
 }
+
+
+.cart-item-placeholder {
+  width: 80px;
+  height: 80px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 12px;
+  font-style: italic;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
