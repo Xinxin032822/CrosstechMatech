@@ -47,20 +47,49 @@ function DeliveryManagement() {
 
       const combinedOrders = [...userOrders, ...guestOrders];
 
-      const enriched = await Promise.all(
-        combinedOrders.map(async (order) => {
-          if (!order.productId) return order;
-          try {
+    const enriched = await Promise.all(
+      combinedOrders.map(async (order) => {
+        try {
+          if (Array.isArray(order.items) && order.items.length > 0) {
+            return {
+              ...order,
+              multipleItems: true, 
+            };
+          }
+          let items = [];
+          if (!order.isGuest) {
+            const itemsSnap = await getDocs(
+              collection(db, `users/${order.userId}/orders/${order.id}/items`)
+            );
+            items = itemsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          } else {
+            const itemsSnap = await getDocs(
+              collection(db, `guestOrders/${order.id}/items`)
+            );
+            items = itemsSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+          }
+
+          if (items.length > 0) {
+            return {
+              ...order,
+              items,
+              multipleItems: true,
+            };
+          }
+          if (order.productId) {
             const productRef = doc(db, "products", order.productId);
             const productSnap = await getDoc(productRef);
+
             if (productSnap.exists()) {
               const productData = productSnap.data();
-              let imageUrl = Array.isArray(productData.images) && productData.images[0]
-                ? productData.images[0]
-                : "";
+              let imageUrl =
+                Array.isArray(productData.images) && productData.images[0]
+                  ? productData.images[0]
+                  : "";
 
               return {
                 ...order,
+                multipleItems: false,
                 productImage: imageUrl,
                 category: productData.category || "",
                 productName: productData.productName || "",
@@ -68,12 +97,16 @@ function DeliveryManagement() {
                 quantity: productData.quantity || order.quantity || 0,
               };
             }
-          } catch (err) {
-            console.error("Error fetching product:", err);
           }
+
           return order;
-        })
-      );
+        } catch (err) {
+          console.error("Error enriching order:", err);
+          return order;
+        }
+      })
+    );
+
 
       setOrders(enriched);
     } catch (err) {
@@ -200,20 +233,39 @@ function DeliveryManagement() {
                 filteredOrders.map((order) => (
                   <tr key={order.id}>
                     <td>
-                      <div className="product-cell">
-                        <img
-                        src={order.productImage || "https://via.placeholder.com/50"}
-                        alt="product"
-                        />
-                        <div>
-                          <p>{order.productName}</p>
-                          <small>
-                            ₱{order.productPrice?.toLocaleString()} ×{" "}
-                            {order.quantity}
-                          </small>
+                      {order.multipleItems ? (
+                        <div className="product-list-cell">
+                          {order.items?.map((item) => (
+                            <div key={item.id} className="product-cell">
+                              <img
+                                src={item.image || "https://via.placeholder.com/50"}
+                                alt={item.productName}
+                              />
+                              <div>
+                                <p>{item.productName}</p>
+                                <small>
+                                  ₱{item.price?.toLocaleString()} × {item.quantity}
+                                </small>
+                              </div>
+                            </div>
+                          ))}
                         </div>
-                      </div>
+                      ) : (
+                        <div className="product-cell">
+                          <img
+                            src={order.productImage || "https://via.placeholder.com/50"}
+                            alt={order.productName}
+                          />
+                          <div>
+                            <p>{order.productName}</p>
+                            <small>
+                              ₱{order.productPrice?.toLocaleString()} × {order.quantity}
+                            </small>
+                          </div>
+                        </div>
+                      )}
                     </td>
+
                     <td>{order.notes || "No message"}</td>
                     <td>
                       {order.createdAt?.toDate
@@ -245,57 +297,114 @@ function DeliveryManagement() {
 
       {selectedOrder && (
         <div className="delivery-modal-overlay">
-          <div className="delivery-modal">
-            <button
-              className="modal-close"
-              onClick={() => setSelectedOrder(null)}
+            <div
+              className={`delivery-modal ${
+                selectedOrder.multipleItems ? "cart-modal" : "single-product-modal"
+              }`}
             >
-              ✖
-            </button>
-            <h2>Order Details</h2>
-            <img
-              src={
-                selectedOrder.productImage || "https://via.placeholder.com/100"
-              }
-              alt="product"
-            />
-            <p><strong>Product:</strong> {selectedOrder.productName}</p>
-            <p><strong>Price:</strong> ₱{selectedOrder.productPrice?.toLocaleString()}</p>
-            <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
-            <p><strong>Notes:</strong> {selectedOrder.notes || "No message"}</p>
-            <p><strong>Address:</strong> {selectedOrder.address}</p>
-            <p><strong>Payment:</strong> {selectedOrder.payment}</p>
-            <p><strong>Payment Status:</strong> {selectedOrder.paymentStatus}</p>
-            <p>
-              <strong>Date Submitted:</strong>{" "}
-              {selectedOrder.createdAt?.toDate
-                ? selectedOrder.createdAt.toDate().toLocaleDateString()
-                : "N/A"}
-            </p>
-
-            <label>
-              Status:
-              <select
-                value={selectedOrder.status}
-                onChange={(e) =>
-                  handleStatusChange(selectedOrder, e.target.value)
-                }
+              <button
+                className="modal-close"
+                onClick={() => setSelectedOrder(null)}
               >
-                <option value="Pending">Pending</option>
-                <option value="Processing">Processing</option>
-                <option value="Delivered">Delivered</option>
-              </select>
-            </label>
-                <br />
-            <button
-              className="archive-btn"
-              onClick={() => handleArchive(selectedOrder)}
-            >
-              Archive Order
-            </button>
+                ✖
+              </button>
+              {selectedOrder && (
+                <div className="delivery-modal-overlay">
+                  <div
+                    className={`delivery-modal ${
+                      selectedOrder.multipleItems ? "cart-modal" : "single-product-modal"
+                    }`}
+                  >
+                    <button
+                      className="modal-close"
+                      onClick={() => setSelectedOrder(null)}
+                    >
+                      ✖
+                    </button>
+
+                    {selectedOrder.multipleItems ? (
+                      // 🛒 CART MODAL
+                      <>
+                        <h2>Cart Order Details</h2>
+                        {selectedOrder.items?.map((item) => (
+                          <div key={item.id} className="cart-summary-item">
+                            <img
+                              src={item.image}
+                              alt={item.productName || "No product"}
+                              className="cart-summary-img"
+                            />
+                            <div className="cart-summary-details">
+                              <p className="cart-summary-name">{item.productName || "Unnamed"}</p>
+                              <p className="cart-summary-qty">Qty: {item.quantity}</p>
+                            </div>
+                            <div className="cart-summary-price">
+                              ₱{(item.price * item.quantity).toLocaleString()}
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    ) : (
+                      // 📦 SINGLE PRODUCT MODAL
+                      <>
+                        <h2>Single Product Order Details</h2>
+                        <div className="checkout-summary-item">
+                          <img
+                            src={selectedOrder.productImage}
+                            alt={selectedOrder.productName || "No product"}
+                            className="checkout-summary-img"
+                          />
+                          <div className="checkout-summary-details">
+                            <p className="summary-name">
+                              {selectedOrder.productName || "Unnamed product"}
+                            </p>
+                            <p className="summary-qty">Qty: {selectedOrder.quantity}</p>
+                          </div>
+                          <div className="checkout-summary-price">
+                            ₱{(selectedOrder.productPrice * selectedOrder.quantity).toLocaleString()}
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {/* Common details */}
+                    <p><strong>Notes:</strong> {selectedOrder.notes || "No message"}</p>
+                    <p><strong>Address:</strong> {selectedOrder.address}</p>
+                    <p><strong>Payment:</strong> {selectedOrder.payment}</p>
+                    <p><strong>Payment Status:</strong> {selectedOrder.paymentStatus}</p>
+                    <p>
+                      <strong>Date Submitted:</strong>{" "}
+                      {selectedOrder.createdAt?.toDate
+                        ? selectedOrder.createdAt.toDate().toLocaleDateString()
+                        : "N/A"}
+                    </p>
+
+                    <label>
+                      Status:
+                      <select
+                        value={selectedOrder.status}
+                        onChange={(e) => handleStatusChange(selectedOrder, e.target.value)}
+                      >
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Delivered">Delivered</option>
+                      </select>
+                    </label>
+                    <br />
+
+                    <button
+                      className="archive-btn"
+                      onClick={() => handleArchive(selectedOrder)}
+                    >
+                      Archive Order
+                    </button>
+                  </div>
+                </div>
+              )}
+
           </div>
         </div>
       )}
+      
     </div>
   );
 }
