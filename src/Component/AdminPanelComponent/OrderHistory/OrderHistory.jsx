@@ -116,29 +116,58 @@ function OrderHistory() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="order-info">
-                <img
-                  src={order.productImage || "https://via.placeholder.com/60"}
-                  alt={order.productName}
-                />
-                <div>
-                  <h4>{order.productName}</h4>
-                  <p>₱{order.productPrice?.toLocaleString()} × {order.quantity}</p>
-                  <small>
-                    Archived: {order.archivedAt?.toDate
-                      ? order.archivedAt.toDate().toLocaleDateString()
-                      : "N/A"}
-                  </small>
+              <div className="order-items">
+                {order.items && order.items.length > 0 ? (
+                  order.items.map(item => (
+                    <div key={item.id} className="order-item">
+                    {item.image ? (
+                      <img
+                        src={item.image}  
+                        alt={item.productName}
+                      />
+                    ) : (
+                      <div className="no-image">No image</div>
+                    )}
+                      <div>
+                        <h4>{item.productName}</h4>
+                        <p>₱{item.price?.toLocaleString()} × {item.quantity}</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="order-item">
+                    {order.productImage ? (
+                      <img
+                        src={order.productImage}
+                        alt={order.productName}
+                      />
+                    ) : (
+                      <div className="no-image">No image</div>
+                    )}
+                    <div>
+                      <h4>{order.productName}</h4>
+                      <p>₱{order.productPrice?.toLocaleString()} × {order.quantity}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="order-footer">
+                <div className="order-meta">
                   <small>
                     Created: {order.createdAt?.toDate
                       ? order.createdAt.toDate().toLocaleDateString()
                       : "N/A"}
                   </small>
-
+                  <small>
+                    Archived: {order.archivedAt?.toDate
+                      ? order.archivedAt.toDate().toLocaleDateString()
+                      : "N/A"}
+                  </small>
                 </div>
-              </div>
-              <div className="order-actions">
-                <button onClick={() => handleRestore(order)}>Restore</button>
+                <div className="order-actions">
+                  <button onClick={() => handleRestore(order)}>Restore</button>
+                </div>
               </div>
             </motion.div>
           ))}

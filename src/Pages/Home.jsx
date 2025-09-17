@@ -83,7 +83,9 @@ function Home() {
 
 
   return (
-    <motion.div
+    <div className='HomePage-container'>
+      
+      <motion.div
     initial="initial"
     animate="animate"
     exit="exit"
@@ -204,6 +206,7 @@ function Home() {
       </motion.div>
       <Footer />
     </motion.div>
+    </div>
   );
 }
 

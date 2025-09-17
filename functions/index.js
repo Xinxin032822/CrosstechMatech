@@ -26,8 +26,8 @@ const db = admin.firestore();
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER, // your email
-    pass: process.env.EMAIL_PASS, // app password (not your Gmail password)
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -171,7 +171,6 @@ app.post(
             `✅ Updated order ${orderDoc.id} for user ${userDoc.id}`
           );
 
-          // ✅ Send email if payment is successful
           if (status === 'PAID') {
             const mailOptions = {
               from: process.env.EMAIL_USER,

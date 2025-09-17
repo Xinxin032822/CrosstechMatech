@@ -348,7 +348,7 @@ const setActiveSavedInput = async (userId, savedInputId) => {
             <h3>Payment Method</h3>
             <div className="payment-methods">
               {[
-                { label: 'GCash', icon: 'gcash.png' },
+                // { label: 'GCash', icon: 'gcash.png' },
                 { label: 'Cash on Delivery', icon: 'COD.png' },
                 { label: 'Other Methods', icon: 'bank.png' },
               ].map((method) => (

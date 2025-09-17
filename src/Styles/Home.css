@@ -4,6 +4,7 @@
     width: 100%;
     overflow: hidden;
 }
+
 .hero-image {
     width: 100%;
     height: 100%;
@@ -69,14 +70,9 @@
     background-color: rgb(255, 83, 83);
 }
 
-
-
-
-
 .why-choose {
     text-align: center;
     padding: 4rem 2rem;
-    background-color: #fff;
 }
 
 .why-choose h2 {
@@ -142,7 +138,6 @@
 
 .featured-equipment {
   padding: 4rem 2rem;
-  background-color: #f8f8f8;
 }
 
 .featured-equipment-header {
