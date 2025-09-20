@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import "../Styles/About.css"
 import CardAbouts from '../Component/CardAbouts/CardAbouts'
 import Footer from '../Component/Footer/Footer';
@@ -9,6 +9,33 @@ import { pageVariants, pageTransition } from "../Component/Transition/pageTransi
 
 
 function About() {
+  useEffect(() => {
+      const overlay = document.createElement("div");
+      overlay.style.position = "fixed";
+      overlay.style.top = "0";
+      overlay.style.left = "0";
+      overlay.style.width = "100vw";
+      overlay.style.height = "100vh";
+      overlay.style.background = 'url("/background.png") no-repeat center bottom';
+      overlay.style.backgroundSize = "cover";
+      overlay.style.backgroundAttachment = "scroll";
+      overlay.style.opacity = "0";
+      overlay.style.transition = "opacity 0.5s ease";
+      overlay.style.zIndex = "-1";
+      document.body.appendChild(overlay);
+  
+      requestAnimationFrame(() => {
+        overlay.style.opacity = "0.2";
+      });
+  
+      return () => {
+        overlay.style.opacity = "0";
+        setTimeout(() => {
+          overlay.remove();
+        }, 1000);
+      };
+    }, []);
+  
   const navigate = useNavigate();
 
   const products = [

@@ -14,7 +14,7 @@ import Footer from '../Component/Footer/Footer.jsx';
 
 
 function Home() {
-useEffect(() => {
+  useEffect(() => {
     const overlay = document.createElement("div");
     overlay.style.position = "fixed";
     overlay.style.top = "0";
