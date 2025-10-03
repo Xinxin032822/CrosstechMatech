@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, onSnapshot } from 'firebase/firestore';
 import { db, auth } from '../../Data/firebase';
-import { FaCog } from 'react-icons/fa'; 
+import { FaCog, FaShoppingCart } from 'react-icons/fa'; 
 import "../Navbar/Navbar.css";
 
 function Navbar() {
   const [user, setUser] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
+    let unsubCart = null;
+
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         const docRef = doc(db, 'users', currentUser.uid);
@@ -20,12 +23,21 @@ function Navbar() {
         } else {
           setUser(currentUser);
         }
+        const cartRef = collection(db, "users", currentUser.uid, "cart");
+        unsubCart = onSnapshot(cartRef, (snapshot) => {
+          setCartCount(snapshot.size);
+        });
       } else {
         setUser(null);
+        setCartCount(0);
+        if (unsubCart) unsubCart();
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      if (unsubCart) unsubCart();
+    };
   }, []);
 
   return (
@@ -47,13 +59,31 @@ function Navbar() {
       <div className="NavbarItemsLoggedOut NavbarItemsLoggedOutThirdChild">
         {user ? (
           <>
-            <span className="nav-logged-user">Hi, {user.name || user.displayName || "User"}</span>
-            <Link to="/user" className="nav-btn settings-btn"><FaCog /> </Link>
+            <span className="nav-logged-user">
+              Hi, {user.name || user.displayName || "User"}
+            </span>
+            <Link 
+              to="/user" 
+              state={{ section: "Cart" }} 
+              className="nav-btn cart-btn"
+            >
+              <FaShoppingCart />
+              {cartCount > 0 && (
+                <span className="cart-badge">{cartCount}</span>
+              )}
+            </Link>
+            <Link to="/user" className="nav-btn settings-btn">
+              <FaCog />
+            </Link>
           </>
         ) : (
           <>
-            <Link to="/login" className="nav-btn login-btn loginbtnNouser">Login</Link>
-            <Link to="/signup" className="nav-btn signup-btn">Sign Up</Link>
+            <Link to="/login" className="nav-btn login-btn loginbtnNouser">
+              Login
+            </Link>
+            <Link to="/signup" className="nav-btn signup-btn">
+              Sign Up
+            </Link>
           </>
         )}
       </div>

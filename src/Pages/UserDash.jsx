@@ -4,9 +4,12 @@ import Orders from "../Component/UserDash/Orders";
 import Deliveries from "../Component/UserDash/Deliveries";
 import SavedAddresses from "../Component/UserDash/SavedAddresses";
 import Cart from "../Component/UserDash/Cart";
+import { useLocation } from "react-router-dom";
 
 export default function UserDash() {
-    const [activeSection, setActiveSection] = useState("Orders");
+    const location = useLocation();
+    const initialSection = location.state?.section || "Orders";
+    const [activeSection, setActiveSection] = useState(initialSection);
     const user = {
         name: "John Doe",
         email: "john.doe@example.com",

@@ -149,7 +149,7 @@ const handleSubmit = async (e) => {
       category: formData.category,
       subcategories: formData.subcategories,
       specification: formData.specification,
-      images: allImages, // ✅ use updated image array
+      images: allImages,
       updatedAt: new Date()
     });
 

@@ -12,7 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.3",

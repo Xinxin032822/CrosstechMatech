@@ -6,9 +6,9 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../Data/firebase.js';
 import { useNavigate } from 'react-router-dom';
 import eyeClosed from "../../public/assets/eye-close-svgrepo-com.svg";
-import signupIllustration from "/assets/Login.gif"; // Assuming you have an illustration like the login one
+import signupIllustration from "/assets/Login.gif";
 import { motion } from 'framer-motion';
-import "../Styles/MobileSignup.css"; // Same styles as the login page
+import "../Styles/MobileSignup.css";
 
 const schema = yup.object({
   name: yup.string().required("Full name is required"),
@@ -29,7 +29,7 @@ function MobileSignup() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       console.log("User signed up:", userCredential.user);
-      navigate("/"); // Navigate to the home page after sign-up
+      navigate("/");
     } catch (error) {
       console.error("Signup error:", error.message);
       alert(error.message);

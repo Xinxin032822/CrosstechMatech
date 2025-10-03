@@ -6,16 +6,16 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { addDoc, collection } from 'firebase/firestore';
 import { getFirestore } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
-import './ServicesForm.css'; // ✅ use the same or shared CSS
+import './ServicesForm.css';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA1SaxJky2fCYkbyUDF1lfsCPROPo71-C0",
-    authDomain: "crosstechmatech-aa4c1.firebaseapp.com",
-    projectId: "crosstechmatech-aa4c1",
-    storageBucket: "crosstechmatech-aa4c1.firebasestorage.app",
-    messagingSenderId: "939097855367",
-    appId: "1:939097855367:web:f38e4460453518b2bcaf22",
-    measurementId: "G-9ZSELNZP54"
+  apiKey: "AIzaSyBuCMNxNKZosxsYMCQSHzxno0FwpabiTCk",
+  authDomain: "crosstechmatech-20288.firebaseapp.com",
+  projectId: "crosstechmatech-20288",
+  storageBucket: "crosstechmatech-20288.firebasestorage.app",
+  messagingSenderId: "785525729273",
+  appId: "1:785525729273:web:1f2eeea3b437fa81f6bf28",
+  measurementId: "G-BG0PYQ759L"
 };
 
 const app = initializeApp(firebaseConfig);
