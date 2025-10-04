@@ -11,8 +11,23 @@ require('dotenv').config();
 const app = express();
 const PORT = 5000;
 
-app.use(cors());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://crosstechmatech.com, http://localhost:5173');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    return res.status(204).send('');
+  }
+
+  next();
+});
+
+app.use(cors({ origin: '*' }));
+
+app.options('*', cors());
 app.use(bodyParser.json());
+
 
 // ───────────────────────────────────────────────────────────────
 // Firebase Admin

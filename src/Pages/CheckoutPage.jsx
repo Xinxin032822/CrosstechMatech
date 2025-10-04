@@ -121,7 +121,7 @@ function CheckoutPage() {
       let invoiceResponse = null;
       if (selectedMethod === "GCash") {
         invoiceResponse = await fetch(
-          "https://us-central1-crosstechmatech-aa4c1.cloudfunctions.net/api/create-gcash-invoice",
+          "https://api-a463eoe22a-uc.a.run.app/create-gcash-invoice",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -273,9 +273,9 @@ function CheckoutPage() {
         <h3 className="checkout-subtitle">Payment Method</h3>
         <div className="checkout-methods">
           {[
-            { name: "GCash", icon: Gcash },
+            // { name: "GCash", icon: Gcash },
             { name: "Cash on Delivery", icon: COD },
-            { name: "Other Methods", icon: Other },
+            // { name: "Other Methods", icon: Other },
           ].map((method) => (
             <div
               key={method.name}
