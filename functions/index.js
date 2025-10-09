@@ -11,21 +11,32 @@ require('dotenv').config();
 const app = express();
 const PORT = 5000;
 
+const allowedOrigins = [
+  "https://crosstechmatech.com",
+  "http://localhost:5173",
+];
+
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://crosstechmatech.com, http://localhost:5173');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
-  if (req.method === 'OPTIONS') {
-    return res.status(204).send('');
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
   }
 
   next();
 });
 
-app.use(cors({ origin: '*' }));
 
-app.options('*', cors());
+
 app.use(bodyParser.json());
 
 
@@ -226,3 +237,5 @@ We’ll process your order soon.
 // ───────────────────────────────────────────────────────────────
 // Firebase Export
 exports.api = functions.https.onRequest(app);
+
+
