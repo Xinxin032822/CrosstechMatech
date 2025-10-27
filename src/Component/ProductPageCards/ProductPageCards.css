@@ -43,7 +43,7 @@
 }
 
 .product-category {
-  font-size: 13px;
+  font-size: 0.8em !important;
   color: #777;
 }
 
@@ -149,4 +149,28 @@
   border: 2px dashed #ccc;
   border-radius: 12px; /* slightly rounded corners */
   background-color: #f9f9f9;
+}
+
+.product-page-card-price-and-description{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-price-product-page{
+  color: #e53935;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+.product-page-categories{
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 6px;
+  color: #777;
+}
+.product-subcategory-product-page
+{
+  font-size: 0.8em !important;
 }

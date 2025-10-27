@@ -100,9 +100,16 @@ function ProductPageCards({ activeCategory, sortOption, searchQuery }) {
             )}
             <div className="product-content-product-page">
               <h3 className="product-title">{product.productName}</h3>
-              <p className="product-description-product-page">{product.description}</p>
+              <div className='product-page-card-price-and-description'>
+                <p className="product-description-product-page">{product.description}</p>
+                <p className='product-price-product-page'>₱ {product.price}</p>
+              </div>
               <div className="product-footer">
-                <span className="product-category">{product.category}</span>
+                <div className='product-page-categories'>
+                  <span className="product-category">{product.category}</span>
+                  <p className='product-subcategory-product-page'>&gt;</p>
+                  <span className='product-subcategory-product-page'>{product.subcategories[0]}</span>
+                </div>
                 <button
                   className="view-details-button"
                   onClick={() => navigate(`/products/${product.id}`)}

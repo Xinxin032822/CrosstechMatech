@@ -194,7 +194,7 @@ function Contacts() {
             </div>
             <div className='contact-info-text'>
               <p className='labelContactInfoSentionContactUsPage'>Phone Number</p>
-              <p className='descContactInfoSectionContactUsPage'>+63 925 777 4587</p>
+              <p className='descContactInfoSectionContactUsPage'>082-2342097 / 082-2362270</p>
             </div>
           </div>
           <div className='contact-info-container'>
@@ -214,7 +214,7 @@ function Contacts() {
             </div>
             <div className='contact-info-text'>
               <p className='labelContactInfoSentionContactUsPage'>Email</p>
-              <p className='descContactInfoSectionContactUsPage'>dcantuba_08@yahoo.com</p>
+              <p className='descContactInfoSectionContactUsPage'>crosstechmatech@gmail.com</p>
             </div>
           </div>
         </motion.div>

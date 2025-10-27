@@ -62,7 +62,6 @@
 }
 
 .ServicesCardsBottom {
-  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -73,6 +72,24 @@
   font-size: 0.85rem;
   color: #888;
   font-weight: 500;
+}
+.ServicesCardsCategory{
+  display: flex;
+  flex-direction: row;
+  margin-top: 0;
+}
+
+.ServicesCardPrice{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.ServicesCardPrice p{
+  margin: 0;
+  font-size: 1.1rem;
+  color: #e50914;
+  font-weight: 700;
 }
 
 .ServicesCardsButton button {

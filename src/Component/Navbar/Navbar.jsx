@@ -67,7 +67,7 @@ function Navbar() {
               state={{ section: "Cart" }} 
               className="nav-btn cart-btn"
             >
-              <FaShoppingCart />
+              <FaShoppingCart className='shoppingcarticonNav' />
               {cartCount > 0 && (
                 <span className="cart-badge">{cartCount}</span>
               )}

@@ -62,7 +62,7 @@ function AnimatedSection({ children, ...props }) {
 
 function Services() {
   const [services, setServices] = useState([]);
-  const navigate = useNavigate(); // Add this
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -138,6 +138,8 @@ function Services() {
             description={service.description}
             image={service.images?.[0] || ''}
             category={service.category}
+            subcategories={service.subcategories}
+            price={service.price}
             onClick={() => handleOnlickServiceCard(service)}
           />
         ))}
