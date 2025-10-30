@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { doc, setDoc } from 'firebase/firestore';
 import * as yup from 'yup';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../Data/firebase.js';
+import { auth, db } from '../Data/firebase.js';
 import { useNavigate } from 'react-router-dom';
 import eyeClosed from "../../public/assets/eye-close-svgrepo-com.svg";
 import signupIllustration from "/assets/Login.gif";
@@ -25,16 +26,26 @@ function MobileSignup() {
   const [showPassword, setShowPassword] = useState(false);
   const togglePassword = () => setShowPassword(prev => !prev);
 
-  const onSubmit = async (data) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      console.log("User signed up:", userCredential.user);
-      navigate("/");
-    } catch (error) {
-      console.error("Signup error:", error.message);
-      alert(error.message);
-    }
-  };
+const onSubmit = async (data) => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+    const user = userCredential.user; // ✅ Extract user object
+    console.log("User signed up:", user);
+
+    await setDoc(doc(db, "users", user.uid), { // ✅ Use user.uid instead of userCredential.uid
+      name: data.name,
+      email: data.email,
+      isAdmin: false,
+      createdAt: new Date()
+    });
+
+    navigate("/");
+  } catch (error) {
+    console.error("Signup error:", error.message);
+    alert(error.message);
+  }
+};
+
 
   return (
     <div className="mobile-signup-container">

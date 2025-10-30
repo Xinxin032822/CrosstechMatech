@@ -4,10 +4,13 @@ import Orders from "../Component/UserDash/Orders";
 import Deliveries from "../Component/UserDash/Deliveries";
 import SavedAddresses from "../Component/UserDash/SavedAddresses";
 import Cart from "../Component/UserDash/Cart";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { auth } from "../Data/firebase";
+import { signOut } from "firebase/auth";
 
 export default function UserDash() {
     const location = useLocation();
+    const navigate = useNavigate();
     const initialSection = location.state?.section || "Orders";
     const [activeSection, setActiveSection] = useState(initialSection);
     const user = {
@@ -15,6 +18,15 @@ export default function UserDash() {
         email: "john.doe@example.com",
     };
 
+    const handleLogout = async () => {
+        try {
+        await signOut(auth); // ✅ sign out the current user
+        localStorage.clear(); // optional: clear any saved user data
+        navigate("/login"); // redirect to login page
+        } catch (error) {
+        console.error("❌ Logout failed:", error);
+        }
+    };
 
     const renderContent = () => {
         switch (activeSection) {
@@ -74,7 +86,9 @@ export default function UserDash() {
             </nav>
 
             <div className="userdash-logout">
-                <button className="userdash-logout-btn">Logout</button>
+                <button className="userdash-logout-btn" onClick={handleLogout}>
+                    Logout
+                </button>
             </div>
         </aside>
 

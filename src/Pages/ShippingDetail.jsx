@@ -233,7 +233,7 @@ const setActiveSavedInput = async (userId, savedInputId) => {
 
       if (selectedMethod === 'GCash') {
         invoiceResponse = await fetch(
-          'https://api-a463eoe22a-uc.a.run.app/api/create-gcash-invoice',
+          'https://us-central1-crosstechmatech-20288.cloudfunctions.net/api/create-gcash-invoice',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -242,7 +242,7 @@ const setActiveSavedInput = async (userId, savedInputId) => {
         );
       } else if (selectedMethod === 'Other Methods') {
         invoiceResponse = await fetch(
-          'https://api-a463eoe22a-uc.a.run.app/api/create-card-invoice',
+          'https://us-central1-crosstechmatech-20288.cloudfunctions.net/api/create-card-invoice',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
