@@ -1,11 +1,12 @@
-import "../Styles/Services.css"
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../Data/firebase'
-import Footer from "../Component/Footer/Footer"
-import React, { useEffect, useState, useRef } from 'react';
-import ServicesCards from "../Component/ServicesCards/ServicesCards"
+import "../Styles/Services.css";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../Data/firebase";
+import Footer from "../Component/Footer/Footer";
+import React, { useEffect, useState, useRef } from "react";
+import ServicesCards from "../Component/ServicesCards/ServicesCards";
+import CategoryTreeServices from "../Component/CategoryTree/CategoryTreeServices";
 import { motion, useAnimation, useInView } from "framer-motion";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function AnimatedSection({ children, ...props }) {
   useEffect(() => {
@@ -34,14 +35,13 @@ function AnimatedSection({ children, ...props }) {
       }, 1000);
     };
   }, []);
+
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
   const controls = useAnimation();
 
   useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
+    if (inView) controls.start("visible");
   }, [inView, controls]);
 
   return (
@@ -51,7 +51,11 @@ function AnimatedSection({ children, ...props }) {
       animate={controls}
       variants={{
         hidden: { opacity: 0, y: 40 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } }
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.7, ease: "easeOut" },
+        },
       }}
       {...props}
     >
@@ -62,17 +66,48 @@ function AnimatedSection({ children, ...props }) {
 
 function Services() {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("sortByPrice");
+  const [categoriesTree, setCategoriesTree] = useState([]);
+  const [activeCategory, setActiveCategory] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const snapshot = await getDocs(collection(db, 'services'));
-        const servicesData = snapshot.docs.map(doc => ({
+        const snapshot = await getDocs(collection(db, "services"));
+        const servicesData = snapshot.docs.map((doc) => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
         setServices(servicesData);
+        setFilteredServices(servicesData);
+
+        // Build category tree
+        const paths = servicesData.map((service) => {
+          const fullPath = [service.category, ...(service.subcategories || [])];
+          return fullPath.filter(Boolean);
+        });
+
+        const buildTree = (paths) => {
+          const root = {};
+          paths.forEach((path) => {
+            let current = root;
+            path.forEach((part) => {
+              if (!current[part]) current[part] = {};
+              current = current[part];
+            });
+          });
+          const convertToTree = (obj) =>
+            Object.entries(obj).map(([name, children]) => ({
+              name,
+              children: convertToTree(children),
+            }));
+          return convertToTree(root);
+        };
+
+        setCategoriesTree(buildTree(paths));
       } catch (error) {
         console.error("Error fetching services:", error);
       }
@@ -80,6 +115,36 @@ function Services() {
 
     fetchServices();
   }, []);
+
+  // Filtering + Sorting Logic
+  useEffect(() => {
+    let updated = [...services];
+
+    if (searchQuery) {
+      updated = updated.filter((service) =>
+        service.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (activeCategory) {
+      const last = activeCategory[activeCategory.length - 1].toLowerCase();
+      updated = updated.filter(
+        (s) =>
+          s.category?.toLowerCase() === last ||
+          (s.subcategories || []).some(
+            (sub) => sub.toLowerCase() === last
+          )
+      );
+    }
+
+    if (sortOption === "sortByPrice") {
+      updated.sort((a, b) => (a.price || 0) - (b.price || 0));
+    } else if (sortOption === "sortByName") {
+      updated.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    setFilteredServices(updated);
+  }, [searchQuery, sortOption, activeCategory, services]);
 
   const handleOnlickServiceCard = (service) => {
     navigate(`/services/${service.id}`);
@@ -91,69 +156,114 @@ function Services() {
       x: 0,
       opacity: 1,
       transition: {
-        type: 'tween',
+        type: "tween",
         duration: 0.8,
-        ease: 'easeOut',
+        ease: "easeOut",
       },
     },
   };
 
-
-    const subheaderVariant = {
-      hidden: { x: -100, opacity: 0 },
-      visible: {
-        x: 0,
-        opacity: 1,
-        transition: {
-          type: 'tween',
-          duration: 0.8,
-          delay: 0.2,
-          ease: 'easeOut',
-        },
+  const subheaderVariant = {
+    hidden: { x: -100, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: {
+        type: "tween",
+        duration: 0.8,
+        delay: 0.2,
+        ease: "easeOut",
       },
-    };  
+    },
+  };
 
   return (
-    <div className='MainServicesBody'>
-        <div className='HeadLine'>
-          <motion.p 
-            variants={titleVariant}
-            initial="hidden"
-            animate="visible"
-            className='headlineTitle'>Services</motion.p>
-          <motion.p 
-            variants={subheaderVariant}
-            initial="hidden"
-            animate="visible"
-            className='headlineDesc'>
-            We provide complete industrial support — from equipment servicing and system diagnostics to custom fabrication and onsite repairs.
-          </motion.p>
-        </div>
-
-      <div className='Cards'>
-        {services.map(service => (
-          <ServicesCards
-            key={service.id}
-            title={service.title}
-            description={service.description}
-            image={service.images?.[0] || ''}
-            category={service.category}
-            subcategories={service.subcategories}
-            price={service.price}
-            onClick={() => handleOnlickServiceCard(service)}
-          />
-        ))}
+    <div className="MainServicesBody">
+      <div className="HeadLine">
+        <motion.p
+          variants={titleVariant}
+          initial="hidden"
+          animate="visible"
+          className="headlineTitle"
+        >
+          Services
+        </motion.p>
+        <motion.p
+          variants={subheaderVariant}
+          initial="hidden"
+          animate="visible"
+          className="headlineDesc"
+        >
+          We provide complete industrial support — from equipment servicing and
+          system diagnostics to custom fabrication and onsite repairs.
+        </motion.p>
       </div>
 
+      {/* 🔍 Search / Sort / Category Tree */}
+      <div className="services-page-container-body">
+        <div className="services-page-body-item-header">
+          <div className="searchBar">
+            <input
+              type="text"
+              placeholder="Search services..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="searchBar-input"
+            />
+          </div>
+
+          <div className="filterSorter">
+            <select
+              className="filterSorter-select"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="sortByPrice">Sort by Price</option>
+              <option value="sortByName">Sort by Name</option>
+            </select>
+          </div>
+
+          <div className="categoryTree">
+            <CategoryTreeServices
+              categories={categoriesTree}
+              onSelectCategory={setActiveCategory}
+              services={services}
+            />
+          </div>
+        </div>
+
+        {/* 🧩 Service cards */}
+        <div className="services-page-body-item">
+          {filteredServices.map((service) => (
+            <ServicesCards
+              key={service.id}
+              title={service.title}
+              description={service.description}
+              image={service.images?.[0] || ""}
+              category={service.category}
+              subcategories={service.subcategories}
+              price={service.price}
+              onClick={() => handleOnlickServiceCard(service)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* 🧱 Existing animated sections below */}
       <AnimatedSection>
-        <div className='ForAssistance'>
+        <div className="ForAssistance">
           <div className="ForAssistanceText">
             <p>For Assistance</p>
           </div>
           <div className="ForAssistanceButton">
             <button
               className="ButtonAssistance"
-              onClick={() => window.open('https://www.facebook.com/people/Matech-Fabrication-Heavy-Equipment-Parts-Trading/100072122677086/', '_blank')}
+              onClick={() =>
+                window.open(
+                  "https://www.facebook.com/people/Matech-Fabrication-Heavy-Equipment-Parts-Trading/100072122677086/",
+                  "_blank"
+                )
+              }
             >
               MESSAGE US
             </button>
@@ -169,36 +279,48 @@ function Services() {
                 <span className="highlight">INDUSTRIES WE SERVE</span>
               </h2>
               <p>
-                As one of the best heavy equipment service providers in the country,
-                our clients come from different industries in various areas of the
-                Philippines. We serve all kinds of businesses that require parts and
-                services for different models of backhoes, trucks, and other heavy
-                equipment. These are often used for a variety of excavation and
-                construction projects. If you need assistance, you may{" "}
-                <a href="/contact" className="contact-link">contact us</a> or send us a
-                message on our{" "}
-                <a href="https://www.facebook.com/people/Matech-Fabrication-Heavy-Equipment-Parts-Trading/100072122677086/" className="fb-link">Facebook page</a>.
-                We would be glad to help. Let’s build together.
+                As one of the best heavy equipment service providers in the
+                country, our clients come from different industries in various
+                areas of the Philippines. We serve all kinds of businesses that
+                require parts and services for different models of backhoes,
+                trucks, and other heavy equipment. These are often used for a
+                variety of excavation and construction projects. If you need
+                assistance, you may{" "}
+                <a href="/contact" className="contact-link">
+                  contact us
+                </a>{" "}
+                or send us a message on our{" "}
+                <a
+                  href="https://www.facebook.com/people/Matech-Fabrication-Heavy-Equipment-Parts-Trading/100072122677086/"
+                  className="fb-link"
+                >
+                  Facebook page
+                </a>
+                . We would be glad to help. Let’s build together.
               </p>
             </div>
             <div className="image-section">
-              <img src="\assets\img\hydraulic-repairs-services-e1674055230173.webp" alt="Services" />
+              <img
+                src="\assets\img\hydraulic-repairs-services-e1674055230173.webp"
+                alt="Services"
+              />
             </div>
           </div>
         </div>
       </AnimatedSection>
 
       <AnimatedSection>
-        <div className='ContactUsFooterServicesPage'>
+        <div className="ContactUsFooterServicesPage">
           <div className="ContactUsSercivePageLast">
             <p>IF YOU NEED HELP CONTACT US</p>
           </div>
           <div className="ContactUsButtonServicePageLast">
-            <button onClick={() => navigate('/contact')}>CONTACT US</button>
+            <button onClick={() => navigate("/contact")}>CONTACT US</button>
           </div>
         </div>
       </AnimatedSection>
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }

@@ -1,53 +1,113 @@
-.MainServicesBody{
-    height: auto;
+.MainServicesBody {
+  height: auto;
+  width: 100%;
+  background-color: #f8f9fa;
 }
-.HeadLine{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: "Ubuntu", sans-serif;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #121212;
+
+/* ---------- HEADER ---------- */
+.HeadLine {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Ubuntu", sans-serif;
+  background-color: #f8f9fa;
+  color: #121212;
+  text-align: center;
 }
-.headlineTitle{
-    font-size: 2.4em;
-    font-weight: bold;
-    padding: 2.1em 0 0 0 ;
-    margin: 0;
+
+.headlineTitle {
+  font-size: 2.4em;
+  font-weight: bold;
+  padding-top: 2.1em;
+  margin: 0;
 }
-.headlineDesc{
-    font-size: 1.2em;
-    padding: 0 0 2em 0;
-    color: #6c757d;
-    width: 50%;
-    text-align: center;
-    line-height: 1.6em;
-    font-weight: 400;
+
+.headlineDesc {
+  font-size: 1.2em;
+  padding: 0 0 2em 0;
+  color: #6c757d;
+  width: 55%;
+  text-align: center;
+  line-height: 1.6em;
+  font-weight: 400;
 }
-.Cards {
+
+/* ---------- PAGE BODY ---------- */
+.services-page-container-body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1400px;
+  margin: 3em auto;
+  padding: 0 2em;
+  gap: 2em;
+}
+
+/* ---------- LEFT SIDEBAR ---------- */
+.services-page-body-item-header {
+  flex: 0 0 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.5em;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.searchBar-input {
+  width: 100%;
+  padding: 0.8em 1em;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  outline: none;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1em;
+  transition: border 0.3s ease;
+}
+
+.searchBar-input:focus {
+  border-color: #e50914;
+}
+
+.filterSorter-select {
+  width: 100%;
+  padding: 0.8em 1em;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.categoryTree {
+  border-top: 1px solid #ddd;
+  padding-top: 1em;
+}
+
+/* ---------- RIGHT SERVICE CARDS ---------- */
+.services-page-body-item {
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
   justify-items: center;
-  width: 100%;
-  max-width: 1400px;
-  margin: 4em auto 4rem auto;
-  padding: 0 1rem;
 }
 
-.ForAssistance{
+/* ---------- FOR ASSISTANCE SECTION ---------- */
+.ForAssistance {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 4rem;
-
   border-radius: 10px;
 }
 
-.ForAssistanceText{
+.ForAssistanceText {
   font-size: 2.2em;
   color: #343a40;
   margin-right: 1.5rem;
@@ -55,7 +115,7 @@
   font-weight: bold;
 }
 
-.ButtonAssistance{
+.ButtonAssistance {
   padding: 0.7rem 1.8rem;
   font-size: 1em;
   color: #ffffff;
@@ -66,9 +126,11 @@
   transition: background-color 0.3s ease;
 }
 
+.ButtonAssistance:hover {
+  background-color: #b00610;
+}
 
-
-
+/* ---------- INDUSTRIES SECTION ---------- */
 .IndustriesWeServe {
   position: relative;
   background: none;
@@ -107,34 +169,15 @@
   font-weight: bold;
   color: white;
   margin-bottom: 20px;
-  text-align: left;
 }
 
 .highlight {
   color: #313131;
-  text-align: left;
   font-size: 1.5em;
   font-family: "Ubuntu", sans-serif;
-  position: relative; /* Needed for pseudo-elements */
-  display: inline-block; /* Ensures positioning context */
+  position: relative;
+  display: inline-block;
   z-index: 1;
-}
-
-.highlight::before {
-  content: "awesome services ";
-  color: transparent;
-  font-size: 1.5em;
-  font-weight: 900;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 0;
-  opacity: 0.18;
-  pointer-events: none;
-  white-space: nowrap;
-  transform: translateY(-60%);
-  -webkit-text-stroke: 2px #ffffff3d;
-  text-stroke: 2px #fff
 }
 
 .highlight::after {
@@ -155,11 +198,7 @@
   font-weight: bold;
 }
 
-.contact-link {
-  color: #e50914;
-  text-decoration: none;
-}
-
+.contact-link,
 .fb-link {
   color: #e50914;
   text-decoration: none;
@@ -178,21 +217,22 @@
   margin-top: 10em;
 }
 
-
-.ContactUsFooterServicesPage{
+/* ---------- CONTACT US SECTION ---------- */
+.ContactUsFooterServicesPage {
   background-color: #e50914;
   padding: 4em 4em;
   margin-top: 8em;
+  text-align: center;
 }
 
-.ContactUsSercivePageLast{
+.ContactUsSercivePageLast {
   color: #ddd;
-  font-family: "Ubuntu",sans-serif;
+  font-family: "Ubuntu", sans-serif;
   font-weight: 600;
   font-size: 2em;
 }
 
-.ContactUsButtonServicePageLast button{
+.ContactUsButtonServicePageLast button {
   padding: 1em 2.3em;
   font-family: "Ubuntu", sans-serif;
   font-weight: 500;
@@ -201,49 +241,42 @@
   border: none;
 }
 
-.ContactUsButtonServicePageLast button:hover{
+.ContactUsButtonServicePageLast button:hover {
   background-color: #ddd;
   cursor: pointer;
 }
 
-@media (min-width: 1200px) {
-  .Cards {
-    grid-template-columns: repeat(4, 1fr);
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1000px) {
+  .services-page-container-body {
+    flex-direction: column;
+    align-items: center;
   }
-}
 
-@media (max-width: 900px) {
+  .services-page-body-item-header {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .services-page-body-item {
+    width: 100%;
+  }
+
+  .headlineDesc {
+    width: 80%;
+  }
+
   .IndustriesWeServe {
     padding: 2em 1em;
   }
+
   .industries-content {
     flex-direction: column;
     gap: 24px;
-    align-items: stretch;
   }
+
   .image-section img {
     margin-top: 2em;
     max-width: 100%;
-  }
-  .text-section h2 {
-    font-size: 1.5rem;
-  }
-  .text-section p {
-    font-size: 0.98rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .IndustriesWeServe {
-    padding: 1.2em 0.5em;
-  }
-  .industries-content {
-    gap: 16px;
-  }
-  .text-section h2 {
-    font-size: 1.1rem;
-  }
-  .highlight {
-    font-size: 1.1em;
   }
 }

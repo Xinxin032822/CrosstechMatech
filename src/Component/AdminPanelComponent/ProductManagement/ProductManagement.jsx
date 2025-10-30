@@ -17,6 +17,7 @@ function ProductManagement({ setActiveSection }) {
   const [imagePreviews, setImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // prevent scroll during loading
   useEffect(() => {
     if (loading) {
       document.body.style.overflow = 'hidden';
@@ -96,19 +97,8 @@ function ProductManagement({ setActiveSection }) {
 
       alert('✅ Product added successfully!');
 
-      setProductName('');
-      setCategoryInput('');
-      setPrice('');
-      setShippingFee('');
-      setQuantity('');
-      setDescription('');
-      setSpecs([{ title: '', value: '' }]);
-      setImageFiles([]);
-      setImagePreviews([]);
-
-      if (setActiveSection) {
-        setActiveSection('currentProducts');
-      }
+      // ❌ Removed the form reset here so values remain
+      // if (setActiveSection) setActiveSection('currentProducts');
     } catch (error) {
       console.error('Error adding product:', error);
       alert('❌ Failed to add product.');
@@ -119,7 +109,7 @@ function ProductManagement({ setActiveSection }) {
 
   return (
     <div className="FormAddProductAdminPageMain">
-      {loading && <OverlayLoader />} {/* overlay loader */}
+      {loading && <OverlayLoader />}
 
       <p className="AdminPageContentAddProductComponentTitle">Add New Product</p>
       <form onSubmit={handleSubmit}>
